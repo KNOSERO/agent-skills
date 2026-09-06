@@ -1,6 +1,6 @@
 ---
 name: refactor
-description: Analizuj wskazany kod według skilla programming-principles, przedstaw propozycje refaktoryzacji według priorytetów Blocker, Critical, Major i Minor, preferuj wielokrotny interaktywny wybór pozycji, gdy środowisko go obsługuje, a następnie wdrażaj wybrany zakres. Stosuj przy planowaniu i wykonywaniu refaktoryzacji istniejącego kodu.
+description: Analizuj wskazany kod według skilla programming-principles, przedstaw propozycje refaktoryzacji według priorytetów Blocker, Critical, Major i Minor, nadaj propozycjom identyfikatory T1, T2, T3 i kolejne, a następnie wdrażaj pozycje wybrane przez użytkownika. Stosuj przy planowaniu i wykonywaniu refaktoryzacji istniejącego kodu.
 ---
 
 # Refaktoryzacja — wersja robocza
@@ -20,10 +20,8 @@ Zachowuj publiczny kontrakt i dotychczasowe zachowanie kodu. Zmianę funkcjonaln
 | Etap | Jak postępować |
 | --- | --- |
 | Analiza | Sprawdź, gdzie zasady programowania mogą poprawić wskazany kod. Dla każdego problemu oceń jego skutek, proponowane rozwiązanie, korzyść, ryzyko i zależności. Na tym etapie nie zmieniaj kodu. |
-| Lista propozycji | Przedstaw konkretne poprawki od najważniejszych do najmniej pilnych. Nadaj im stałe identyfikatory, np. R1, R2, R3. Każdą propozycję powiąż z miejscem w kodzie i odpowiednią zasadą programowania. |
+| Lista propozycji | Przedstaw konkretne poprawki od najważniejszych do najmniej pilnych. Nadaj im stałe identyfikatory w formacie T1, T2, T3 i kolejne, gdzie `T` oznacza task. Każdą propozycję powiąż z miejscem w kodzie i odpowiednią zasadą programowania. |
 | Wybór użytkownika | Po przedstawieniu listy zapytaj, które pozycje wdrożyć, i zaczekaj na odpowiedź przed pierwszą zmianą kodu. Wybór już podany w rozmowie pozostaje obowiązujący i nie wymaga ponownego potwierdzenia. |
-| Interaktywny wybór | Jeśli środowisko udostępnia wielokrotny klikalny wybór, pokaż osobną opcję dla każdej propozycji. Etykieta powinna zawierać jej identyfikator, priorytet i krótki opis, np. `R3 — Major — podział metody process`. Pozwól zaznaczyć dowolny zestaw pozycji i odczytaj wybrane identyfikatory przed wdrożeniem. Nie łącz propozycji w jedną opcję „wszystkie”, gdy dostępne są checkboxy. |
-| Zastępczy wybór | Jeśli środowisko obsługuje tylko pojedynczy wybór, pokaż opcje „Wdróż wszystkie”, „Wdróż do poziomu Major” oraz „Wybiorę konkretne pozycje”. Ostatnia opcja powinna pozwolić użytkownikowi wpisać identyfikatory, np. `R1, R3`. Jeśli nie ma żadnego strukturalnego mechanizmu wyboru, zadaj to samo pytanie w tekście. |
 | Wdrożenie | Wprowadzaj wybrane poprawki etapami, zaczynając od najwyższego priorytetu i uwzględniając ich zależności. Jeśli wybrana poprawka wymaga pozycji spoza wyboru, wyjaśnij tę zależność i uzyskaj wybór dotyczący rozszerzenia zakresu. |
 | Weryfikacja | Sprawdzaj zachowanie kontraktu testami odpowiednimi do zmiany, zgodnie z zasadami testowania w programming-principles. Nie dostosowuj oczekiwań testów do zmienionej implementacji, jeśli kontrakt pozostał ten sam. Jeśli brakuje istotnego pokrycia, uwzględnij potrzebny test w propozycji przed wdrożeniem. |
 | Podsumowanie | Wskaż wykonane identyfikatory, zmienione pliki i wyniki weryfikacji. Zaznacz wybrane pozycje, których nie udało się ukończyć, oraz przyczynę. |
