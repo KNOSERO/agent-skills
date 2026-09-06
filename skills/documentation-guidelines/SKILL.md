@@ -54,6 +54,8 @@ Dobieraj typ diagramu do opisywanej relacji:
 
 Diagram powinien pokazywać główne elementy, kierunek przepływu i decyzje wpływające na wynik. Utrzymuj go na tyle małym, aby można było zrozumieć go bez powiększania. Szczegóły, które nie wpływają na przepływ, opisz pod diagramem.
 
+Tekst diagramu musi być napisany w tym samym języku co dokument. Tłumacz nazwy węzłów, etykiety, aktorów, stanów i opisy decyzji; techniczna składnia Mermaid, taka jak `flowchart` albo `sequenceDiagram`, pozostaje bez zmian.
+
 Po dodaniu diagramu sprawdź składnię bloku Mermaid oraz zgodność nazw w diagramie z treścią dokumentu.
 
 ## 5. Tworzenie i aktualizowanie plików
@@ -67,6 +69,7 @@ Po zmianie sprawdź:
 - kolejność i obecność pięciu sekcji rdzenia,
 - zgodność treści **Najważniejszych informacji** z typem dokumentu,
 - poprawność nagłówków, linków, list, tabel i bloków Mermaid,
+- zgodność języka tekstu diagramów Mermaid z językiem dokumentu,
 - czy nie pozostały nieuzasadnione twierdzenia ani niepotrzebne powtórzenia,
 - czy zmiany dotyczą wyłącznie wskazanego zakresu.
 
