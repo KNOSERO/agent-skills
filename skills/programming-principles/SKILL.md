@@ -1,60 +1,60 @@
 ---
 name: programming-principles
-description: Bazowe zasady pisania i refaktoryzowania kodu źródłowego oraz testów, stosowane samodzielnie i przez skille zadaniowe, niezależnie od języka, frameworka i bibliotek. Zachowuj jedną odpowiedzialność, kompozycję, czytelną ekstrakcję, proste nazwy i komentarze wyjaśniające powody decyzji. Modeluj domenę z wyraźnymi granicami, hermetyzacją i wspólnym językiem. Testuj kontrakty, preferując rzeczywiste zależności i ograniczając moki.
+description: Core principles for writing and refactoring source code and tests, applicable regardless of language, framework, or libraries. Preserve single responsibility, composition, clear extraction, simple names, and comments that explain decisions. Model the domain with clear boundaries, encapsulation, and a shared vocabulary. Test contracts, prefer real dependencies, and limit mocks.
 ---
 
-# Zasady programowania — skill bazowy (wersja robocza)
+# Programming principles
 
-Skill określa sposób pisania i refaktoryzowania kodu niezależnie od języka, frameworka i bibliotek. Celem jest kod, którego odpowiedzialności i intencje łatwo zrozumieć.
+This skill defines how to write and refactor code regardless of language, framework, or libraries. The goal is code whose responsibilities and intent are easy to understand.
 
-`programming-principles` stanowi wspólną podstawę zasad kodu i testów. Skille zadaniowe, takie jak `refactor`, wskazują go jako wymaganą zależność po nazwie i wczytują jego aktualną treść przez mechanizm dostępny w danym środowisku. Ich własne instrukcje określają przebieg pracy i oczekiwany wynik zadania. Wspólne zasady utrzymuj w tym skillu, bez powielania ich w skillach zadaniowych.
+`programming-principles` is the shared foundation for code and testing rules. Task-specific skills such as `refactor` identify it as a required dependency by name and load its current content through the mechanism available in the environment. Their own instructions define the workflow and expected result. Keep shared rules here instead of repeating them in task-specific skills.
 
-## 1. Odpowiedzialność i struktura kodu
+## 1. Responsibility and code structure
 
-| Zasada | Jak stosować |
+| Principle | How to apply it |
 | --- | --- |
-| Jeden element kodu — jedno konkretne zadanie | Każda funkcja, klasa i komponent powinny mieć jedno jasno określone zadanie, czyli jedną spójną odpowiedzialność. Stosuj tę zasadę niezależnie od formy zapisu i nazewnictwa używanego przez daną technologię. Jeżeli element wykonuje kilka niezależnych zadań, wydziel je do mniejszych funkcji, klas lub komponentów.<br><br>Jednym zadaniem może być również koordynowanie operacji lub składanie interfejsu z mniejszych komponentów. Taki element powinien przedstawiać sposób ich połączenia, a szczegóły poszczególnych zadań pozostawiać elementom, którym je deleguje. |
-| Odpowiedzialność klasy | Klasa powinna mieć jedno konkretne zadanie. Jej metody i dane powinny wspólnie służyć jego realizacji. Zasada jednej odpowiedzialności dotyczy zarówno całej klasy, jak i każdej z jej metod. Gdy klasa łączy niezależne zadania, wydziel je do mniejszych elementów. |
-| Odpowiedzialność komponentu | Komponent, na przykład w React, powinien odpowiadać za jedną spójną część interfejsu lub kompozycję mniejszych komponentów. Oceniaj jego odpowiedzialność według roli w aplikacji. Gdy łączy niezależne zadania, wydziel odpowiednie części interfejsu do mniejszych komponentów, a samodzielną logikę do osobnych funkcji lub innych elementów właściwych dla technologii. |
-| Dobór formy do zadania | Dobieraj formę do zadania. Używaj funkcji do samodzielnych operacji, a klasy wtedy, gdy sensowne jest połączenie powiązanych zachowań i danych lub zarządzanie stanem. Nie twórz klasy wyłącznie po to, aby opakować funkcję. |
-| Spójny poziom szczegółowości | Oddzielaj kod opisujący przebieg operacji lub kompozycję komponentów od szczegółów realizacji poszczególnych zadań. Na przykład funkcja opisująca proces składania zamówienia powinna operować krokami tego procesu, a szczegóły parsowania danych pozostawić funkcjom pomocniczym. Podobnie komponent składający formularz z sekcji powinien pozostawiać szczegóły ich działania odpowiednim mniejszym elementom. |
-| Płaski przepływ warunków | Kończ warunki brzegowe możliwie wcześnie przez `return`, `continue` albo `throw`. Utrzymuj główną ścieżkę działania na niskim poziomie zagnieżdżenia i unikaj `else` po wcześniejszym zakończeniu funkcji. Gdy warunek jest złożony, wydziel go do funkcji lub predykatu o nazwie opisującej jego znaczenie. Gdy gałęzie wykonują różne zadania, wydziel je do osobnych funkcji, klas lub komponentów. Nie zastępuj prostego warunku abstrakcją bez konkretnej poprawy czytelności. Każde kolejne zagnieżdżenie traktuj jako sygnał do sprawdzenia, czy kod można uprościć. |
+| One code element — one concrete task | Each function, class, and component should have one clearly defined responsibility. Extract independent tasks into smaller elements. An element may coordinate operations or compose an interface, but it should leave task details to delegated elements. |
+| Class responsibility | A class should have one concrete task. Its methods and data should serve that task. When a class combines independent tasks, extract smaller elements. |
+| Component responsibility | A component, such as a React component, should represent one coherent part of the interface or compose smaller components. Extract independent interface parts or standalone logic when necessary. |
+| Choose the form for the task | Use functions for standalone operations and classes when combining related behavior and data or managing state is meaningful. Do not create a class only to wrap a function. |
+| Consistent level of detail | Separate code that describes an operation or component composition from implementation details. For example, an order-processing function should describe process steps and leave parsing details to helper functions. |
+| Flat conditional flow | End edge conditions early with `return`, `continue`, or `throw`. Keep the main path shallow and avoid `else` after an early exit. Extract complex conditions into clearly named predicates. Extract branches with different responsibilities into separate elements. Do not abstract a simple condition without a concrete readability benefit. |
 
-## 2. Kompozycja i ponowne użycie
+## 2. Composition and reuse
 
-| Zasada | Jak stosować |
+| Principle | How to apply it |
 | --- | --- |
-| Preferuj kompozycję zamiast dziedziczenia | Buduj zachowanie przez łączenie mniejszych obiektów, funkcji i komponentów oraz delegowanie im konkretnych zadań. Jeśli kilka elementów potrzebuje tej samej logiki lub części interfejsu, wydziel ją do małej klasy, funkcji lub komponentu, z których te elementy mogą korzystać.<br><br>Nie wprowadzaj klasy bazowej wyłącznie w celu współdzielenia kodu. Unikaj rozbudowanych hierarchii dziedziczenia. Traktuj dziedziczenie jako wyjątek uzasadniony wymaganiami technologii lub rzeczywistą relacją typów, w której podklasa zachowuje kontrakt klasy bazowej. |
-| Ekstrakcja powinna ułatwiać zrozumienie kodu | Wydzielaj fragment do osobnej funkcji, klasy lub komponentu, gdy reprezentuje sensowne zadanie, ukrywa szczegóły utrudniające czytanie albo usuwa powtarzającą się logikę. Dobieraj formę wydzielonego elementu do jego odpowiedzialności i konwencji technologii.<br><br>Nazwa wydzielonego elementu powinna wyrażać znaczenie tego fragmentu. Unikaj rozdrabniania kodu, które zmusza do ciągłego przechodzenia między elementami bez poprawy czytelności. |
-| Wydzielaj małe elementy do ponownego użycia | Gdy ten sam kod realizuje tę samą odpowiedzialność w kilku miejscach, wydziel go do małej funkcji, klasy lub komponentu o jasno określonym zadaniu. Wspólny element powinien przyjmować potrzebne dane i zależności wprost, bez uzależniania się od szczegółów swoich użytkowników.<br><br>Współdziel logikę o tym samym znaczeniu. Samo podobieństwo zapisu nie wystarcza do stworzenia wspólnej abstrakcji, jeśli fragmenty realizują różne reguły i mogą zmieniać się niezależnie. Unikaj uniwersalnych klas pomocniczych zbierających niepowiązane zadania. |
+| Prefer composition over inheritance | Build behavior by combining smaller objects, functions, and components and delegating concrete tasks to them. Do not introduce a base class solely to share code. Use inheritance only when required by the technology or justified by a real type relationship in which the subclass preserves the base contract. |
+| Extraction should improve understanding | Extract a function, class, or component when it represents a meaningful task, hides distracting details, or removes repeated logic. Choose its form to match its responsibility and the technology's conventions. Avoid splitting code into pieces that require constant navigation without improving readability. |
+| Extract small reusable elements | When the same code performs the same responsibility in several places, extract a small element with a clear task. Pass required data and dependencies explicitly. Share logic with the same meaning; similar syntax alone is not enough. Avoid universal helper classes containing unrelated tasks. |
 
-## 3. Czytelność i intencja
+## 3. Readability and intent
 
-| Zasada | Jak stosować |
+| Principle | How to apply it |
 | --- | --- |
-| Nazwy powinny wyrażać intencję | Dobieraj nazwy funkcji, klas, komponentów, zmiennych i pozostałych typów tak, aby jasno określały ich rolę. Preferuj słownictwo związane z rozwiązywanym problemem. Unikaj ogólnych nazw takich jak `process`, `handle` czy `data`, jeśli kontekst nie nadaje im jednoznacznego znaczenia. |
-| Proste nazewnictwo | Używaj prostych, zrozumiałych słów i możliwie krótkich nazw, które pozostają jednoznaczne w danym kontekście. Unikaj nieoczywistych skrótów, zbędnych słów i powtarzania informacji wynikających z otoczenia. Dłuższa, czytelna nazwa jest lepsza niż krótki, niezrozumiały skrót. |
-| Komentarze powinny wyjaśniać powód | Komentarze powinny opisywać powody decyzji, ograniczenia, nietypowe założenia i istotne kompromisy.<br><br>Nie powtarzaj komentarzem tego, co wynika wprost z kodu. Jeśli komentarz jest potrzebny do wyjaśnienia podstawowego zadania funkcji, klasy lub komponentu, najpierw rozważ poprawę nazwy lub struktury.<br><br>Przykład wartościowego komentarza: „Ponawiamy tylko odczyt, ponieważ ponowienie zapisu mogłoby utworzyć drugie zamówienie”. |
+| Names express intent | Choose names for functions, classes, components, variables, and other types that clearly state their role. Prefer domain vocabulary. Avoid generic names such as `process`, `handle`, or `data` when context does not make their meaning clear. |
+| Simple naming | Use simple, understandable, and as-short-as-possible names that remain unambiguous. Avoid unclear abbreviations, unnecessary words, and repeated context. A longer clear name is better than a short unclear abbreviation. |
+| Comments explain reasons | Comments should explain decisions, constraints, unusual assumptions, and important trade-offs. Do not repeat what the code already makes clear. If a comment is needed to explain a basic responsibility, first consider improving the name or structure. Example: “Retry reads only because retrying a write could create a second order.” |
 
-## 4. Projektowanie oparte na domenie (DDD)
+## 4. Domain-driven design (DDD)
 
-| Zasada | Jak stosować |
+| Principle | How to apply it |
 | --- | --- |
-| Wyraźny bounded context | Określ granice każdego modelu domenowego: obszar, w którym pojęcia i reguły mają jednoznaczne znaczenie. |
-| Małe, spójne domeny | Dziel system na możliwie małe obszary domenowe o jednej spójnej odpowiedzialności. Zachowuj razem pojęcia i reguły, które są ze sobą ściśle związane. |
-| Hermetyzacja domeny | Ukrywaj wewnętrzne modele, stan i sposób zapisu danych. Na zewnątrz udostępniaj tylko potrzebne dane i operacje przez jawny kontrakt, bez możliwości bezpośredniej zmiany wnętrza domeny. |
-| Wspólny język domeny | Używaj w kodzie tych samych pojęć co w wymaganiach i rozmowach o domenie. W obrębie kontekstu jedno pojęcie powinno mieć jedną nazwę i spójne znaczenie. |
-| Reguły biznesowe w domenie | Umieszczaj reguły biznesowe w domenie i egzekwuj je przy zmianach stanu. Ich poprawność musi być zachowana niezależnie od tego, kto wywołuje operację. |
-| Domena niezależna od technologii | Reguły biznesowe powinny działać niezależnie od interfejsu użytkownika, bazy danych i zewnętrznych usług. Kod obsługujący te technologie korzysta z domeny przez jej kontrakt. |
+| Clear bounded context | Define the boundaries of each domain model: the area in which terms and rules have one unambiguous meaning. |
+| Small, coherent domains | Divide the system into small domain areas with one coherent responsibility. Keep closely related concepts and rules together. |
+| Domain encapsulation | Hide internal models, state, and persistence. Expose only required data and operations through an explicit contract, without allowing direct changes to internals. |
+| Shared domain language | Use the same concepts in code as in requirements and domain discussions. Within a context, one concept should have one name and consistent meaning. |
+| Business rules in the domain | Keep business rules in the domain and enforce them when state changes. Preserve their correctness regardless of who invokes the operation. |
+| Technology-independent domain | Business rules should work independently of the user interface, database, and external services. Technology-specific code should use the domain through its contract. |
 
-## 5. Pisanie testów
+## 5. Writing tests
 
-| Zasada | Jak stosować |
+| Principle | How to apply it |
 | --- | --- |
-| Proste nazwy testów | Nazywaj testy prostym zdaniem opisującym scenariusz i oczekiwany wynik, np. „odrzuca zamówienie z pustym koszykiem”. |
-| Czytelny podział testu | Wyraźnie oddziel przygotowanie danych, wykonanie operacji i sprawdzenie wyniku (Arrange–Act–Assert), np. pustymi wierszami. |
-| Testowanie kontraktu (black-box) | Sprawdzaj publicznie obserwowalne zachowanie i efekty. Unikaj zależności od prywatnych metod, wewnętrznej struktury i kolejności wywołań. Zmiana implementacji przy zachowanym kontrakcie nie powinna wymagać zmiany testów. |
-| Preferowanie wyższego poziomu | Testuj scenariusze przez publiczne wejście modułu, komponentu lub domeny. Dobieraj zakres do sprawdzanego kontraktu; unikaj osobnego testowania każdego wewnętrznego elementu. |
-| Testy domeny | Reguły domenowe testuj jednostkowo przez publiczny kontrakt domeny, używając rzeczywistych obiektów domenowych. Takie testy powinny działać bez uruchamiania infrastruktury. |
-| Testy integracji z infrastrukturą | Kod współpracujący z bazą danych, Kafką lub podobną usługą testuj z rzeczywistą technologią w izolowanym środowisku testowym. Preferuj uruchamianie tych zależności w kontenerach. |
-| Jak najmniej moków | Preferuj rzeczywiste współpracujące elementy. Moki stosuj tylko tam, gdzie uruchomienie rzeczywistej zależności w teście jest niepraktyczne. Moki nie zastępują sprawdzenia integracji, której poprawność test ma potwierdzić. |
+| Simple test names | Name tests with a simple sentence describing the scenario and expected result, such as “rejects an order with an empty cart”. |
+| Clear test structure | Clearly separate data setup, operation execution, and result verification (Arrange–Act–Assert), for example with blank lines. |
+| Contract testing (black-box) | Check publicly observable behavior and effects. Avoid private methods, internal structure, and call order. An implementation change that preserves the contract should not require test changes. |
+| Prefer higher-level tests | Test scenarios through the public entry point of a module, component, or domain. Match the scope to the contract and avoid testing every internal element separately. |
+| Domain tests | Test domain rules through the public domain contract using real domain objects. These tests should run without infrastructure. |
+| Infrastructure integration tests | Test code that works with a database, Kafka, or similar service using the real technology in an isolated test environment. Prefer running these dependencies in containers. |
+| As few mocks as possible | Prefer real collaborators. Use mocks only when running the real dependency in a test is impractical. Mocks do not replace integration checks. |

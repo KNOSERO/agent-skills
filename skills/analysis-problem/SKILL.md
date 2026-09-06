@@ -1,91 +1,91 @@
 ---
 name: analysis-problem
-description: Analizuj problem, zbieraj brakujące informacje, sprawdzaj wpływ na istniejące moduły i przedstawiaj możliwą realizację jako dokument Markdown w czacie.
+description: Analyze a problem, gather missing information, assess its impact on existing modules, and present a possible implementation as a Markdown document in chat.
 ---
 
-# Analiza problemu
+# Problem analysis
 
-## 1. Cel i granice
+## 1. Purpose and boundaries
 
-Analizuj problem przed rozpoczęciem implementacji. Ustal, co ma zostać osiągnięte, jakie jest obecne zachowanie, jakie ograniczenia obowiązują oraz które elementy repozytorium mogą zostać dotknięte zmianą.
+Analyze a problem before implementation. Establish the desired outcome, current behavior, applicable constraints, and repository elements that may be affected.
 
-Skill działa tylko do odczytu. Nie edytuj kodu, nie twórz ani nie aktualizuj plików dokumentacji, nie wykonuj refaktoryzacji i nie twórz commitów. Końcowym wynikiem jest dokument Markdown zwrócony bezpośrednio w czacie.
+This skill is read-only. Do not edit code, create or update documentation files, refactor, or create commits. Return the final Markdown document directly in chat.
 
-Korzystaj z dwóch skilli zależnie od potrzeb:
+Use two skills as needed:
 
-- `documentation-guidelines` określa sposób organizacji, język, czytelność i diagramy dokumentu wynikowego,
-- `code-analysis` służy do analizy istniejących modułów objętych wpływem problemu.
+- `documentation-guidelines` defines the organization, language, readability, and diagrams for the resulting document;
+- `code-analysis` analyzes existing modules affected by the problem.
 
-Nie kopiuj zasad tych skilli. Zastosuj je w odpowiednim miejscu przepływu analizy.
+Do not copy those skills' rules. Apply them in the appropriate part of the analysis flow.
 
-## 2. Rozpoznanie problemu
+## 2. Problem discovery
 
-Najpierw odczytaj opis problemu, oczekiwany rezultat, obecne zachowanie, ograniczenia i kryteria akceptacji. Następnie sprawdź dostępne źródła w repozytorium: dokumentację, README, konfigurację, testy, wskazane pliki oraz miejsca użycia powiązanych elementów.
+First read the problem description, expected outcome, current behavior, constraints, and acceptance criteria. Then inspect available repository sources: documentation, README, configuration, tests, specified files, and usage sites for related elements.
 
-Ustal:
+Establish:
 
-- jaki problem ma zostać rozwiązany i dla kogo,
-- co ma pozostać bez zmian,
-- jakie dane, wejścia, wyjścia i efekty uboczne są związane z problemem,
-- czy podobna funkcja lub moduł już istnieje,
-- które moduły mogą zostać wykorzystane, rozszerzone albo zmienione,
-- czy zmiana narusza istniejące kontrakty, przepływy lub granice modułów.
+- what problem must be solved and for whom;
+- what must remain unchanged;
+- what data, inputs, outputs, and side effects are involved;
+- whether a similar feature or module already exists;
+- which modules can be reused, extended, or changed;
+- whether the change affects existing contracts, flows, or module boundaries.
 
-## 3. Brakujące informacje
+## 3. Missing information
 
-Po wstępnym rozpoznaniu sprawdź, czy można bezpiecznie przejść do analizy rozwiązania. Jeśli brakuje informacji wymaganych do podjęcia decyzji, zadaj jedną skonsolidowaną, numerowaną listę pytań.
+After the initial discovery, check whether it is safe to describe a solution. If information required for a reliable decision is missing, ask one consolidated, numbered list of questions.
 
-Każde pytanie oznacz jako:
+Mark each question as:
 
-- **wymagane** — bez odpowiedzi nie można wiarygodnie opisać rozwiązania,
-- **opcjonalne** — odpowiedź poprawi szczegółowość propozycji, ale nie blokuje dalszej pracy.
+- **required** — the solution cannot be described reliably without an answer;
+- **optional** — the answer improves detail but does not block further work.
 
-Przy każdym pytaniu wyjaśnij krótko, dlaczego informacja jest potrzebna. Nie powtarzaj pytań, na które odpowiedź wynika z repozytorium. Po zadaniu pytań wymaganych wstrzymaj przygotowanie propozycji i poczekaj na odpowiedź użytkownika. Nie zastępuj brakujących danych domysłami.
+Briefly explain why each question is needed. Do not repeat questions answered by the repository. After asking required questions, pause and wait for the user's response. Do not replace missing data with guesses.
 
-## 4. Analiza wpływu na moduły
+## 4. Module impact analysis
 
-Określ wpływ zmiany na podstawie jej zależności z istniejącą strukturą:
+Determine the impact of the change from its relationship with the existing structure:
 
-| Sytuacja | Działanie |
+| Situation | Action |
 | --- | --- |
-| Zmiana nie dotyka istniejącego kodu | Opisz zakres nowego elementu i jego kontrakty bez uruchamiania analizy istniejącego modułu. |
-| Zmiana wykorzystuje istniejący moduł | Przeanalizuj ten moduł, jego bezpośrednie użycia, zależności, testy i kontrakt przez `code-analysis`. |
-| Zmiana wymaga edycji istniejącego modułu | Przeanalizuj moduł przed opisaniem zmiany przez `code-analysis`; uwzględnij wpływ na jego callerów i testy. |
-| Zmiana wpływa na strukturę lub przepływ kilku modułów | Przeanalizuj każdy bezpośrednio dotknięty moduł przez `code-analysis` i opisz zależności między ustaleniami. |
+| The change does not affect existing code | Describe the new element's scope and contracts without analyzing an existing module. |
+| The change uses an existing module | Analyze that module, its direct usages, dependencies, tests, and contract through `code-analysis`. |
+| The change requires editing an existing module | Analyze the module through `code-analysis` before describing the change; include its callers and tests. |
+| The change affects several modules or a shared flow | Analyze every directly affected module through `code-analysis` and describe the relationships between findings. |
 
-Domyślnie analizuj bezpośrednio dotknięte moduły, ich bezpośrednich callerów, zależności i testy. Rozszerz zakres tylko wtedy, gdy bezpośredni kontekst nie wystarcza do potwierdzenia wpływu. Oddzielaj fakty potwierdzone w kodzie od założeń i pytań otwartych.
+By default, analyze directly affected modules, their direct callers, dependencies, and tests. Expand the scope only when the direct context is insufficient to confirm the impact. Separate repository-confirmed facts from assumptions and open questions.
 
-## 5. Możliwe sposoby realizacji
+## 5. Possible implementations
 
-Na podstawie rozpoznania i analizy modułów opracuj możliwe sposoby realizacji zmiany. Dla każdego istotnego wariantu opisz:
+Based on discovery and module analysis, develop possible implementation approaches. For each meaningful variant, describe:
 
-- sposób działania i granice rozwiązania,
-- moduły nowe, wykorzystywane lub edytowane,
-- wpływ na istniejące kontrakty i przepływy,
-- zależności oraz wymagane zmiany w testach,
-- ryzyka, koszty i ograniczenia.
+- behavior and solution boundaries;
+- new, reused, or edited modules;
+- impact on existing contracts and flows;
+- dependencies and required test changes;
+- risks, costs, and limitations.
 
-Wskaż jedno rekomendowane rozwiązanie. Jeśli istnieją sensowne alternatywy, przedstaw je krótko wraz z najważniejszymi kompromisami. Nie implementuj żadnego wariantu i nie przedstawiaj propozycji jako wykonanej zmiany.
+Identify one recommended solution. If sensible alternatives exist, describe them briefly with their most important trade-offs. Do not implement any variant or present a proposal as a completed change.
 
-## 6. Dokument wynikowy
+## 6. Resulting document
 
-Po zebraniu wymaganych informacji i zakończeniu analizy przygotuj dokumentację problemu zgodnie z aktualnie wczytanym `documentation-guidelines`. Skill dokumentacyjny określa strukturę, kolejność, styl, język i sposób użycia diagramów; `analysis-problem` dostarcza treść wynikającą z rozpoznania problemu.
+After collecting required information and completing the analysis, prepare the document according to the currently loaded `documentation-guidelines`. That skill defines structure, order, style, language, and diagrams; this skill provides the content derived from problem discovery.
 
-W dokumencie przedstaw naturalny przebieg od problemu do rekomendowanej zmiany. Uwzględnij ustalenia analizy modułów, wykorzystanie istniejących elementów, moduły wymagające edycji, warianty realizacji, rekomendację, ryzyka i otwarte pytania. Jeśli przepływ zmiany jest istotny, dodaj diagram zgodnie z zasadami `documentation-guidelines`.
+Present a natural path from the problem to the recommended change. Include module-analysis findings, reused elements, modules requiring edits, implementation variants, the recommendation, risks, and open questions. If the change flow is important, add a diagram according to `documentation-guidelines`.
 
-Zwróć dokument bezpośrednio w czacie jako Markdown. Nie zapisuj go w repozytorium i nie twórz pliku `.md`.
+Return the document directly in chat as Markdown. Do not save it in the repository or create a `.md` file.
 
-## 7. Kontrola przed odpowiedzią
+## 7. Final check
 
-Przed przedstawieniem dokumentu sprawdź:
+Before presenting the document, check that:
 
-- czy cel, obecne zachowanie, ograniczenia i kryteria akceptacji są opisane,
-- czy wszystkie wymagane pytania zostały zadane przed przygotowaniem propozycji,
-- czy każdy dotknięty istniejący moduł został przeanalizowany przez `code-analysis`,
-- czy rozróżniono moduły wykorzystywane, edytowane i nowe,
-- czy rekomendacja wynika z analizy, a alternatywy mają opisane kompromisy,
-- czy dokument stosuje aktualne zasady `documentation-guidelines`,
-- czy nie przedstawiono niepotwierdzonych założeń jako faktów,
-- czy nie zmodyfikowano żadnego pliku w repozytorium.
+- the goal, current behavior, constraints, and acceptance criteria are described;
+- all required questions were asked before preparing the proposal;
+- every affected existing module was analyzed through `code-analysis`;
+- reused, edited, and new modules are distinguished;
+- the recommendation follows from the analysis and alternatives include trade-offs;
+- the document follows the current `documentation-guidelines`;
+- unconfirmed assumptions are not presented as facts;
+- no repository file was modified.
 
-Na końcu wskaż informacje niepotwierdzone oraz zakres przeprowadzonej analizy.
+At the end, list unconfirmed information and the scope of the analysis. Return the document in chat without saving it as a `.md` file.

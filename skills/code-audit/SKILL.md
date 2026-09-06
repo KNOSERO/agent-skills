@@ -1,69 +1,67 @@
 ---
 name: code-audit
-description: Analizuj wskazany kod pod kątem bezpieczeństwa, wydajności, niezawodności, poprawności i utrzymania, przedstaw ustalenia z dowodami oraz priorytetami Blocker, Critical, Major i Minor, a następnie wdrażaj pozycje wybrane przez użytkownika.
+description: Audit selected code for security, performance, reliability, correctness, and maintainability; present evidence-based findings with Blocker, Critical, Major, and Minor priorities; then implement items selected by the user.
 ---
 
-# Audyt kodu — wersja robocza
+# Code audit
 
-## 1. Podstawa i zakres
+## 1. Foundation and scope
 
-Wymagany skill: `programming-principles`.
+Required skill: `programming-principles`.
 
-Przed analizą odszukaj ten skill po nazwie i wczytaj go przez mechanizm obsługi skillów dostępny w aktualnym środowisku. Stosuj jego zasady przy analizie, proponowaniu zmian, implementacji i weryfikacji. Nie kopiuj jego treści tutaj.
+Before analysis, find and load this skill through the skill mechanism available in the current environment. Apply its rules when analyzing, proposing, implementing, and verifying changes. Do not copy its contents here.
 
-Pracuj na kodzie wskazanym przez użytkownika. Przeczytaj związane z nim kontrakty, miejsca użycia, testy, konfigurację i sposób uruchamiania, jeśli są dostępne. Jeśli zakresu nie da się ustalić, poproś o jego wskazanie.
+Work on the code specified by the user. Read its contracts, usages, tests, configuration, and run instructions when available. If the scope cannot be determined, ask the user to specify it.
 
-Domyślnie audyt jest analizą bez modyfikowania kodu. Zmiany wprowadzaj dopiero po przedstawieniu ustaleń i wyborze użytkownika. Jeśli użytkownik chce wyłącznie raportu, zakończ pracę po przedstawieniu wyników.
+By default, an audit is analysis without code changes. Make changes only after presenting findings and receiving the user's selection. If the user wants only a report, stop after presenting the results.
 
-Nie nazywaj kodu podatnym, błędnym lub wolnym bez wskazania dowodu, możliwego scenariusza i skutku. Oddzielaj potwierdzone problemy od hipotez wymagających dodatkowego pomiaru lub sprawdzenia.
+Do not call code vulnerable, incorrect, or slow without evidence, a possible scenario, and an impact. Separate confirmed issues from hypotheses requiring measurement or further checks.
 
-## 2. Obszary audytu
+## 2. Audit areas
 
-| Kategoria | Sprawdzaj |
+| Category | Check |
 | --- | --- |
-| Bezpieczeństwo | Granice zaufania, walidację i kodowanie danych, uwierzytelnianie, autoryzację, sekrety, dane wrażliwe, injection, kryptografię, deserializację, ścieżki plików, SSRF, konfigurację i zależności. |
-| Wydajność | Złożoność algorytmów, powtarzane operacje wejścia i wyjścia, zapytania N+1, zużycie pamięci, współbieżność, cache, rozmiar danych i niepotrzebne obliczenia. Potwierdzaj istotne ustalenia pomiarem, benchmarkiem lub profilerem. |
-| Niezawodność | Obsługę błędów, timeouty, retry, idempotencję, transakcje, zwalnianie zasobów, warunki wyścigu, odporność na częściową awarię i obserwowalność. |
-| Poprawność | Reguły biznesowe, walidację, niezmienniki, spójność danych, granice transakcji i zgodność z publicznym kontraktem. |
-| Utrzymanie | Odpowiedzialności, zależności, hermetyzację, ponowne użycie, testowalność, czytelność i zgodność z `programming-principles`. |
+| Security | Trust boundaries, validation and encoding, authentication, authorization, secrets, sensitive data, injection, cryptography, deserialization, file paths, SSRF, configuration, and dependencies. |
+| Performance | Algorithmic complexity, repeated I/O, N+1 queries, memory use, concurrency, caching, data size, and unnecessary computation. Confirm important findings with measurements, benchmarks, or a profiler. |
+| Reliability | Error handling, timeouts, retries, idempotency, transactions, resource release, race conditions, partial failures, and observability. |
+| Correctness | Business rules, validation, invariants, data consistency, transaction boundaries, and compliance with the public contract. |
+| Maintainability | Responsibilities, dependencies, encapsulation, reuse, testability, readability, and compliance with `programming-principles`. |
 
-Nie twórz ustalenia tylko dlatego, że kod różni się od preferowanego stylu. Uwzględniaj rzeczywisty wpływ na bezpieczeństwo, zachowanie, koszt działania lub przyszłe zmiany.
+Do not create a finding only because code differs from a preferred style. Consider its actual effect on security, behavior, operating cost, or future changes.
 
-## 3. Etapy pracy
+## 3. Workflow
 
-| Etap | Jak postępować |
+| Stage | Action |
 | --- | --- |
-| Zakres i kontekst | Ustal, co jest audytowane, jakie dane przetwarza kod, kto może go wywołać, jakie ma zależności i jaki kontrakt powinien zachować. Zapisz istotne założenia. |
-| Analiza | Przejdź przez wszystkie odpowiednie kategorie. Szukaj ścieżki prowadzącej od wejścia do skutku oraz miejsc, w których może zostać naruszony kontrakt, bezpieczeństwo lub koszt działania. |
-| Dowody | Dla każdego ustalenia wskaż plik, linię lub symbol, opis zaobserwowanego mechanizmu, scenariusz i skutek. Przy niepewności oznacz, czego brakuje do potwierdzenia. |
-| Lista ustaleń | Posortuj ustalenia od najważniejszych do najmniej pilnych. Nadaj im stałe identyfikatory `T1`, `T2`, `T3` i kolejne, gdzie `T` oznacza task. Jedno ustalenie powinno opisywać jeden spójny problem i jedną proponowaną zmianę. |
-| Wybór użytkownika | Po przedstawieniu listy zapytaj, które identyfikatory wdrożyć, i zaczekaj na odpowiedź przed pierwszą zmianą. Wybór już podany w rozmowie pozostaje obowiązujący. |
-| Wdrożenie | Wprowadzaj wybrane zmiany etapami, zaczynając od najwyższego priorytetu i uwzględniając zależności. Najpierw usuwaj ryzyka bezpieczeństwa i poprawności, potem problemy niezawodności i wydajności, chyba że dowody uzasadniają inną kolejność. |
-| Weryfikacja | Dobierz sprawdzenia do ustalenia: test kontraktu, test bezpieczeństwa, skan statyczny, audyt zależności, benchmark, profiler lub test odporności. Nie zastępuj sprawdzenia integracji mockiem, jeśli rzeczywista zależność jest dostępna w izolowanym środowisku. |
-| Podsumowanie | Wskaż wykonane identyfikatory, zmienione pliki, wyniki weryfikacji i ustalenia, których nie udało się potwierdzić lub wdrożyć. |
+| Scope and context | Establish what is audited, what data the code processes, who can call it, its dependencies, and the contract it should preserve. Record important assumptions. |
+| Analysis | Review all relevant categories. Trace the path from input to outcome and identify where the contract, security, or operating cost may be affected. |
+| Evidence | For each finding, identify a file, line, or symbol; describe the observed mechanism, scenario, and impact. If uncertain, state what is missing for confirmation. |
+| Findings | Sort findings from most to least important. Assign stable `T1`, `T2`, `T3`, and subsequent identifiers. Each finding should describe one coherent problem and one proposed change. |
+| User selection | Present the list, ask which identifiers to implement, and wait before the first change. A selection already given remains valid. |
+| Implementation | Apply selected changes in stages, starting with the highest priority and respecting dependencies. Address security and correctness risks before reliability and performance unless evidence supports another order. |
+| Verification | Choose checks appropriate to the finding: contract or security tests, static analysis, dependency audit, benchmark, profiler, or resilience test. Do not replace integration checks with mocks when the real dependency is available in an isolated environment. |
+| Summary | Report completed identifiers, changed files, verification results, and findings that could not be confirmed or implemented. |
 
-Nowe problemy odkryte podczas wdrażania dopisz z nowymi identyfikatorami i zatrzymaj się przed ich wdrożeniem, jeśli nie mieszczą się w wyborze użytkownika.
+Add newly discovered problems with new identifiers and stop before implementing them if they are outside the user's selection.
 
-## 4. Priorytety
+## 4. Priorities
 
-| Priorytet | Kiedy stosować |
+| Priority | Use when |
 | --- | --- |
-| Blocker | Problem uniemożliwia bezpieczne uruchomienie, wiarygodny audyt albo dalszą pracę bez natychmiastowego ryzyka. Wskaż, co blokuje. |
-| Critical | Potwierdzone lub bardzo dobrze uzasadnione ryzyko wykorzystania, utraty danych, naruszenia reguł biznesowych, poważnej awarii albo nieakceptowalnego kosztu działania. |
-| Major | Problem może istotnie pogorszyć bezpieczeństwo, niezawodność, wydajność lub możliwość dalszego rozwoju, ale nie blokuje bieżącego działania. |
-| Minor | Lokalna poprawa o małym wpływie, na przykład ograniczenie zbędnej pracy, uproszczenie obsługi błędu albo usunięcie drobnej niejednoznaczności. |
+| Blocker | The problem prevents safe execution, a reliable audit, or further work without immediate risk. State what it blocks. |
+| Critical | There is confirmed or strongly supported risk of exploitation, data loss, business-rule violation, serious failure, or unacceptable operating cost. |
+| Major | The problem can significantly harm security, reliability, performance, or further development but does not block current operation. |
+| Minor | A local improvement with small impact, such as removing unnecessary work, simplifying error handling, or resolving a minor ambiguity. |
 
-Priorytet uzasadniaj skutkiem i prawdopodobieństwem, a nie samą kategorią problemu. Jeśli brakuje dowodów do ustalenia priorytetu, zaznacz niepewność.
+Justify priority by impact and likelihood, not by category alone. If evidence is insufficient, state the uncertainty.
 
-## 5. Format ustaleń
+## 5. Finding format
 
-Przedstaw listę w poniższym układzie. Używaj krótkich opisów i odnośników do kodu.
-
-| ID | Kategoria | Priorytet | Miejsce i dowód | Ryzyko lub skutek | Zalecana zmiana | Pewność i zależności | Weryfikacja |
+| ID | Category | Priority | Location and evidence | Risk or impact | Recommended change | Confidence and dependencies | Verification |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 
-W opisie ustalenia wyjaśnij, dlaczego problem ma znaczenie. Nie opisuj wyłącznie tego, co robi kod. Zależności wskazuj identyfikatorami innych ustaleń.
+Explain why each finding matters. Do not describe only what the code does. Refer to dependencies by the identifiers of other findings.
 
-## 6. Granice testów bezpieczeństwa
+## 6. Security testing boundaries
 
-Analizę statyczną kodu i konfiguracji wykonuj w ramach wskazanego repozytorium. Testy dynamiczne, próby wykorzystania podatności i skany usług wykonuj tylko w środowisku, do którego użytkownik wskazał uprawniony dostęp. Nie testuj produkcji ani nie ujawniaj znalezionych sekretów.
+Perform static analysis of code and configuration within the specified repository. Perform dynamic tests, exploit attempts, and service scans only in environments to which the user has indicated authorized access. Do not test production or disclose discovered secrets.

@@ -1,61 +1,59 @@
 ---
 name: code-analysis
-description: Analizuj wskazany moduł i jego bezpośredni kontekst, opisuj odpowiedzialność oraz przepływ, wykrywaj zbędne elementy i potencjalne błędy, a raport Markdown zwracaj w czacie bez modyfikowania repozytorium.
+description: Analyze a selected module and its direct context, describe its responsibility and flow, identify unnecessary elements and potential bugs, and return a Markdown report in chat without modifying the repository.
 ---
 
-# Analiza kodu
+# Code analysis
 
-## 1. Podstawa i granice
+## 1. Foundation and boundaries
 
-Przed przygotowaniem raportu odszukaj skill `documentation-guidelines` i wczytaj go przez mechanizm obsługi skillów dostępny w aktualnym środowisku. Traktuj go jako ogólną podstawę organizacji i przedstawiania dokumentacji. Analiza kodu dostarcza treść opisującą konkretny moduł, a `documentation-guidelines` nadaje jej formę odpowiednią do czytania w czacie.
+Before preparing a report, find and load `documentation-guidelines` through the skill mechanism available in the current environment. Use it as the general basis for organizing and presenting documentation. This skill provides the content describing a specific module; `documentation-guidelines` provides the appropriate form for reading it in chat.
 
-Pracuj w trybie tylko do odczytu. Nie edytuj kodu, nie twórz ani nie aktualizuj plików dokumentacji w repozytorium, nie wykonuj refaktoryzacji i nie twórz commitów. Wynik zwróć bezpośrednio w czacie jako dokument Markdown.
+Work in read-only mode. Do not edit code, create or update repository documentation, refactor, or create commits. Return the result directly in chat as a Markdown document.
 
-Jeśli użytkownik nie wskazał jednoznacznie modułu albo zakresu, poproś o ścieżkę, nazwę modułu lub punkt wejścia. Domyślnie analizuj moduł oraz jego bezpośredni kontekst:
+If the user has not clearly identified a module or scope, ask for a path, module name, or entry point. By default, analyze the module and its direct context:
 
-- eksporty, importy i bezpośrednie zależności,
-- miejsca bezpośredniego użycia lub wywołania,
-- testy modułu,
-- konfigurację wpływającą na jego działanie,
-- kontrakty wejścia, wyjścia i efektów ubocznych.
+- exports, imports, and direct dependencies;
+- direct usage or call sites;
+- module tests;
+- configuration affecting its behavior;
+- input, output, and side-effect contracts.
 
-Nie przeszukuj całego systemu bez wyraźnej potrzeby. Rozszerz zakres tylko wtedy, gdy bezpośredni kontekst nie wystarcza do potwierdzenia działania albo ustalenia.
+Do not search the entire system without a clear need. Expand the scope only when the direct context is insufficient to confirm behavior or a finding.
 
-## 2. Etapy analizy
+## 2. Analysis workflow
 
-| Etap | Instrukcja |
+| Stage | Instruction |
 | --- | --- |
-| Zakres i interfejs | Ustal, jaki moduł jest analizowany, za co odpowiada, jakie ma wejścia i wyjścia, kto z niego korzysta oraz jakie skutki uboczne wywołuje. |
-| Działanie i przepływ | Prześledź główną ścieżkę działania, decyzje, obsługę błędów, komunikację z zależnościami i istotne zmiany stanu. Opisz zarówno przebieg, jak i cel poszczególnych etapów. |
-| Zbędne elementy | Szukaj martwego kodu, nieużywanych eksportów, powielonej logiki, niepotrzebnych zależności, zbędnych warstw oraz elementów, których odpowiedzialność jest niejasna. Wskaż dowód i wpływ, zamiast uznawać za zbędne wszystko, co nie jest idealnie proste. |
-| Potencjalne błędy | Sprawdzaj naruszenia kontraktu, nieobsłużone dane lub stany, błędne warunki brzegowe, niespójność stanu, problemy z obsługą błędów i rozbieżności między kodem a testami. Każde ustalenie poprzyj lokalizacją, scenariuszem i skutkiem. |
-| Raport | Po analizie opisz moduł jako dokumentację zgodną z `documentation-guidelines`. Uwzględnij odpowiedzialność, cel i działanie modułu, przepływ, zależności i kontrakty, testy, zbędne elementy oraz potencjalne błędy. Zwróć wynik w czacie jako Markdown i nie twórz pliku wynikowego. |
+| Scope and interface | Establish which module is analyzed, what it is responsible for, its inputs and outputs, its users, and its side effects. |
+| Behavior and flow | Trace the main path, decisions, error handling, communication with dependencies, and important state changes. Describe both the flow and the purpose of each important stage. |
+| Unnecessary elements | Look for dead code, unused exports, duplicated logic, unnecessary dependencies or layers, and unclear responsibilities. Provide evidence and impact instead of treating anything that is not perfectly simple as unnecessary. |
+| Potential bugs | Check contract violations, unhandled data or states, incorrect edge conditions, inconsistent state, error-handling problems, and differences between code and tests. Support every finding with a location, scenario, and impact. |
+| Report | Describe the module as documentation consistent with `documentation-guidelines`. Include responsibility, purpose, behavior, flow, dependencies, contracts, tests, unnecessary elements, and potential bugs. Return the result in chat without creating an output file. |
 
-Nie przedstawiaj hipotezy jako potwierdzonego błędu. Rozdzielaj obserwacje potwierdzone od podejrzeń wymagających dodatkowego testu, pomiaru lub informacji. Nie wymyślaj brakujących faktów.
+Do not present a hypothesis as a confirmed bug. Separate confirmed observations from suspicions requiring an additional test, measurement, or information. Do not invent missing facts.
 
-## 3. Ustalenia analizy
+## 3. Analysis findings
 
-Każde ustalenie oznacz kolejnym identyfikatorem `T1`, `T2`, `T3` itd. Identyfikatory służą do jednoznacznego odwoływania się do obserwacji i nie oznaczają zadań do automatycznego wdrożenia.
+Assign each finding the next identifier: `T1`, `T2`, `T3`, and so on. Identifiers provide unambiguous references and do not mean that the finding should be implemented automatically.
 
-Przedstaw zbędne elementy i potencjalne błędy w tabeli:
-
-| ID | Typ | Miejsce i dowód | Ustalenie | Możliwy skutek | Pewność |
+| ID | Type | Location and evidence | Finding | Possible impact | Confidence |
 | --- | --- | --- | --- | --- | --- |
 
-W wierszu dotyczącym potencjalnego błędu opisz możliwy scenariusz i skutek. W wierszu dotyczącym zbędnego elementu wyjaśnij, dlaczego nie wnosi wartości i jaki koszt lub ryzyko powoduje. Przy każdym ustaleniu podaj ścieżkę oraz numer linii lub nazwę symbolu, jeśli są dostępne.
+For a potential bug, describe the possible scenario and impact. For an unnecessary element, explain why it adds no value and what cost or risk it creates. Include the path and line number or symbol name when available.
 
-Nie proponuj ani nie wykonuj zmian kodu w ramach tego skilla. Jeśli użytkownik chce napraw, przekaż ustalenia do odpowiedniego skilla dopiero po osobnym poleceniu.
+Do not propose or perform code changes within this skill. If the user wants fixes, pass the findings to the appropriate skill only after a separate request.
 
-## 4. Kontrola przed odpowiedzią
+## 4. Final check
 
-Przed wysłaniem raportu sprawdź:
+Before sending the report, check that:
 
-- czy analizowany zakres obejmuje moduł i jego bezpośredni kontekst,
-- czy raport zachowuje aktualną strukturę wymaganą przez `documentation-guidelines`,
-- czy opisano odpowiedzialność, działanie, zbędne elementy i potencjalne błędy,
-- czy każde ustalenie ma identyfikator `T`, dowód i informację o pewności,
-- czy diagramy, jeśli są potrzebne, spełniają aktualne zasady `documentation-guidelines` i są spójne z opisem,
-- czy nie ma nieuzasadnionych twierdzeń ani informacji wymagających potwierdzenia przedstawionych jako fakty,
-- czy nie zmodyfikowano żadnego pliku w repozytorium.
+- the scope covers the module and its direct context;
+- the report follows the current structure required by `documentation-guidelines`;
+- responsibility, behavior, unnecessary elements, and potential bugs are described;
+- every finding has a `T` identifier, evidence, and confidence;
+- diagrams, when needed, follow `documentation-guidelines` and match the description;
+- no unjustified claims or unconfirmed information are presented as facts;
+- no repository file was modified.
 
-Na końcu raportu wskaż zakres odczytanych plików oraz informacje, których nie udało się potwierdzić. Zwróć dokument w czacie i nie zapisuj go jako pliku `.md`.
+At the end, list the files read and information that could not be confirmed. Return the report in chat and do not save it as a Markdown file.

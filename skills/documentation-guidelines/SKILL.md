@@ -1,78 +1,78 @@
 ---
 name: documentation-guidelines
-description: Twórz i aktualizuj dokumentację Markdown w repozytorium ze stałym rdzeniem sekcji, najważniejszymi informacjami na początku, prostym stylem i diagramami Mermaid dla istotnych przepływów.
+description: Create and update Markdown documentation in the repository with a consistent core structure, the most important information first, simple language, and Mermaid diagrams for important flows.
 ---
 
-# Tworzenie dokumentacji
+# Documentation guidelines
 
-## 1. Cel i zakres
+## 1. Purpose and scope
 
-Twórz oraz aktualizuj dokumentację Markdown tak, aby czytelnik szybko znalazł najważniejsze informacje, a następnie mógł przejść do celu, sposobu działania i szczegółów.
+Create and update documentation so readers can quickly find the most important information and then proceed to the purpose, behavior, and details.
 
-Przed napisaniem dokumentu odczytaj istniejącą dokumentację, README, konfigurację, wskazane źródła i miejsca użycia opisywanego elementu. Ustal typ dokumentu, odbiorcę, zakres oraz dominujący język repozytorium. Jeśli repozytorium nie ma wzorca językowego, używaj języka polskiego.
+Before writing a document, read the existing documentation, README, configuration, referenced sources, and usage sites for the described element. Establish the document type, audience, scope, and dominant repository language. If the repository has no language convention, use English.
 
-Nie wymyślaj brakujących faktów. Oznacz informacje nieznane, niepotwierdzone lub wymagające decyzji. Zachowuj istniejące konwencje nazw, lokalizacji, linków i formatowania.
+Do not invent missing facts. Mark unknown, unconfirmed, or decision-dependent information. Preserve existing conventions for names, locations, links, and formatting.
 
-## 2. Stała struktura dokumentu
+## 2. Consistent document structure
 
-Każdy dokument powinien używać poniższego minimalnego rdzenia i zachować kolejność sekcji:
+Every document should use the following minimal core and preserve the section order:
 
-| Kolejność | Sekcja | Zawartość |
+| Order | Section | Content |
 | --- | --- | --- |
-| 1 | **Najważniejsze informacje** | Krótki punkt wejścia dopasowany do typu dokumentu. Dla instalacji podaj najpierw wymagania i kroki instalacji. Dla dokumentu biznesowego podaj podstawowe informacje potrzebne do zrozumienia tematu. Dla instrukcji użycia podaj szybki sposób wykonania zadania. Dla decyzji lub procesu podaj najważniejszy kontekst i wynik. |
-| 2 | **Cel** | Wyjaśnij, po co dokument lub opisywany element istnieje, jaki problem rozwiązuje i jaki rezultat opisuje. |
-| 3 | **Przepływ** | Opisz, jak coś działa lub ma działać. Dla każdego istotnego procesu, komunikacji albo cyklu życia dodaj odpowiedni diagram Mermaid. |
-| 4 | **Szczegóły** | Umieść konfigurację, reguły, przykłady, warianty i informacje potrzebne po zrozumieniu podstaw. |
-| 5 | **Ograniczenia** | Opisz warunki brzegowe, znane problemy, brakujące elementy i sytuacje wymagające dodatkowej uwagi. |
+| 1 | **Key information** | A short entry point suited to the document type. For installation, provide requirements and installation steps first. For business documentation, provide the basic information needed to understand the topic. For usage instructions, provide the quickest way to complete the task. For a decision or process, provide the most important context and outcome. |
+| 2 | **Purpose** | Explain why the document or described element exists, what problem it solves, and what result it describes. |
+| 3 | **Flow** | Explain how something works or should work. Add an appropriate Mermaid diagram for every important process, communication path, or lifecycle. |
+| 4 | **Details** | Include configuration, rules, examples, variants, and information needed after the basics are understood. |
+| 5 | **Limitations** | Describe edge conditions, known problems, missing elements, and situations requiring additional attention. |
 
-Jeśli sekcja nie ma zastosowania, pozostaw ją w strukturze i krótko zapisz, że nie dotyczy danego dokumentu. Nie przenoś szczegółów przed sekcję **Najważniejsze informacje**.
+If a section does not apply, keep it in the structure and briefly state that it is not applicable. Do not move details before **Key information**.
 
-## 3. Zasady czytelności
+## 3. Readability
 
-- Pisz prostymi zdaniami i krótkimi akapitami.
-- Każdy akapit rozwijaj wokół jednego tematu.
-- Używaj list do kroków i tabel do równoległych informacji.
-- Definiuj termin przy pierwszym użyciu, jeśli odbiorca może go nie znać.
-- Opisuj zarówno przebieg, jak i cel działania, gdy oba są potrzebne do zrozumienia.
-- Ograniczaj dygresje, powtórzenia i informacje, które nie pomagają wykonać zadania lub zrozumieć tematu.
-- Używaj przykładów tylko wtedy, gdy wyjaśniają sposób użycia albo zachowanie w konkretnej sytuacji.
-- Nie zastępuj najważniejszych informacji długim wstępem.
+- Use simple sentences and short paragraphs.
+- Keep each paragraph focused on one topic.
+- Use lists for steps and tables for parallel information.
+- Define a term on first use if the reader may not know it.
+- Describe both the flow and the purpose when both are needed for understanding.
+- Limit digressions, repetition, and information that does not help the reader complete the task or understand the topic.
+- Use examples only when they explain usage or behavior in a specific situation.
+- Do not replace the most important information with a long introduction.
 
-## 4. Diagramy Mermaid
+## 4. Mermaid diagrams
 
-Dodaj diagram dla każdego istotnego przepływu. Nie dodawaj diagramu do dokumentu zawierającego wyłącznie fakty, definicje lub prostą listę właściwości.
+Add a diagram for every important flow. Do not add one to a document containing only facts, definitions, or a simple list of properties.
 
-Dobieraj typ diagramu do opisywanej relacji:
+Choose the diagram type for the relationship being described:
 
-| Sytuacja | Diagram Mermaid |
+| Situation | Mermaid diagram |
 | --- | --- |
-| Kolejne kroki procesu i decyzje | `flowchart` |
-| Komunikacja między aktorami lub usługami | `sequenceDiagram` |
-| Zmiany statusu lub cykl życia | `stateDiagram-v2` |
-| Relacje encji lub struktura danych | `erDiagram` |
-| Relacje klas i zależności typów | `classDiagram` |
+| Process steps and decisions | `flowchart` |
+| Communication between actors or services | `sequenceDiagram` |
+| Status changes or lifecycle | `stateDiagram-v2` |
+| Entity relationships or data structure | `erDiagram` |
+| Class relationships and type dependencies | `classDiagram` |
 
-Diagram powinien pokazywać główne elementy, kierunek przepływu i decyzje wpływające na wynik. Utrzymuj go na tyle małym, aby można było zrozumieć go bez powiększania. Szczegóły, które nie wpływają na przepływ, opisz pod diagramem.
+The diagram should show the main elements, flow direction, and decisions affecting the outcome. Keep it small enough to understand without zooming. Describe details that do not affect the flow below the diagram.
 
-Tekst diagramu musi być napisany w tym samym języku co dokument. Tłumacz nazwy węzłów, etykiety, aktorów, stanów i opisy decyzji; techniczna składnia Mermaid, taka jak `flowchart` albo `sequenceDiagram`, pozostaje bez zmian.
+Diagram text must use the same language as the document. Translate node names, labels, actors, states, and descriptions; technical Mermaid syntax such as `flowchart` and `sequenceDiagram` remains unchanged.
 
-Po dodaniu diagramu sprawdź składnię bloku Mermaid oraz zgodność nazw w diagramie z treścią dokumentu.
+After adding a diagram, check the Mermaid block syntax and the consistency of diagram names with the document.
 
-## 5. Tworzenie i aktualizowanie plików
+## 5. Creating and updating files
 
-Najpierw przygotuj plan dokumentu, a dopiero potem uzupełniaj szczegóły. Utwórz wskazany plik albo zaktualizuj istniejący, zachowując jego potwierdzone informacje i lokalne konwencje.
+Prepare the document plan first, then fill in the details. Create the requested file or update the existing one while preserving confirmed information and local conventions.
 
-Nie modyfikuj niezwiązanych plików. Jeśli istniejący dokument ma inną strukturę, uporządkuj go do stałego rdzenia tylko w zakresie objętym zadaniem. Nie usuwaj informacji bez sprawdzenia, czy nie są używane jako źródło wiedzy lub odnośnik.
+Do not modify unrelated files. If an existing document uses a different structure, organize it according to the core structure only within the requested scope. Do not remove information without checking whether it is used as a source of knowledge or a reference.
 
-Po zmianie sprawdź:
+After the change, check:
 
-- kolejność i obecność pięciu sekcji rdzenia,
-- zgodność treści **Najważniejszych informacji** z typem dokumentu,
-- poprawność nagłówków, linków, list, tabel i bloków Mermaid,
-- zgodność języka tekstu diagramów Mermaid z językiem dokumentu,
-- czy nie pozostały nieuzasadnione twierdzenia ani niepotrzebne powtórzenia,
-- czy zmiany dotyczą wyłącznie wskazanego zakresu.
+- the presence and order of the five core sections;
+- that **Key information** matches the document type;
+- the correctness of headings, links, lists, tables, and Mermaid blocks;
+- that Mermaid diagram text uses the document language;
+- that no unjustified claims or unnecessary repetition remain;
+- that changes are limited to the requested scope.
 
-## 6. Podsumowanie pracy
+## 6. Work summary
 
-Na końcu podaj zmienione pliki, rodzaj dokumentu, zastosowaną strukturę, dodane diagramy oraz informacje, których nie udało się potwierdzić. Jeśli dokument wymaga decyzji użytkownika, wskaż ją wyraźnie zamiast przyjmować nieudokumentowane założenie.
+At the end, list the changed files, document type, structure used, diagrams added, and information that could not be confirmed. If the document requires a user decision, state it clearly instead of making an undocumented assumption.

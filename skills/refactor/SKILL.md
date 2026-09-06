@@ -1,47 +1,45 @@
 ---
 name: refactor
-description: Analizuj wskazany kod według skilla programming-principles, przedstaw propozycje refaktoryzacji według priorytetów Blocker, Critical, Major i Minor, nadaj propozycjom identyfikatory T1, T2, T3 i kolejne, a następnie wdrażaj pozycje wybrane przez użytkownika. Stosuj przy planowaniu i wykonywaniu refaktoryzacji istniejącego kodu.
+description: Analyze selected code using programming-principles, present refactoring proposals by priority, assign T1, T2, T3, and subsequent identifiers, and implement the items selected by the user.
 ---
 
-# Refaktoryzacja — wersja robocza
+# Refactoring
 
-## 1. Podstawa i zakres
+## 1. Foundation and scope
 
-Wymagany skill: `programming-principles`.
+Required skill: `programming-principles`.
 
-Przed analizą odszukaj ten skill po nazwie i wczytaj go przez mechanizm obsługi skillów dostępny w aktualnym środowisku. Stosuj jego aktualne zasady przy ocenie kodu, proponowaniu zmian, implementacji i weryfikacji. Nie zakładaj konkretnej ścieżki, struktury katalogów ani sposobu instalacji i nie kopiuj jego zasad tutaj. Jeśli skill jest niedostępny, poinformuj o brakującej zależności i poproś o jego udostępnienie przed analizą.
+Before analysis, find this skill by name and load it through the skill mechanism available in the current environment. Apply its current rules when assessing code, proposing changes, implementing them, and verifying the result. Do not assume a particular path, directory structure, or installation method, and do not copy its rules here. If the skill is unavailable, report the missing dependency and request it before starting the analysis.
 
-Pracuj na kodzie wskazanym przez użytkownika. Przeczytaj związane z nim kontrakty, miejsca użycia i testy, aby ocenić skutki zmian. Jeśli zakresu nie da się ustalić z rozmowy, poproś o jego wskazanie.
+Work on the code specified by the user. Read its contracts, usages, dependencies, and tests to assess the impact of changes. If the scope cannot be determined from the conversation, ask the user to specify it.
 
-Zachowuj publiczny kontrakt i dotychczasowe zachowanie kodu. Zmianę funkcjonalną lub naprawę błędu przedstaw oddzielnie od refaktoryzacji, jeśli jest potrzebna.
+Preserve the public contract and existing behavior. Present functional changes or bug fixes separately from refactoring when they are needed.
 
-## 2. Etapy pracy
+## 2. Workflow
 
-| Etap | Jak postępować |
+| Stage | Action |
 | --- | --- |
-| Analiza | Sprawdź, gdzie zasady programowania mogą poprawić wskazany kod. Dla każdego problemu oceń jego skutek, proponowane rozwiązanie, korzyść, ryzyko i zależności. Na tym etapie nie zmieniaj kodu. |
-| Lista propozycji | Przedstaw konkretne poprawki od najważniejszych do najmniej pilnych. Nadaj im stałe identyfikatory w formacie T1, T2, T3 i kolejne, gdzie `T` oznacza task. Każdą propozycję powiąż z miejscem w kodzie i odpowiednią zasadą programowania. |
-| Wybór użytkownika | Po przedstawieniu listy zapytaj, które pozycje wdrożyć, i zaczekaj na odpowiedź przed pierwszą zmianą kodu. Wybór już podany w rozmowie pozostaje obowiązujący i nie wymaga ponownego potwierdzenia. |
-| Wdrożenie | Wprowadzaj wybrane poprawki etapami, zaczynając od najwyższego priorytetu i uwzględniając ich zależności. Jeśli wybrana poprawka wymaga pozycji spoza wyboru, wyjaśnij tę zależność i uzyskaj wybór dotyczący rozszerzenia zakresu. |
-| Weryfikacja | Sprawdzaj zachowanie kontraktu testami odpowiednimi do zmiany, zgodnie z zasadami testowania w programming-principles. Nie dostosowuj oczekiwań testów do zmienionej implementacji, jeśli kontrakt pozostał ten sam. Jeśli brakuje istotnego pokrycia, uwzględnij potrzebny test w propozycji przed wdrożeniem. |
-| Podsumowanie | Wskaż wykonane identyfikatory, zmienione pliki i wyniki weryfikacji. Zaznacz wybrane pozycje, których nie udało się ukończyć, oraz przyczynę. |
+| Analysis | Identify where programming principles could improve the selected code. For each issue, assess its effect, solution, benefit, risk, and dependencies. Do not change code at this stage. |
+| Proposals | Present concrete changes from highest to lowest priority. Assign stable `T1`, `T2`, `T3`, and subsequent identifiers. Link each proposal to code and a relevant programming principle. |
+| User selection | After presenting the list, ask which items to implement and wait before changing code. A selection already given in the conversation remains valid. |
+| Implementation | Apply selected changes in stages, starting with the highest priority and respecting dependencies. If a selected change requires an unselected item, explain the dependency and obtain approval to expand the scope. |
+| Verification | Test the contract using checks appropriate to the change and the rules in `programming-principles`. Do not change test expectations to fit a new implementation when the contract is unchanged. If important coverage is missing, propose the required test before implementation. |
+| Summary | Report completed identifiers, changed files, and verification results. Mark selected items that could not be completed and explain why. |
 
-## 3. Priorytety
+## 3. Priorities
 
-| Priorytet | Kiedy stosować |
+| Priority | Use when |
 | --- | --- |
-| Blocker | Problem uniemożliwia bezpieczne wykonanie planowanej zmiany lub wiarygodne sprawdzenie zachowania kontraktu. Wskaż, jakie dalsze prace blokuje. |
-| Critical | Problem w strukturze kodu stwarza wysokie ryzyko naruszenia kontraktu lub reguł domeny przy dalszych zmianach. |
-| Major | Poprawka istotnie upraszcza odpowiedzialności, zależności lub ponowne użycie kodu, ale nie jest pilną przeszkodą. |
-| Minor | Lokalna poprawa nazw, komentarzy lub czytelności o niewielkim wpływie na resztę kodu. |
+| Blocker | The problem prevents safely making the planned change or reliably checking the contract. State what further work it blocks. |
+| Critical | The structure creates a high risk of violating the contract or domain rules during further changes. |
+| Major | The change significantly simplifies responsibilities, dependencies, or reuse but is not an urgent obstacle. |
+| Minor | A local improvement to names, comments, or readability with limited broader impact. |
 
-Uzasadniaj priorytet rzeczywistym skutkiem problemu. Nie podnoś go wyłącznie dlatego, że kod odbiega od preferowanego stylu. Nie musisz znaleźć propozycji w każdej kategorii; jeśli zmiana nie daje konkretnej korzyści, pomiń ją.
+Justify priority by the actual impact. Do not raise it solely because code differs from a preferred style. You do not need a proposal in every category; omit categories without a concrete benefit.
 
-## 4. Format propozycji
+## 4. Proposal format
 
-Przedstaw listę w poniższym układzie. Używaj krótkich opisów i odnośników do kodu. Zależności wskazuj identyfikatorami innych propozycji.
-
-| ID | Priorytet | Miejsce i zasada | Problem, proponowana zmiana i korzyść | Ryzyko i zależności | Weryfikacja |
+| ID | Priority | Location and principle | Problem, proposed change, and benefit | Risk and dependencies | Verification |
 | --- | --- | --- | --- | --- | --- |
 
-Nowe problemy odkryte podczas wdrażania dopisz z nowymi identyfikatorami do propozycji. Wdrażaj je po wyborze użytkownika, jeśli wykraczają poza zatwierdzony zakres.
+Add new issues found during implementation with new identifiers and implement them only after user selection if they exceed the approved scope.

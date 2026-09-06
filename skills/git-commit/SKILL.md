@@ -1,78 +1,68 @@
 ---
 name: git-commit
-description: Podziel niezatwierdzone zmiany w repozytorium Git na logiczne commity i utwórz je z nazwami zgodnymi ze standardem Conventional Commits.
+description: Split uncommitted repository changes into logical commits and create them using Conventional Commits.
 ---
 
-# Commitowanie zmian w Git — wersja robocza
+# Git commits
 
-## 1. Cel i standard
+## 1. Purpose and standard
 
-Stosuj standard **Conventional Commits 1.0.0**. Podstawowy format wiadomości to:
+Use **Conventional Commits 1.0.0**. The basic message format is:
 
 ```text
 <type>(<scope>): <description>
 ```
 
-`scope` jest opcjonalny. Opis powinien być krótki, jednoznaczny i napisany w trybie rozkazującym. Typy commitów zapisuj po angielsku, aby format był rozpoznawalny przez narzędzia i inne osoby pracujące z repozytorium.
+`scope` is optional. Keep the description short and unambiguous, and write it in the imperative mood. Use English commit types so tools and contributors can recognize them.
 
-| Typ | Stosuj, gdy |
+| Type | Use when |
 | --- | --- |
-| `feat` | Dodajesz nową funkcję lub możliwość. |
-| `fix` | Naprawiasz błąd w istniejącym zachowaniu. |
-| `refactor` | Zmieniasz strukturę kodu bez zmiany zachowania. |
-| `perf` | Poprawiasz wydajność bez zmiany kontraktu. |
-| `test` | Dodajesz lub zmieniasz testy bez zmiany kodu produkcyjnego. |
-| `docs` | Zmieniasz dokumentację. |
-| `build` | Zmieniasz zależności albo proces budowania. |
-| `ci` | Zmieniasz konfigurację ciągłej integracji lub automatyzacji. |
-| `chore` | Wykonujesz pozostałą techniczną pracę utrzymaniową. |
-| `revert` | Cofasz wcześniejszy commit. |
+| `feat` | Adding a feature or capability. |
+| `fix` | Correcting a bug in existing behavior. |
+| `refactor` | Changing structure without changing behavior. |
+| `perf` | Improving performance without changing the contract. |
+| `test` | Changing tests without changing production code. |
+| `docs` | Changing documentation. |
+| `build` | Changing dependencies or the build process. |
+| `ci` | Changing CI or automation configuration. |
+| `chore` | Performing other technical maintenance. |
+| `revert` | Reverting an earlier commit. |
 
-Zmianę łamiącą kompatybilność oznacz przez `!`, na przykład `feat(api)!: change response shape`, oraz opisz ją w stopce `BREAKING CHANGE:`. Nie używaj `feat` lub `fix` wyłącznie jako ogólnych określeń każdej zmiany.
+Mark a breaking change with `!`, for example `feat(api)!: change response shape`, and describe it in a `BREAKING CHANGE:` footer. Do not use `feat` or `fix` as generic labels for every change.
 
-## 2. Zasady podziału zmian
+## 2. Splitting changes
 
-- Jeden commit powinien przedstawiać jedną logiczną zmianę, którą można osobno przeczytać, przetestować i cofnąć.
-- Nie łącz w jednym commicie niezależnej funkcji, refaktoryzacji, formatowania i aktualizacji dokumentacji.
-- Zmiany wymagane razem do uruchomienia powinny pozostać w jednym commicie albo mieć jasno określoną kolejność.
-- Testy dotyczące konkretnej zmiany dołącz do tego commitu, chyba że repozytorium ma inną ustaloną konwencję.
-- Zachowaj istniejące, niepowiązane zmiany użytkownika. Nie usuwaj ich, nie nadpisuj i nie dodawaj do commita bez wyraźnego zakresu.
-- Nie twórz pustych commitów.
+- One commit should contain one logical change that can be read, tested, and reverted separately.
+- Do not combine unrelated features, refactoring, formatting, and documentation updates.
+- Changes required together for the project to run should remain together or have a clear order.
+- Include tests for a change in that change's commit unless the repository follows another convention.
+- Preserve unrelated user changes. Do not remove, overwrite, or commit them without explicit scope.
+- Do not create empty commits.
 
-## 3. Etapy pracy
+## 3. Workflow
 
-| Etap | Jak postępować |
+| Stage | Action |
 | --- | --- |
-| Rozpoznanie | Sprawdź `git status`, różnice względem indeksu i różnice staged. Ustal aktualną gałąź oraz istniejące zasady repozytorium, na przykład `CONTRIBUTING.md` lub konfigurację commitlint. |
-| Klasyfikacja | Przypisz każdą zmianę do logicznej grupy i typu Conventional Commits. Jeśli jedna zmiana miesza kilka odpowiedzialności, zaplanuj jej rozdzielenie. |
-| Plan | Przedstaw kolejność commitów, zakres plików lub hunks oraz proponowaną wiadomość dla każdego commita. Wyjaśnij zależności między nimi. |
-| Wybór | Przed pierwszym commitem zaczekaj na wybór użytkownika, jeśli nie określił już zakresu i zgody na utworzenie commitów. Przyjmuj identyfikatory `T1`, `T2`, `T3` dla grup, aby można było wybrać dowolny zestaw. |
-| Przygotowanie | Dodawaj do indeksu tylko elementy należące do wybranej grupy. Używaj selektywnego stagingu, gdy plik zawiera niezależne zmiany. |
-| Weryfikacja | Przed commitem sprawdź staged diff, `git diff --cached --check` oraz odpowiednie testy lub lint. Upewnij się, że commit nie zawiera sekretów, plików tymczasowych ani niepowiązanych zmian. |
-| Commit | Utwórz commit z ustaloną wiadomością. Po każdym commicie sprawdź jego zawartość i status repozytorium, a następnie przejdź do kolejnej grupy. |
-| Podsumowanie | Podaj utworzone identyfikatory commitów, ich wiadomości, zakres oraz wyniki weryfikacji. Wskaż zmiany, które pozostały niezatwierdzone. |
+| Reconnaissance | Check `git status`, unstaged and staged differences, the current branch, and repository rules such as `CONTRIBUTING.md` or commitlint configuration. |
+| Classification | Assign each change to a logical group and Conventional Commit type. Split mixed responsibilities. |
+| Plan | Present the commit order, file or hunk scope, proposed message, and dependencies for each commit. |
+| Selection | Before the first commit, wait for the user's selection if they have not specified the scope and authorized creating commits. Use identifiers such as `T1`, `T2`, and `T3` for groups. |
+| Preparation | Stage only elements belonging to the selected group. Use selective staging when a file contains independent changes. |
+| Verification | Check the staged diff, `git diff --cached --check`, and appropriate tests or lint. Ensure there are no secrets, temporary files, or unrelated changes. |
+| Commit | Create the agreed commit. After each commit, inspect its contents and repository status before continuing. |
+| Summary | Report commit IDs, messages, scope, verification results, and remaining uncommitted changes. |
 
-Nie używaj `git reset --hard`, `git clean`, `commit --amend`, rebase ani force push, chyba że użytkownik wyraźnie o to poprosi. Samo tworzenie commitów nie upoważnia do publikowania ich na zdalnym repozytorium.
+Do not use `git reset --hard`, `git clean`, `commit --amend`, rebase, or force push unless explicitly requested. Creating commits does not authorize publishing them to a remote repository.
 
-## 4. Format planu
+## 4. Plan format
 
-Przedstaw plan w poniższym układzie:
-
-| ID | Kolejność | Typ i scope | Zakres zmian | Wiadomość commita | Zależności | Weryfikacja |
+| ID | Order | Type and scope | Change scope | Commit message | Dependencies | Verification |
 | --- | --- | --- | --- | --- | --- | --- |
 
-Przykłady poprawnych wiadomości:
+Examples: `feat(auth): add refresh token rotation`, `fix(parser): reject malformed headers`, `docs: describe local development setup`.
 
-```text
-feat(auth): add refresh token rotation
-fix(parser): reject malformed headers
-refactor(order): extract pricing policy
-test(order): cover cancellation contract
-docs: describe local development setup
-```
+## 5. Scope and history protection
 
-## 5. Ochrona zakresu i historii
+Before staging, check that the repository contains no secrets, keys, tokens, passwords, or data that should not be committed. If you find any, stop and report the issue.
 
-Przed stagingiem sprawdź, czy w repozytorium nie ma sekretów, kluczy, tokenów, haseł ani danych, których nie powinno się zatwierdzać. Jeśli je znajdziesz, zatrzymaj commitowanie i wskaż problem.
-
-Nie zmieniaj historii już opublikowanych commitów bez wyraźnej prośby. Jeśli wiadomość lub podział wymaga poprawy przed utworzeniem commita, popraw staged changes i plan zamiast tworzyć tymczasowe commity.
+Do not change the history of published commits without an explicit request. If the message or split needs correction, fix the staged changes and plan instead of creating temporary commits.
