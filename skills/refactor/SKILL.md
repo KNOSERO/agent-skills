@@ -46,11 +46,33 @@ Follow this workflow once for the request:
 1. **Scope** — Work only on the code or goal identified by the user. If the scope is already clear from the conversation, do not ask again. If it genuinely cannot be determined, ask the user to specify the goal.
 2. **Retrieve minimum sufficient evidence** — Use `token-efficient-retrieval`. Search and expand context only to resolve a concrete uncertainty that affects safe evaluation. Do not automatically read complete modules, usages, dependency trees, test suites, or repositories. Stop retrieval when the evidence supports the decision and more context is unlikely to change it.
 3. **Evaluate** — Use `programming-principles` to assess correctness, responsibilities, boundaries, duplication, maintainability, and change safety. First decide whether a meaningful improvement exists; do not assume that refactoring is required.
-4. **Prepare proposals only when justified** — Present concrete proposals ordered by actual impact. Give each a stable identifier `T1`, `T2`, `T3`, and so on. An ID is an identity, not a severity level; once assigned, its meaning must not change during the conversation. State relevant location, rationale, benefit, risk, dependencies, and verification when useful. Do not manufacture proposals to populate categories.
+4. **Prepare proposals only when justified** — Present concrete proposals ordered by actual impact and use the stable structure in [Proposal format](#proposal-format). Do not manufacture proposals to populate categories.
 5. **User selection** — Do not modify code before the user selects the proposals. A selection already stated in the conversation remains valid; do not request the same approval again.
 6. **Implement selected scope** — Implement only selected proposals and their necessary dependencies. Apply the smallest coherent change required to complete them safely and correctly. Exclude unrelated refactors, renames, formatting cleanup, architecture cleanup, opportunistic abstractions, and unrelated test rewrites. A technical detail necessary to complete an approved change is not a new approval decision. If completing the selection requires an out-of-scope change, explain the dependency and request expanded approval.
 7. **Verify proportionally to risk** — Use the narrowest relevant verification, then widen only when the change's risk or scope justifies it: affected tests, related module checks, and broader verification as needed. Verify the unchanged contract; do not alter test expectations merely to accommodate a new implementation when behavior should remain unchanged.
 8. **Summary** — Use `documentation-guidelines` to report the completed IDs, changed files, verification result, uncompleted or blocked items, and important new findings. Communicate decisions, risks, required approvals, blockers, and outcomes directly; omit obvious execution narration.
+
+## Proposal format
+
+Every refactoring proposal must contain:
+
+- stable ID;
+- priority;
+- location;
+- problem;
+- proposed change;
+- expected benefit;
+- relevant risk or dependencies;
+- verification approach.
+
+Present every proposal in this table, including a single proposal:
+
+```markdown
+| ID | Priority | Location | Problem | Proposed change | Benefit | Risk / dependencies | Verification |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+```
+
+Use `documentation-guidelines` for wording, information density, and presentation details, but preserve this proposal structure. `documentation-guidelines` determines how information is presented; `refactor` determines what information a proposal must contain.
 
 ## Priorities and new findings
 

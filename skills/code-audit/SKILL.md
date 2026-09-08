@@ -87,13 +87,29 @@ Do not turn maintainability into a refactor review. Recommend refactoring only w
 
 Stop analysis when relevant categories have been screened, concrete risks have sufficient evidence or are explicitly marked uncertain, and further retrieval is unlikely to change the findings. Stop implementation when all selected findings are complete or explicitly blocked and required verification is complete.
 
-## Findings and priorities
+## Finding format
 
-Each finding must include at least: stable ID, category, priority, concrete evidence, mechanism or scenario, impact, recommended action, and confidence. Use the smallest clear representation; for several findings a table may use:
+Each finding must include at least:
 
-```text
-ID | Category | Priority | Location / evidence | Risk / impact | Recommended change | Confidence / dependencies | Verification
+- stable ID;
+- category;
+- priority;
+- concrete evidence;
+- mechanism or scenario;
+- impact;
+- recommended action;
+- confidence.
+
+Present every finding in this table, including a single finding:
+
+```markdown
+| ID | Category | Priority | Location / evidence | Risk / impact | Recommended change | Confidence / dependencies | Verification |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
+
+Use `documentation-guidelines` for wording, information density, and presentation details, but preserve this finding structure. `documentation-guidelines` determines how information is presented; `code-audit` determines what information a finding must contain.
+
+## Priorities
 
 Priorities remain `Blocker`, `Critical`, `Major`, and `Minor`, based primarily on impact × likelihood as a heuristic, not a formula. Do not raise priority merely because the category is security.
 
