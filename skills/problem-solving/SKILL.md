@@ -26,11 +26,26 @@ Retrieve discoverable facts before asking about them. Treat documentation as fir
 
 Use `token-efficient-retrieval` for all evidence retrieval. Retrieve only what is needed for the current uncertainty or solution decision, progressing from structure and targeted search to exact matches, small context, relevant symbols or sections, and direct dependencies. After each retrieval, update the problem model and retrieve again only if a material uncertainty remains. Do not load a repository, documentation tree, logs, tests, or dependency graph wholesale.
 
+## Decision gate for user and business decisions
+
+Before selecting an option, recommendation, scope, policy, or user-visible value, determine whether correctness depends on business context, user preference, ownership, risk tolerance, priorities, or an external decision that is not established in the available evidence.
+
+When that context is missing, do not choose a default on the user's behalf. This includes names, plugin IDs, namespaces, package names, branch names, public URLs, display names, workflows, approval rules, retention policies, rollout strategies, and similar decisions. Do not infer them from repository names, organization names, usernames, directory names, existing owners, or convenient defaults.
+
+For every unresolved material user or business decision:
+
+1. Retrieve facts that can be discovered independently.
+2. Invoke `clarifying-interview` for the remaining decision.
+3. Ask the user before recommending or implementing a dependent option.
+4. Keep independent analysis separate from the blocked decision.
+
+A discovered value may be reported as evidence or an option, but it is not a confirmed decision. Only use a default without asking when the choice is purely technical, reversible, has no material business or user-visible consequence, and the assumption is stated.
+
 ## Capability routing
 
 Use shared skills only when they materially improve the current solution; do not copy their workflows or run them mechanically.
 
-- Use `clarifying-interview` for material ambiguity, contradictions, unsupported assumptions, or user/business decisions. It owns the interview contract and validation. Continue independent analysis when some decisions are deferred.
+- Must use `clarifying-interview` for material ambiguity, contradictions, unsupported assumptions, missing context, or user/business decisions. It owns the interview contract and validation. Continue only independent analysis when some decisions are deferred; pause dependent recommendations and implementation until the decision is resolved or explicitly deferred.
 - Use `business-process-analysis` when the business process materially affects scope, behavior, state transitions, contracts, dependencies, failure paths, or the implementation choice. Use its result as context rather than rediscovering the process.
 - Use `task-decomposition` for non-trivial analysis or solution work with meaningful dependencies, distinct responsibilities, decisions, risks, or verification boundaries. Decompose coherent stages, not technical micro-tasks.
 - Use `documentation-guidelines` to determine the user-facing structure, language, readability, and diagrams. This skill determines what must be communicated, not how it is formatted.
