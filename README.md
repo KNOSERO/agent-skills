@@ -36,7 +36,7 @@ Claude Code exposes plugin skills under the `cube` namespace:
 | Skill | Purpose |
 | --- | --- |
 | [business-process-analysis](plugins/cube/skills/business-process-analysis/SKILL.md) | Reconstruct business processes from system evidence. |
-| [clarifying-interview](plugins/cube/skills/clarifying-interview/SKILL.md) | Resolve material ambiguity and decisions. |
+| [grill](plugins/cube/skills/grill/SKILL.md) | Resolve assumptions, ambiguity, decisions, and contradictions through dependency-aware question rounds. |
 | [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Audit code for meaningful risks. |
 | [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Set a consistent documentation standard. |
 | [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. |

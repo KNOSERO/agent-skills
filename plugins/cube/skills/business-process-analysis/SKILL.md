@@ -35,7 +35,7 @@ Prefer:
 
 After each retrieval, update the process model and ask what material fact remains unknown. Stop when the evidence is sufficient to understand the material process in scope; retrieve enough to understand the process, not enough to understand the repository. Mark non-blocking gaps `unknown` or `unconfirmed`.
 
-If materially different process scopes remain unresolved after retrieval, use `clarifying-interview`. Do not ask for facts that retrieval can establish.
+After retrieval, use `grill` for every unresolved process scope, interpretation, assumption, or decision. Do not ask for facts that retrieval can establish, but ask the user whether an established fact should determine the process direction when that is not confirmed.
 
 Separate `confirmed`, `inferred`, and `unknown/unconfirmed`. Every material process claim must be supported by evidence, and inference must remain labelled as such.
 
@@ -62,7 +62,7 @@ Direct invocation explains the process. Consuming invocation supplies only the p
 
 ## Relationship to other skills
 
-- `clarifying-interview` resolves material ambiguity and user decisions.
+- `grill` resolves facts-versus-decisions, ambiguity, assumptions, contradictions, and user decisions.
 - `token-efficient-retrieval` retrieves minimum sufficient evidence.
 - `documentation-guidelines` controls user-facing presentation.
 - `programming-principles` evaluates implementation and design quality.

@@ -30,24 +30,24 @@ Use `token-efficient-retrieval` for all evidence retrieval. Retrieve only what i
 
 Before selecting an option, recommendation, scope, policy, implementation path, or user-visible value, determine whether it changes or chooses anything in the user's repository, workflow, compatibility, maintenance, distribution, public interface, or future options. This gate applies even when the choice is small, conventional, low-cost, technically reversible, or internal to the implementation.
 
-When that context is missing, do not choose a default on the user's behalf. This includes deleting, moving, copying, or retaining files; choosing a source of truth; deciding whether to preserve compatibility; selecting names, plugin IDs, namespaces, package names, branch names, public URLs, display names, workflows, approval rules, retention policies, rollout strategies, and similar decisions. Do not infer them from repository names, organization names, usernames, directory names, existing owners, conventions, or convenient defaults.
+When that context is missing, do not choose a default on the user's behalf. This includes small or incidental choices as well as deleting, moving, copying, or retaining files; choosing a source of truth; deciding whether to preserve compatibility; selecting names, plugin IDs, namespaces, package names, branch names, public URLs, display names, workflows, approval rules, retention policies, rollout strategies, and similar decisions. Do not infer them from repository names, organization names, usernames, directory names, existing owners, conventions, or convenient defaults.
 
 For every unresolved decision covered by this gate:
 
 1. Retrieve facts that can be discovered independently.
-2. Invoke `clarifying-interview` for the remaining decision.
+2. Invoke `grill` for the remaining decision.
 3. Ask the user before recommending or implementing a dependent option.
 4. Keep independent analysis separate from the blocked decision.
 
 Do not turn a recommendation into an action. Present the recommendation, trade-offs, and affected files or behavior, then wait for the user's explicit choice or delegation before implementing it. If the user says to decide, treat that as delegation only for the stated scope and record the boundary; do not extend it to adjacent decisions.
 
-A discovered value may be reported as evidence or an option, but it is not a confirmed decision. A default without asking is allowed only for an incidental choice that does not alter repository contents, structure, compatibility, maintenance, distribution, public behavior, or future options. If unsure whether a choice crosses that boundary, ask.
+A discovered value may be reported as evidence or an option, but it is not a confirmed decision. Do not silently default any unresolved choice. If unsure whether a choice is already established or still requires the user's direction, invoke `grill`.
 
 ## Capability routing
 
 Use shared skills only when they materially improve the current solution; do not copy their workflows or run them mechanically.
 
-- Must use `clarifying-interview` for ambiguity, contradictions, unsupported assumptions, missing context, or any choice affecting repository contents, structure, compatibility, maintenance, distribution, public behavior, or future options. It owns the interview contract and validation. Continue only independent analysis when some decisions are deferred; pause dependent recommendations and implementation until the decision is resolved or explicitly deferred.
+- Must use `grill` for every ambiguity, contradiction, unsupported assumption, missing context, or unresolved choice, including incidental choices. It owns the interview contract and validation. Continue only independent analysis when some decisions are deferred; pause dependent recommendations and implementation until the decision is resolved or explicitly deferred.
 - Use `business-process-analysis` when the business process materially affects scope, behavior, state transitions, contracts, dependencies, failure paths, or the implementation choice. Use its result as context rather than rediscovering the process.
 - Use `task-decomposition` for non-trivial analysis or solution work with meaningful dependencies, distinct responsibilities, decisions, risks, or verification boundaries. Decompose coherent stages, not technical micro-tasks.
 - Use `documentation-guidelines` to determine the user-facing structure, language, readability, and diagrams. This skill determines what must be communicated, not how it is formatted.

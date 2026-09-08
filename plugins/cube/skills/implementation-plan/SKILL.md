@@ -18,7 +18,7 @@ Use the available analysis, requirements, decisions, constraints, repository evi
 1. Separate confirmed facts and decisions from assumptions, proposals, and unknowns.
 2. Check that the proposed implementation still satisfies the stated goal and constraints.
 3. Retrieve only the repository facts needed to identify exact files, symbols, interfaces, schemas, tests, and dependencies.
-4. Invoke `clarifying-interview` for any unresolved choice that could affect repository contents, structure, compatibility, maintenance, distribution, behavior, or future options.
+4. Invoke `grill` for every unresolved choice, assumption, interpretation, or contradiction in the plan, including incidental implementation choices.
 
 Do not silently convert an analysis recommendation into an approved implementation decision. If the input is incomplete, produce a conditional plan and list the blocker instead of inventing details.
 
