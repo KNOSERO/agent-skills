@@ -14,7 +14,7 @@ This skill is read-only. Do not edit code, create or update documentation files,
 Use two skills as needed:
 
 - `documentation-guidelines` defines the organization, language, readability, and diagrams for the resulting document;
-- `code-analysis` analyzes existing modules affected by the problem.
+- `business-process-analysis` reconstructs the business process affected by the problem.
 
 Do not copy those skills' rules. Apply them in the appropriate part of the analysis flow.
 
@@ -49,9 +49,9 @@ Determine the impact of the change from its relationship with the existing struc
 | Situation | Action |
 | --- | --- |
 | The change does not affect existing code | Describe the new element's scope and contracts without analyzing an existing module. |
-| The change uses an existing module | Analyze that module, its direct usages, dependencies, tests, and contract through `code-analysis`. |
-| The change requires editing an existing module | Analyze the module through `code-analysis` before describing the change; include its callers and tests. |
-| The change affects several modules or a shared flow | Analyze every directly affected module through `code-analysis` and describe the relationships between findings. |
+| The change uses an existing module | Reconstruct the relevant business process through `business-process-analysis`, using the module and its direct context as evidence. |
+| The change requires editing an existing module | Reconstruct the affected process through `business-process-analysis` before describing the change. |
+| The change affects several modules or a shared flow | Reconstruct the shared business process through `business-process-analysis` and describe the relationships between affected elements. |
 
 By default, analyze directly affected modules, their direct callers, dependencies, and tests. Expand the scope only when the direct context is insufficient to confirm the impact. Separate repository-confirmed facts from assumptions and open questions.
 
@@ -81,7 +81,7 @@ Before presenting the document, check that:
 
 - the goal, current behavior, constraints, and acceptance criteria are described;
 - all required questions were asked before preparing the proposal;
-- every affected existing module was analyzed through `code-analysis`;
+- every affected business process was reconstructed through `business-process-analysis`;
 - reused, edited, and new modules are distinguished;
 - the recommendation follows from the analysis and alternatives include trade-offs;
 - the document follows the current `documentation-guidelines`;

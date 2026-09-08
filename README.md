@@ -42,8 +42,8 @@ Use the name of a skill you installed. Codex detects newly installed skills auto
 
 | Skill | Purpose | Dependencies |
 | --- | --- | --- |
-| [analysis-problem](skills/analysis-problem/SKILL.md) | Analyze a problem, assess affected modules, and propose an implementation approach in chat. | `documentation-guidelines`; `code-analysis` when analyzing existing modules |
-| [code-analysis](skills/code-analysis/SKILL.md) | Explain a module, its flow, and potential issues in a report in chat, without modifying files. | `documentation-guidelines` |
+| [analysis-problem](skills/analysis-problem/SKILL.md) | Analyze a problem, assess affected modules, and propose an implementation approach in chat. | `documentation-guidelines`; `business-process-analysis` when reconstructing affected processes |
+| [business-process-analysis](skills/business-process-analysis/SKILL.md) | Reconstruct and explain the business process implemented or affected by a system behavior, using artifacts as evidence. | `clarifying-interview`; `token-efficient-retrieval`; `documentation-guidelines` |
 | [code-audit](skills/code-audit/SKILL.md) | Audit code, prioritize findings, and implement fixes selected by the user. | `programming-principles` |
 | [documentation-guidelines](skills/documentation-guidelines/SKILL.md) | Create and update Markdown documentation with a consistent structure and useful diagrams. | None |
 | [git-commit](skills/git-commit/SKILL.md) | Split uncommitted changes into logical Conventional Commits and create them. | None |
