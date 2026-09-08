@@ -1,78 +1,76 @@
 ---
 name: documentation-guidelines
-description: Create and update Markdown documentation in the repository with a consistent core structure, the most important information first, simple language, and Mermaid diagrams for important flows.
+description: Set the shared presentation standard for repository documentation and technical explanations: information hierarchy, conciseness, detail, tables, processes, diagrams, language, and local conventions. It does not define domain-specific content requirements.
 ---
 
 # Documentation guidelines
 
-## 1. Purpose and scope
+## Responsibility
 
-Create and update documentation so readers can quickly find the most important information and then proceed to the purpose, behavior, and details.
+This skill defines shared documentation and technical explanation style. It controls information hierarchy, conciseness, detail level, tables, process explanation, diagrams, legends, language selection, and consistency with repository conventions.
 
-Before writing a document, read the existing documentation, README, configuration, referenced sources, and usage sites for the described element. Establish the document type, audience, scope, and dominant repository language. If the repository has no language convention, use English.
+It does not define domain-specific documentation requirements. Other skills determine what domain information must be documented; this skill determines how that information should be communicated.
 
-Do not invent missing facts. Mark unknown, unconfirmed, or decision-dependent information. Preserve existing conventions for names, locations, links, and formatting.
+Use it when creating or updating documentation, writing technical explanations, describing processes, creating diagrams, or preparing concise developer-facing descriptions.
 
-## 2. Consistent document structure
+## Core standard
 
-Every document should use the following minimal core and preserve the section order:
+Start with the information most likely to answer the reader's immediate question. Order content from most useful to most detailed:
 
-| Order | Section | Content |
-| --- | --- | --- |
-| 1 | **Key information** | A short entry point suited to the document type. For installation, provide requirements and installation steps first. For business documentation, provide the basic information needed to understand the topic. For usage instructions, provide the quickest way to complete the task. For a decision or process, provide the most important context and outcome. |
-| 2 | **Purpose** | Explain why the document or described element exists, what problem it solves, and what result it describes. |
-| 3 | **Flow** | Explain how something works or should work. Add an appropriate Mermaid diagram for every important process, communication path, or lifecycle. |
-| 4 | **Details** | Include configuration, rules, examples, variants, and information needed after the basics are understood. |
-| 5 | **Limitations** | Describe edge conditions, known problems, missing elements, and situations requiring additional attention. |
+```text
+answer → key information → explanation → details → edge cases
+```
 
-If a section does not apply, keep it in the structure and briefly state that it is not applicable. Do not move details before **Key information**.
+Do not begin with history, broad context, theory, or filler when the reader needs a concrete answer. Prefer the smallest amount of text that preserves meaning and clarity.
 
-## 3. Readability
+Choose structure and detail for the reader's intent; do not force one section template on every document. Add only sections that provide useful information. Never add a section containing only `Not applicable` or equivalent text.
 
-- Use simple sentences and short paragraphs.
-- Keep each paragraph focused on one topic.
-- Use lists for steps and tables for parallel information.
-- Define a term on first use if the reader may not know it.
-- Describe both the flow and the purpose when both are needed for understanding.
-- Limit digressions, repetition, and information that does not help the reader complete the task or understand the topic.
-- Use examples only when they explain usage or behavior in a specific situation.
-- Do not replace the most important information with a long introduction.
+Use short sentences, focused paragraphs, lists for steps, tables for comparable structured information, and examples only when they clarify behavior. Preserve confirmed facts and do not turn assumptions into facts.
 
-## 4. Mermaid diagrams
+## Detail level
 
-Add a diagram for every important flow. Do not add one to a document containing only facts, definitions, or a simple list of properties.
+- **Short:** the few facts needed for a focused question or single element.
+- **Focused:** the essential explanation of one feature, component, or behavior, with a flow or example when useful.
+- **Full:** a complete explanation of a larger process or system area, including actors, decisions, alternatives, failures, and outcomes when evidenced and relevant.
 
-Choose the diagram type for the relationship being described:
+Do not expand a short request into a full document.
 
-| Situation | Mermaid diagram |
-| --- | --- |
-| Process steps and decisions | `flowchart` |
-| Communication between actors or services | `sequenceDiagram` |
-| Status changes or lifecycle | `stateDiagram-v2` |
-| Entity relationships or data structure | `erDiagram` |
-| Class relationships and type dependencies | `classDiagram` |
+## Conditional references
 
-The diagram should show the main elements, flow direction, and decisions affecting the outcome. Keep it small enough to understand without zooming. Describe details that do not affect the flow below the diagram.
+Read only the references relevant to the current work:
 
-Diagram text must use the same language as the document. Translate node names, labels, actors, states, and descriptions; technical Mermaid syntax such as `flowchart` and `sequenceDiagram` remains unchanged.
+- [information-structure.md](references/information-structure.md) for a larger documentation rewrite or when deciding what sections belong in a document.
+- [process-explanation.md](references/process-explanation.md) when documenting order, communication, decisions, state changes, retries, timeouts, rollback, or compensation.
+- [diagrams.md](references/diagrams.md) when a diagram may materially improve understanding or a legend is needed.
+- [writing-style.md](references/writing-style.md) for a substantial explanation, wording review, language choice, or concise developer-facing text.
 
-After adding a diagram, check the Mermaid block syntax and the consistency of diagram names with the document.
+Simple explanations need only this file. Do not load all references by default.
 
-## 5. Creating and updating files
+## Tables and diagrams
 
-Prepare the document plan first, then fill in the details. Create the requested file or update the existing one while preserving confirmed information and local conventions.
+Prefer a compact table when multiple items share properties: components, fields, parameters, configuration, roles, statuses, errors, mappings, or diagram legends. Do not use a table for one fact or when it makes the information harder to read.
 
-Do not modify unrelated files. If an existing document uses a different structure, organize it according to the core structure only within the requested scope. Do not remove information without checking whether it is used as a source of knowledge or a reference.
+Use Mermaid only when it improves understanding of relationships, sequence, decisions, or state. Select `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, `erDiagram`, or `classDiagram` according to the relationship. A diagram does not replace a necessary textual explanation. Add a table legend when symbols, line styles, grouping, colors, or other notation is not self-evident.
 
-After the change, check:
+## Language and repository conventions
 
-- the presence and order of the five core sections;
-- that **Key information** matches the document type;
-- the correctness of headings, links, lists, tables, and Mermaid blocks;
-- that Mermaid diagram text uses the document language;
-- that no unjustified claims or unnecessary repetition remain;
-- that changes are limited to the requested scope.
+Select the documentation language in this order:
 
-## 6. Work summary
+1. the user's explicit language requirement;
+2. project, repository, or documentation rules;
+3. the language of the document being updated;
+4. the language of the conversation.
 
-At the end, list the changed files, document type, structure used, diagrams added, and information that could not be confirmed. If the document requires a user decision, state it clearly instead of making an undocumented assumption.
+Keep user-facing communication in the conversation language unless asked otherwise. Do not change the language of existing documentation without a reason.
+
+Before introducing a style, inspect only a representative local sample:
+
+```text
+target document → nearby documentation → similar documentation → README/docs index → repository instructions
+```
+
+Preserve established conventions for headings, tables, diagrams, naming, locations, and links. The local style supplements this skill; it does not need to be replaced.
+
+## Evidence and scope
+
+Base important claims on available evidence such as code, configuration, tests, schemas, contracts, requirements, decisions, or existing documentation. If a fact cannot be confirmed, omit it or label it as unconfirmed when it matters. Do not modify unrelated files.
