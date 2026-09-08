@@ -1,6 +1,7 @@
 ---
 name: long-result
 description: Control response depth by producing the most complete useful answer with relevant explanation, evidence, implications, and limitations without unnecessary verbosity.
+disable-model-invocation: true
 ---
 
 # Long response

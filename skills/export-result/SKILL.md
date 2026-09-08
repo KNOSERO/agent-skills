@@ -1,6 +1,7 @@
 ---
 name: export-result
 description: Deliver the completed task result as one user-accessible Markdown document without changing its meaning, scope, workflow, or domain-specific output contract. Use only when explicitly invoked.
+disable-model-invocation: true
 ---
 
 # Export result

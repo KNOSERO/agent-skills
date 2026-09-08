@@ -1,6 +1,22 @@
-# Codex Skills
+# KNOSERO Skills
 
-Skills for problem solving, code analysis, audits, refactoring, documentation, and Git commits. Skill instructions are written in English.
+Reusable standalone Agent Skills for problem solving, code analysis, audits, refactoring, documentation, and Git commits. The repository contains one shared `skills/` directory and does not require plugins.
+
+## Use with Claude Code
+
+Claude Code discovers project skills from `.claude/skills/<skill-name>/SKILL.md`. Link or copy the required skill directories from `skills/` into `.claude/skills/`, then invoke them without a namespace:
+
+```text
+/problem-solving
+```
+
+## Use with Codex
+
+Codex can install the skills locally with `$skill-installer`, or discover repository skills from `.agents/skills/<skill-name>/SKILL.md`. Invoke a skill explicitly with its own name:
+
+```text
+$problem-solving
+```
 
 ## Installation
 

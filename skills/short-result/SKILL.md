@@ -1,6 +1,7 @@
 ---
 name: short-result
 description: Control response presentation by producing the minimum sufficient answer while preserving required information, evidence, caveats, and output contracts.
+disable-model-invocation: true
 ---
 
 # Short response
