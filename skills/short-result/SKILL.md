@@ -1,5 +1,5 @@
 ---
-name: short-response
+name: short-result
 description: Control response presentation by producing the minimum sufficient answer while preserving required information, evidence, caveats, and output contracts.
 ---
 
@@ -13,7 +13,7 @@ Find and apply it through the available skill mechanism. Let that skill control 
 
 ## Responsibility
 
-`documentation-guidelines` controls how information is presented. `short-response` controls how much information is presented.
+`documentation-guidelines` controls how information is presented. `short-result` controls how much information is presented.
 
 Change only the presentation depth. Do not change reasoning, correctness requirements, verification, retrieval, safety, scope, or the workflow of other active skills. Do not remove or weaken the tables, diagrams, legends, hierarchy, or domain-specific structure required by `documentation-guidelines` or another active skill.
 
@@ -53,10 +53,10 @@ Do not create a table or diagram for a simple fact merely because it is availabl
 
 ## Interaction with other skills
 
-Other active skills remain owners of their domain-specific output contracts. For example, `code-audit` defines what a finding must contain, while `short-response` may present those findings compactly, including in a table when that is clearer. Never remove mandatory fields, critical evidence, warnings, blockers, uncertainty, required approvals, or information needed for a safe decision.
+Other active skills remain owners of their domain-specific output contracts. For example, `code-audit` defines what a finding must contain, while `short-result` may present those findings compactly, including in a table when that is clearer. Never remove mandatory fields, critical evidence, warnings, blockers, uncertainty, required approvals, or information needed for a safe decision.
 
-`short-response` does not activate `long-response`.
+`short-result` does not activate `long-result`.
 
 ## Explicit invocation conflict
 
-If `short-response` and `long-response` are both explicitly invoked, use the one invoked last when invocation order is available. If the order cannot be determined, report the conflict briefly and ask the user to choose one.
+If `short-result` and `long-result` are both explicitly invoked, use the one invoked last when invocation order is available. If the order cannot be determined, report the conflict briefly and ask the user to choose one.

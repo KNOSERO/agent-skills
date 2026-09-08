@@ -1,5 +1,5 @@
 ---
-name: long-response
+name: long-result
 description: Control response depth by producing the most complete useful answer with relevant explanation, evidence, implications, and limitations without unnecessary verbosity.
 ---
 
@@ -13,7 +13,7 @@ Find and apply it through the available skill mechanism. Let that skill control 
 
 ## Responsibility
 
-`documentation-guidelines` controls how information is presented. `long-response` controls how much relevant information and explanation is presented.
+`documentation-guidelines` controls how information is presented. `long-result` controls how much relevant information and explanation is presented.
 
 This skill controls completeness and depth, not detailed rules for tables, diagrams, legends, documentation structure, or writing style. Do not change correctness, retrieval strategy, scope, verification, safety, or the workflow of other active skills.
 
@@ -62,8 +62,8 @@ Other active skills remain owners of their domain-specific output contracts. Do 
 
 For example, with `code-audit`, preserve the finding contract while optionally adding an executive summary, compact findings table, relationships, risks, and recommended order when relevant. With `refactor`, preserve the proposal contract while optionally adding rationale, architectural implications, dependencies, risks, tradeoffs, and verification strategy.
 
-`short-response` and `long-response` differ in information depth, not presentation quality: `short-response` is decision-oriented and minimum-sufficient; `long-response` is understanding-oriented and comprehensively relevant. `long-response` does not activate `short-response`.
+`short-result` and `long-result` differ in information depth, not presentation quality: `short-result` is decision-oriented and minimum-sufficient; `long-result` is understanding-oriented and comprehensively relevant. `long-result` does not activate `short-result`.
 
 ## Explicit invocation conflict
 
-If `short-response` and `long-response` are both explicitly invoked, use the one invoked last when invocation order is available. If the order cannot be determined, report the conflict briefly and ask the user to choose one.
+If `short-result` and `long-result` are both explicitly invoked, use the one invoked last when invocation order is available. If the order cannot be determined, report the conflict briefly and ask the user to choose one.

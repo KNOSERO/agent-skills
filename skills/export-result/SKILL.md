@@ -17,7 +17,7 @@ Keep the responsibilities separate:
 
 ```text
 documentation-guidelines → how information is presented
-short-response / long-response → how much information is included
+short-result / long-result → how much information is included
 domain skill → what the result must contain
 export-result → how the final result is delivered
 ```
@@ -41,11 +41,10 @@ Do not add sections merely because the result is a document. The document's cont
 
 Domain skills remain the owners of their output contracts. For example, `$code-audit $export-result` keeps the required findings defined by `code-audit`, and `$refactor $export-result` keeps the proposals defined by `refactor`; this skill only places the unchanged result in a Markdown file.
 
-With `$short-response $export-result`, preserve minimum-sufficient information and high information density while delivering it as `.md`. Do not expand the result because it is exported.
+With `$short-result $export-result`, preserve minimum-sufficient information and high information density while delivering it as `.md`. Do not expand the result because it is exported.
 
-With `$long-response $export-result`, preserve the comprehensive, structured, information-dense semantics of `long-response` while delivering them as `.md`. `export-result` does not activate or require `long-response` by itself.
+With `$long-result $export-result`, preserve the comprehensive, structured, information-dense semantics of `long-result` while delivering them as `.md`. `export-result` does not activate or require `long-result` by itself.
 
 ## Fallback
 
 If the environment cannot create or share a `.md` file, do not claim that a file was created. Return the complete result as one coherent Markdown document block in the conversation and briefly state that the environment prevented creation of the attachment. Do not change the result's meaning or omit content because of the limitation.
-
