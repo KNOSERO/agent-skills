@@ -20,6 +20,8 @@ Apply these priorities in order:
 
 Stop gathering context when there is sufficient evidence to make a safe and confident decision. If confidence is insufficient, expand context rather than guessing.
 
+After the user authorizes a specific group, execute the agreed workflow with minimal procedural narration. Communicate decisions, risks, failures, plan changes, and the final result—not routine steps already defined here.
+
 ## 1. Purpose and standard
 
 Use **Conventional Commits 1.0.0**. The basic message format is:
@@ -66,6 +68,8 @@ Mark a breaking change with `!`, for example `feat(api)!: change response shape`
 | Verification | Follow [references/verification.md](references/verification.md). Check the staged diff, whitespace errors, secrets, unrelated changes, and proportionate tests or lint. |
 | Commit | Create the agreed commit. After each commit, inspect its contents and repository status before continuing. |
 | Summary | Report commit IDs, messages, scope, verification results, and remaining uncommitted changes. |
+
+If a Git write fails because of the execution environment, preserve the authorized scope and follow [references/execution-environment.md](references/execution-environment.md). A retry or permission escalation is a continuation of the authorized operation, not a new commit decision. Reinspect staged content before committing.
 
 Do not use `git reset --hard`, `git clean`, `commit --amend`, rebase, or force push unless explicitly requested. Creating commits does not authorize publishing them to a remote repository.
 
