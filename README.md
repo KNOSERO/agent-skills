@@ -41,6 +41,7 @@ Claude Code exposes plugin skills under the `cube` namespace:
 | [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Set a consistent documentation standard. |
 | [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. |
 | [git-commit](plugins/cube/skills/git-commit/SKILL.md) | Create logical Conventional Commits. |
+| [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn established analysis into a concrete implementation plan. |
 | [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce complete, useful responses. |
 | [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Drive problems toward justified solutions. |
 | [programming-principles](plugins/cube/skills/programming-principles/SKILL.md) | Guide source-code and test design. |
