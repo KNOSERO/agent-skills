@@ -1,92 +1,229 @@
 ---
 name: clarifying-interview
-description: Resolve material ambiguity, contradictions, missing decisions, and unsupported assumptions before a domain task proceeds. Use when unclear requirements or scope can change the interpretation, design, behavior, safety, cost, or next safe action.
+description: Resolve every material ambiguity, contradiction, assumption, dependency, and user decision within an agreed scope before execution proceeds. Use when unclear requirements or scope can change interpretation, design, behavior, safety, cost, or the next safe action.
 ---
 
 # Clarifying Interview
 
-## Responsibility
+## Responsibility and boundary
 
-Turn unclear or inconsistent input into a coherent, sufficiently explicit shared understanding:
+Turn unclear or inconsistent input into a materially coherent shared understanding. This skill determines **what** must be clarified or decided; it does not execute the domain task, decompose work, implement code, define a testing strategy, retrieve evidence as a separate workflow, present final results, or export artifacts.
 
-```text
-unclear input
-  -> detect uncertainty
-  -> classify it
-  -> establish available facts
-  -> ask only necessary questions
-  -> resolve dependencies
-  -> return control to the consuming skill
-```
+The target is **complete material clarification**, not minimum sufficient clarification:
 
-This skill does not execute the domain task, analyze code, refactor, audit, define tests, retrieve information as a separate workflow, present the final result, or export artifacts. The consuming domain skill remains responsible for its own semantics and execution.
+> Continue until every material ambiguity, contradiction, assumption, dependency, and decision relevant to the agreed scope is resolved, explicitly accepted, or intentionally deferred.
 
-## Core principles
+Be exhaustive about material issues inside the agreed scope, but do not investigate hypothetical issues outside it. Do not stop merely because implementation could technically begin.
 
-- Resolve ambiguity before relying on it.
-- Clarify only uncertainty that can materially change the result or next safe action.
-- Aim for minimum sufficient clarification, explicit decisions, and no hidden material assumptions—not exhaustive questioning.
-- Do not block independent work because of a local unresolved issue.
+## Establish facts before asking
 
-## Detect before asking
-
-Classify each material uncertainty as one of:
+Classify each uncertainty as one of:
 
 ```text
 established fact | discoverable fact | user decision | ambiguity |
 contradiction | assumption | missing information
 ```
 
-Do not ask automatically. First check whether reliable evidence can resolve it. Treat confirmed, inferred, assumed, and unknown information distinctly; inference is not confirmation.
-
-## Facts and decisions
-
-Facts that can be established from the repository, documentation, configuration, code, tests, schemas, available environments, or another reliable source are the agent's responsibility. Retrieve the minimum evidence needed to resolve them instead of asking the user.
-
-Decisions belong to the user or the appropriate decision owner. When multiple materially different interpretations remain, do not guess. Explain the relevant options and recommend one only when there is a clear evidence-based reason.
-
-Material assumptions must become evidence, an explicit decision, or an explicitly accepted unresolved constraint.
-
-## Dependency-aware questioning
-
-Resolve upstream decisions before asking downstream questions whose answers depend on them. Do not ask a random questionnaire. By default ask one question, or a small batch of 1–3 genuinely independent questions. Each question should identify the concrete uncertainty, explain why it matters when necessary, present useful options, include a grounded recommendation when appropriate, and allow another answer.
-
-After every user answer, reassess the problem. Resolve affected ambiguity, update dependent assumptions, and discard questions that are no longer needed. Do not re-ask settled decisions unless new evidence challenges them.
-
-## Contradictions
-
-Make conflicts explicit:
+Finding discoverable facts is the agent's responsibility. Check the repository, code, configuration, tests, schemas, available environment, documentation, or authoritative external documentation and retrieve only the minimum evidence needed. Do not ask the user to perform research the agent can reliably perform.
 
 ```text
-requirement A × requirement B
-  -> they cannot both hold under the current assumptions
-  -> a decision or constraint must change
+uncertainty → fact or decision?
+             ↙          ↘
+        retrieve       ask user
+         evidence
 ```
 
-State briefly what conflicts, why it matters, and the available resolutions. Do not silently reconcile incompatible requirements or choose arbitrarily.
+Facts can block only questions that depend on them. Continue asking independent frontier questions while a local prerequisite is unresolved.
 
-## When to stop
+## Decision tree and frontier rounds
 
-Stop when material ambiguity is resolved, contradictions are resolved or explicitly accepted, required decisions are made, critical assumptions are exposed, and the next stage can proceed without material guessing. Do not solve every hypothetical future decision. Clarify enough for the next correct stage; a later stage may invoke this skill again.
-
-For a larger interview, summarize only the confirmed decisions, important constraints, accepted unknowns, and next actionable stage.
-
-## Interaction with other skills
-
-`clarifying-interview` determines what is unclear. `token-efficient-retrieval` obtains the minimum evidence needed to resolve it. `task-decomposition` organizes the now-known task into executable stages. The preferred order for a complex task is:
+Model the interview as a dependency-aware decision tree, not a fixed questionnaire:
 
 ```text
-unclear task -> clarifying-interview -> coherent task -> task-decomposition -> execution
+root issue
+├── decision A
+│   ├── decision A1
+│   └── decision A2
+├── decision B
+│   └── decision B1
+└── contradiction C
 ```
 
-Do not duplicate domain workflows or final-presentation rules. If an unresolved decision blocks only one stage, pause that stage while continuing independent stages.
+The **frontier** is the set of all material questions that are currently answerable, independent of unresolved earlier decisions, and genuinely require user input.
 
-## For consuming skills
+Run repeated rounds:
 
-Use `clarifying-interview` when material ambiguity, contradiction, missing decisions, or unsupported assumptions prevent confident execution.
+```text
+current state
+→ compute frontier
+→ ask the whole useful frontier
+→ wait for answers
+→ validate every answer
+→ update the decision tree and dependencies
+→ compute the next frontier
+```
 
-Let this skill determine the minimum necessary clarification. Do not copy its interview rules into the consuming skill.
+Ask all currently independent material questions in one round when the result remains reasonably readable. Do not ask downstream questions whose meaning depends on an answer from the same round or another unresolved upstream decision. Answers may remove, change, or add later questions.
 
-Resolve discoverable facts through available evidence. Ask the user only for decisions or information that remain materially unresolved.
+## Fixed question contract
 
-Once sufficient clarity exists, return control to the consuming skill.
+Every user-facing question MUST use this format, in every round:
+
+```markdown
+❓ **Q<ID> — <short title>**
+
+<question body>
+
+**Options:**
+- **A.** <option>
+- **B.** <option>
+- **C.** <option>
+- **D. Other:** <when appropriate>
+
+➡️ **Recommended:** <recommended option and concise reason>
+
+⚠️ **Why it matters:** <specific material impact>
+```
+
+`Q<ID>` is stable for the entire interview: start at Q1, never renumber, and give each new question the next unused number. When revisiting an unresolved question, keep its existing ID. The contract cannot be removed or altered by `documentation-guidelines`, `short-result`, or `long-result`.
+
+Use 2–4 concrete options when a meaningful closed set exists. Do not invent artificial options. For a genuinely open question, use options such as:
+
+```markdown
+**Options:**
+- **A.** Provide a concrete value, rule, or requirement.
+- **B.** Explicitly defer this decision and define when it will be resolved.
+```
+
+Offer `Other` when it prevents a misleadingly closed set. Every question includes a recommendation when evidence supports one. Otherwise write:
+
+```text
+➡️ Recommended: No recommendation yet — this depends on <specific missing decision or fact>.
+```
+
+`Why it matters` must name a concrete effect on architecture, scope, data model, API contract, security, ownership, behavior, cost, operational complexity, compatibility, implementation choice, or later decisions. Never use a generic reason.
+
+## Challenge and validate answers
+
+Do not mistake an answer for a resolved decision. After each round, classify every answer as:
+
+```text
+resolved | partially resolved | contradictory |
+new ambiguity introduced | explicitly deferred
+```
+
+Return `partially resolved`, `contradictory`, and newly ambiguous items to the frontier. Challenge vague answers professionally. For example:
+
+- `probably`, `maybe`, `something like that`, `should be flexible`, or `whatever is best` do not settle a material question;
+- `rather A` requires a definite choice when implementation depends on it;
+- `A, but sometimes B` requires the exact condition for switching A → B;
+- `make it flexible` requires what is flexible and who decides;
+- `decide for me` permits an agent decision only when it does not require business ownership, sufficient information exists, and the rationale can be stated. Record that decision explicitly.
+
+When answers conflict, do not silently reconcile them or choose arbitrarily. Ask a normal question using the fixed contract that states the conflict and offers explicit resolutions. A contradiction must be resolved or explicitly accepted as an unresolved constraint.
+
+## Explicit deferral
+
+`Later` is not a sufficient deferral for a material issue. Establish at least:
+
+```text
+what is deferred
+why it can be deferred safely
+what depends on it
+when or at which stage it must be resolved
+```
+
+Mark any dependent stage as blocked when it cannot safely proceed without the decision. Independent work may continue.
+
+## Completion and confirmation
+
+The interview ends only when the material decision frontier is empty within the agreed scope:
+
+```text
+no unresolved material ambiguity
++ no unresolved material contradiction
++ no hidden material assumption
++ required user decisions resolved or intentionally deferred
++ all material branches of the decision tree visited
+```
+
+Then provide a short summary containing:
+
+```text
+Confirmed decisions
+Constraints
+Explicitly deferred decisions
+Remaining accepted unknowns
+```
+
+Ask the user to confirm that this shared understanding is correct before returning control to the consuming skill. If this skill is a separate full-clarification phase, do not start dependent implementation before that confirmation.
+
+## Example round
+
+```markdown
+❓ **Q1 — Tenant isolation**
+
+What level of tenant isolation should the system guarantee?
+
+**Options:**
+- **A.** Logical isolation using `tenant_id` in shared tables.
+- **B.** Separate schema per tenant.
+- **C.** Separate database per tenant.
+- **D. Other:** Define another isolation model.
+
+➡️ **Recommended:** A for the current scope unless regulatory or hard-isolation requirements justify the operational cost of B or C.
+
+⚠️ **Why it matters:** This affects the persistence model, migrations, operational complexity, backup strategy, and security boundary.
+
+---
+
+❓ **Q2 — Organization membership**
+
+Can one user belong to more than one organization?
+
+**Options:**
+- **A.** No, exactly one organization.
+- **B.** Yes, multiple organizations with separate roles.
+- **C.** Yes, but only for administrative users.
+- **D. Other:** Define another membership rule.
+
+➡️ **Recommended:** B if cross-organization work is a real business requirement; otherwise A keeps authorization substantially simpler.
+
+⚠️ **Why it matters:** This changes identity, authorization, membership modeling, and session context.
+```
+
+Q2 belongs in the same round only if its answer does not depend on Q1.
+
+## Anti-patterns
+
+Do not:
+
+- accept vague answers as settled decisions;
+- ask the user for discoverable facts;
+- create a random or precomputed questionnaire;
+- ask downstream questions before their prerequisites;
+- ask dependent questions in the same round as their prerequisite;
+- silently reconcile contradictions;
+- silently make business decisions;
+- change the question format between rounds;
+- renumber question IDs;
+- stop merely because implementation could begin;
+- ask irrelevant hypothetical questions outside the agreed scope;
+- repeat settled questions without new evidence.
+
+## Interaction with other shared skills
+
+```text
+clarifying-interview → what needs to be clarified and decided
+task-decomposition   → how the coherent work is divided into stages
+token-efficient-retrieval → minimum evidence needed for factual uncertainty
+```
+
+The preferred flow is:
+
+```text
+unclear task → clarifying-interview → materially coherent task
+             → task-decomposition → execution
+```
+
+Keep these responsibilities separate. Do not duplicate domain workflows, Git rules, architecture rules, programming principles, retrieval implementation, testing strategy, or result-export rules.
