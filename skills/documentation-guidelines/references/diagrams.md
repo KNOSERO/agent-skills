@@ -14,6 +14,8 @@ Use this reference when a visual representation can materially improve understan
 
 Keep the diagram focused on the main structure, direction, and decisions. Put secondary details in text below it. Do not use a diagram for a simple fact, one property, or a short list.
 
+Use the diagram to carry structure, order, relationships, communication, branches, or states. Let prose carry intent, conditions, inputs, outputs, meaning, consequences, and exceptions. Diagram and prose must complement each other, not duplicate each other.
+
 ## Text and language
 
 Use the document's language for node names, labels, actors, states, and descriptions. Mermaid keywords and syntax remain unchanged. Keep names consistent with the surrounding document and repository vocabulary.
