@@ -1,0 +1,20 @@
+{
+  "name": "knosero",
+  "interface": {
+    "displayName": "KNOSERO"
+  },
+  "plugins": [
+    {
+      "name": "cube",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cube"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

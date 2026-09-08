@@ -1,82 +1,66 @@
-# KNOSERO Skills
+# Cube Skills
 
-Reusable standalone Agent Skills for problem solving, code analysis, audits, refactoring, documentation, and Git commits. The repository contains one shared `skills/` directory and does not require plugins.
+Reusable Agent Skills distributed as one plugin for Codex and Claude Code. The plugin includes the complete skill collection in `plugins/cube/skills/`.
 
-## Use with Claude Code
+## Install in Codex
 
-Claude Code discovers project skills from `.claude/skills/<skill-name>/SKILL.md`. Link or copy the required skill directories from `skills/` into `.claude/skills/`, then invoke them without a namespace:
+From the repository root, Codex can discover the repo marketplace at `.agents/plugins/marketplace.json`. Install the `cube` plugin from the marketplace UI, or use the local plugin path during development.
 
-```text
-/problem-solving
-```
+After installation, all skills are available from the `cube` plugin.
 
-## Use with Codex
+## Install in Claude Code
 
-Codex can install the skills locally with `$skill-installer`, or discover repository skills from `.agents/skills/<skill-name>/SKILL.md`. Invoke a skill explicitly with its own name:
+Add this repository as a marketplace:
 
 ```text
-$problem-solving
+/plugin marketplace add https://github.com/KNOSERO/codex
 ```
 
-## Installation
-
-You need Codex with the `skill-installer` skill available and network access to GitHub. Paste one of the following prompts into Codex.
-
-### Install all skills
-
-Install the complete set to include the skills that depend on each other:
+Install the complete plugin and reload it:
 
 ```text
-$skill-installer Install all skills from https://github.com/KNOSERO/codex/tree/master/skills. Treat each subdirectory containing SKILL.md as a separate skill.
+/plugin install cube@knosero
+/reload-plugins
 ```
 
-### Install a selected skill
-
-Provide the URL of the skill's directory:
+Claude Code exposes plugin skills under the `cube` namespace:
 
 ```text
-$skill-installer Install the documentation-guidelines skill from https://github.com/KNOSERO/codex/tree/master/skills/documentation-guidelines.
+/cube:problem-solving
+/cube:code-audit
+/cube:refactor
 ```
 
-Replace `documentation-guidelines` in both the name and URL to select another skill. Include its dependencies from the table below. For example:
+## Included skills
 
-```text
-$skill-installer Install refactor and programming-principles from https://github.com/KNOSERO/codex/tree/master/skills, using skills/refactor and skills/programming-principles as the skill paths.
-```
-
-### Verify installation
-
-After installation, send a new message to Codex:
-
-```text
-Check whether documentation-guidelines is available and report the path to its SKILL.md file.
-```
-
-Use the name of a skill you installed. Codex detects newly installed skills automatically; if a skill does not appear, restart Codex. See the [official installation guidance](https://learn.chatgpt.com/docs/build-skills#install-curated-skills-for-local-use).
-
-## Available skills
-
-| Skill | Purpose | Dependencies |
-| --- | --- | --- |
-| [problem-solving](skills/problem-solving/SKILL.md) | Drive problems, ideas, requirements, and symptoms toward the strongest justified solution. | `clarifying-interview`; `business-process-analysis`; `task-decomposition`; `token-efficient-retrieval`; `documentation-guidelines` when relevant |
-| [business-process-analysis](skills/business-process-analysis/SKILL.md) | Reconstruct and explain the business process implemented or affected by a system behavior, using artifacts as evidence. | `clarifying-interview`; `token-efficient-retrieval`; `documentation-guidelines` |
-| [code-audit](skills/code-audit/SKILL.md) | Audit code, prioritize findings, and implement fixes selected by the user. | `programming-principles` |
-| [documentation-guidelines](skills/documentation-guidelines/SKILL.md) | Create and update Markdown documentation with a consistent structure and useful diagrams. | None |
-| [git-commit](skills/git-commit/SKILL.md) | Split uncommitted changes into logical Conventional Commits and create them. | None |
-| [programming-principles](skills/programming-principles/SKILL.md) | Apply shared principles for code design, refactoring, and testing. | None |
-| [refactor](skills/refactor/SKILL.md) | Propose prioritized refactorings and implement changes selected by the user. | `programming-principles` |
-
-## Installation details
-
-The prompts use the `master` branch of `KNOSERO/codex`. Each skill lives in `skills/<skill-name>/SKILL.md`.
-
-By default, `skill-installer` installs into `$CODEX_HOME/skills`, outside the project repository. If `CODEX_HOME` is not set, it uses `~/.codex/skills`.
-
-For example, the default location of `documentation-guidelines` is:
-
-| System | Installed file |
+| Skill | Purpose |
 | --- | --- |
-| Windows | `%USERPROFILE%\.codex\skills\documentation-guidelines\SKILL.md` |
-| macOS / Linux | `~/.codex/skills/documentation-guidelines/SKILL.md` |
+| [business-process-analysis](plugins/cube/skills/business-process-analysis/SKILL.md) | Reconstruct business processes from system evidence. |
+| [clarifying-interview](plugins/cube/skills/clarifying-interview/SKILL.md) | Resolve material ambiguity and decisions. |
+| [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Audit code for meaningful risks. |
+| [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Set a consistent documentation standard. |
+| [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. |
+| [git-commit](plugins/cube/skills/git-commit/SKILL.md) | Create logical Conventional Commits. |
+| [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce complete, useful responses. |
+| [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Drive problems toward justified solutions. |
+| [programming-principles](plugins/cube/skills/programming-principles/SKILL.md) | Guide source-code and test design. |
+| [refactor](plugins/cube/skills/refactor/SKILL.md) | Propose and implement behavior-preserving refactorings. |
+| [short-result](plugins/cube/skills/short-result/SKILL.md) | Produce concise, sufficient responses. |
+| [task-decomposition](plugins/cube/skills/task-decomposition/SKILL.md) | Break non-trivial work into verifiable stages. |
+| [token-efficient-retrieval](plugins/cube/skills/token-efficient-retrieval/SKILL.md) | Retrieve only the evidence needed for a decision. |
 
-The installer stops if a destination skill directory already exists. Repeating an installation prompt does not update an existing copy. To update a skill, ask Codex to compare the installed copy with the repository version and preserve any local changes before replacing it.
+## Repository layout
+
+```text
+plugins/cube/
+├── .codex-plugin/plugin.json
+├── .claude-plugin/plugin.json
+└── skills/
+    └── <skill-name>/SKILL.md
+```
+
+The packaged copies under `plugins/cube/skills/` are the single source distributed by both marketplaces.
+
+## License
+
+MIT. Copyright (c) 2026 Rafał Pilecki.

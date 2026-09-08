@@ -1,0 +1,19 @@
+{
+  "name": "knosero",
+  "owner": {
+    "name": "KNOSERO"
+  },
+  "plugins": [
+    {
+      "name": "cube",
+      "source": "./plugins/cube",
+      "description": "Reusable Agent Skills for problem solving, code analysis, audits, refactoring, documentation, and Git workflows.",
+      "category": "Developer Tools",
+      "tags": [
+        "skills",
+        "code-analysis",
+        "problem-solving"
+      ]
+    }
+  ]
+}

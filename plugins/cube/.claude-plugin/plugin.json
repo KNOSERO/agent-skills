@@ -1,0 +1,11 @@
+{
+  "name": "cube",
+  "description": "Reusable Agent Skills for problem solving, code analysis, audits, refactoring, documentation, and Git workflows.",
+  "version": "1.0.0",
+  "author": {
+    "name": "KNOSERO"
+  },
+  "homepage": "https://github.com/KNOSERO/codex",
+  "repository": "https://github.com/KNOSERO/codex",
+  "license": "MIT"
+}

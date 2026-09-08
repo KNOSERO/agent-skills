@@ -1,6 +1,6 @@
 ---
 name: clarifying-interview
-description: Resolve material uncertainty, contradictions, dependencies, assumptions, and user decisions before a domain task proceeds. Use for unclear or inconsistent input that prevents complete shared understanding within an agreed scope.
+description: Resolve uncertainty, contradictions, dependencies, assumptions, and user decisions before a domain task proceeds. Use whenever a choice could change user-visible behavior, repository structure, compatibility, maintenance, distribution, or data.
 ---
 
 # Clarifying Interview
@@ -33,6 +33,20 @@ If a fact can be established from the repository, code, configuration, tests, do
 
 Material assumptions must become evidence, an explicit decision, or an explicitly accepted unresolved constraint. Do not hide them or silently turn them into requirements.
 
+## Decision sensitivity
+
+Treat a decision as material when it changes, selects, removes, duplicates, renames, or reorganizes anything that affects the user's repository, workflow, compatibility, maintenance burden, distribution, public interface, or future options. This includes decisions that look small or technically reversible.
+
+Always ask before:
+
+- deleting, moving, copying, or retaining files or directories;
+- choosing a source of truth, synchronization model, or generated output;
+- changing package, plugin, namespace, marketplace, branch, or public-facing names;
+- choosing compatibility behavior, migration behavior, or fallback behavior;
+- selecting one of multiple valid architectures, layouts, policies, or rollout paths.
+
+Do not classify a choice as non-material merely because it is convenient, conventional, reversible, low-cost, or implementation-level. Discoverable facts may be established without asking; choices among valid outcomes belong to the user. If the user explicitly delegates a decision with clear boundaries, record that delegation before acting.
+
 ## Decision tree and frontier rounds
 
 Model the conversation as a dependency-aware decision tree. Nodes are decisions, discoverable facts, contradictions, or assumptions; edges express prerequisites and consequences:
@@ -44,7 +58,7 @@ decision
 └── contradiction / assumption
 ```
 
-At each round, compute the **frontier**: all material questions whose prerequisites are settled and that currently require user input. Ask the independent frontier together when readable. Put dependent questions in a later round; do not precompute a full questionnaire.
+At each round, compute the **frontier**: all material questions whose prerequisites are settled and that currently require user input. Ask the independent frontier together when readable. Put dependent questions in a later round; do not precompute a full questionnaire. Include apparently minor implementation choices when they affect the repository, user-visible result, compatibility, or future maintenance.
 
 After every round:
 
@@ -96,9 +110,9 @@ new ambiguity introduced
 
 Treat vague, conditional, or hedged answers as unresolved when they leave material uncertainty. Ask for a concrete choice, rule, trigger, owner, or boundary. For `A, but sometimes B`, establish the condition selecting each outcome. For `decide for me`, decide only when no business owner is needed and sufficient evidence exists; record the decision explicitly.
 
-If the user does not know, determine whether the answer can be discovered, recommended by the agent, safely deferred, or must remain an explicit unresolved constraint.
+If the user does not know, determine whether the answer can be discovered, recommended by the agent, safely deferred, or must remain an explicit unresolved constraint. A recommendation is not permission to apply the choice: ask for confirmation whenever the choice falls under Decision sensitivity.
 
-Never silently reconcile conflicting requirements or choose between incompatible interpretations. Convert each material conflict into a normal question using the mandatory contract and offer explicit resolutions. Return partially resolved, contradictory, and `new ambiguity introduced` items to the frontier.
+Never silently reconcile conflicting requirements or choose between incompatible interpretations. Convert each material conflict into a normal question using the mandatory contract and offer explicit resolutions. Return partially resolved, contradictory, and `new ambiguity introduced` items to the frontier. Before any dependent implementation, perform a final decision check for hidden choices and expose them as questions instead of selecting a convenient default.
 
 ## Deferral and completion
 
@@ -137,6 +151,6 @@ Do not duplicate those skills' workflows or rules.
 
 ## For consuming skills
 
-Use `clarifying-interview` when material ambiguity, contradictions, missing decisions, or unsupported assumptions prevent coherent shared understanding.
+Use `clarifying-interview` whenever ambiguity, contradictions, missing decisions, or unsupported assumptions could affect the repository, workflow, compatibility, distribution, maintenance, or user-visible result. Do not wait for a choice to become obviously large before asking.
 
 Let this skill own the interview process and mandatory question contract. Do not duplicate its rules in consuming skills.

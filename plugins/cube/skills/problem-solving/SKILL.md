@@ -1,6 +1,6 @@
 ---
 name: problem-solving
-description: Drive a problem, idea, goal, requirement, symptom, or change proposal toward the strongest justified solution using focused evidence, clarification, and solution comparison.
+description: Drive a problem, idea, goal, requirement, symptom, or change proposal toward the strongest justified solution using focused evidence, explicit decisions, clarification, and solution comparison.
 ---
 
 # Problem solving
@@ -15,7 +15,7 @@ This skill is read-only: do not edit code or documentation, create commits, refa
 
 Build a compact problem model containing only material elements: goal, current and expected behavior, constraints, affected process or contracts, confirmed facts, assumptions, decisions, dependencies, risks, and unknowns. Do not force fields that do not apply.
 
-For each material uncertainty, distinguish:
+For each uncertainty, distinguish:
 
 - facts that can be discovered;
 - decisions or ambiguities requiring the user;
@@ -26,26 +26,28 @@ Retrieve discoverable facts before asking about them. Treat documentation as fir
 
 Use `token-efficient-retrieval` for all evidence retrieval. Retrieve only what is needed for the current uncertainty or solution decision, progressing from structure and targeted search to exact matches, small context, relevant symbols or sections, and direct dependencies. After each retrieval, update the problem model and retrieve again only if a material uncertainty remains. Do not load a repository, documentation tree, logs, tests, or dependency graph wholesale.
 
-## Decision gate for user and business decisions
+## Decision gate before recommendation or action
 
-Before selecting an option, recommendation, scope, policy, or user-visible value, determine whether correctness depends on business context, user preference, ownership, risk tolerance, priorities, or an external decision that is not established in the available evidence.
+Before selecting an option, recommendation, scope, policy, implementation path, or user-visible value, determine whether it changes or chooses anything in the user's repository, workflow, compatibility, maintenance, distribution, public interface, or future options. This gate applies even when the choice is small, conventional, low-cost, technically reversible, or internal to the implementation.
 
-When that context is missing, do not choose a default on the user's behalf. This includes names, plugin IDs, namespaces, package names, branch names, public URLs, display names, workflows, approval rules, retention policies, rollout strategies, and similar decisions. Do not infer them from repository names, organization names, usernames, directory names, existing owners, or convenient defaults.
+When that context is missing, do not choose a default on the user's behalf. This includes deleting, moving, copying, or retaining files; choosing a source of truth; deciding whether to preserve compatibility; selecting names, plugin IDs, namespaces, package names, branch names, public URLs, display names, workflows, approval rules, retention policies, rollout strategies, and similar decisions. Do not infer them from repository names, organization names, usernames, directory names, existing owners, conventions, or convenient defaults.
 
-For every unresolved material user or business decision:
+For every unresolved decision covered by this gate:
 
 1. Retrieve facts that can be discovered independently.
 2. Invoke `clarifying-interview` for the remaining decision.
 3. Ask the user before recommending or implementing a dependent option.
 4. Keep independent analysis separate from the blocked decision.
 
-A discovered value may be reported as evidence or an option, but it is not a confirmed decision. Only use a default without asking when the choice is purely technical, reversible, has no material business or user-visible consequence, and the assumption is stated.
+Do not turn a recommendation into an action. Present the recommendation, trade-offs, and affected files or behavior, then wait for the user's explicit choice or delegation before implementing it. If the user says to decide, treat that as delegation only for the stated scope and record the boundary; do not extend it to adjacent decisions.
+
+A discovered value may be reported as evidence or an option, but it is not a confirmed decision. A default without asking is allowed only for an incidental choice that does not alter repository contents, structure, compatibility, maintenance, distribution, public behavior, or future options. If unsure whether a choice crosses that boundary, ask.
 
 ## Capability routing
 
 Use shared skills only when they materially improve the current solution; do not copy their workflows or run them mechanically.
 
-- Must use `clarifying-interview` for material ambiguity, contradictions, unsupported assumptions, missing context, or user/business decisions. It owns the interview contract and validation. Continue only independent analysis when some decisions are deferred; pause dependent recommendations and implementation until the decision is resolved or explicitly deferred.
+- Must use `clarifying-interview` for ambiguity, contradictions, unsupported assumptions, missing context, or any choice affecting repository contents, structure, compatibility, maintenance, distribution, public behavior, or future options. It owns the interview contract and validation. Continue only independent analysis when some decisions are deferred; pause dependent recommendations and implementation until the decision is resolved or explicitly deferred.
 - Use `business-process-analysis` when the business process materially affects scope, behavior, state transitions, contracts, dependencies, failure paths, or the implementation choice. Use its result as context rather than rediscovering the process.
 - Use `task-decomposition` for non-trivial analysis or solution work with meaningful dependencies, distinct responsibilities, decisions, risks, or verification boundaries. Decompose coherent stages, not technical micro-tasks.
 - Use `documentation-guidelines` to determine the user-facing structure, language, readability, and diagrams. This skill determines what must be communicated, not how it is formatted.
