@@ -96,6 +96,7 @@ Read only the references needed for the current work:
 
 - [information-structure.md](references/information-structure.md) when selecting sections or rewriting a larger document.
 - [process-explanation.md](references/process-explanation.md) when documenting order, communication, decisions, state changes, retries, timeouts, rollback, compensation, or final states.
+- [element-explanation.md](references/element-explanation.md) when explaining a focused code fragment, command, query, configuration, parameter, business rule, condition, or other single technical or business element.
 - [diagrams.md](references/diagrams.md) when choosing a diagram or defining a legend.
 - [writing-style.md](references/writing-style.md) for a substantial explanation, wording review, language choice, or density review.
 
