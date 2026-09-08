@@ -1,67 +1,125 @@
 ---
 name: code-audit
-description: Audit selected code for security, performance, reliability, correctness, and maintainability; present evidence-based findings with Blocker, Critical, Major, and Minor priorities; then implement items selected by the user.
+description: Audit selected code for meaningful security, performance, reliability, correctness, and maintainability risks; report evidence-based findings with stable priorities and IDs, then implement only findings selected by the user.
 ---
 
 # Code audit
 
-## 1. Foundation and scope
+Audit selected code, identify risks worth acting on, wait for the user's selection, implement only the approved scope, verify it, and report the result.
 
-Required skill: `programming-principles`.
+## Dependencies and boundaries
 
-Before analysis, find and load this skill through the skill mechanism available in the current environment. Apply its rules when analyzing, proposing, implementing, and verifying changes. Do not copy its contents here.
+Before auditing, find and load these skills by name through the skill mechanism available in the environment:
 
-Work on the code specified by the user. Read its contracts, usages, tests, configuration, and run instructions when available. If the scope cannot be determined, ask the user to specify it.
+- `token-efficient-retrieval` — obtain the minimum sufficient evidence.
+- `programming-principles` — support maintainability, design, responsibilities, and testability evaluation.
+- `documentation-guidelines` — govern how the audit, findings, and result are presented.
 
-By default, an audit is analysis without code changes. Make changes only after presenting findings and receiving the user's selection. If the user wants only a report, stop after presenting the results.
+Do not copy their rules or assume their installation paths. If a required dependency is unavailable, report that fact instead of guessing its rules. Let each dependency control its own conditional references. Do not eagerly load all references.
 
-Do not call code vulnerable, incorrect, or slow without evidence, a possible scenario, and an impact. Separate confirmed issues from hypotheses requiring measurement or further checks.
+The responsibility split is:
 
-## 2. Audit areas
+```text
+Retrieval decides how much evidence to gather.
+Programming principles support maintainability and design evaluation.
+Code audit decides which risks are relevant and whether evidence justifies a finding.
+Documentation guidelines decide how to communicate the result.
+```
 
-| Category | Check |
+`programming-principles` does not replace audit-specific evaluation of security, performance, reliability, or correctness. `code-audit` is not a general refactoring review: it discovers and evaluates risks; `refactor` improves structure while preserving behavior.
+
+## Evidence-first evaluation
+
+Do not call code vulnerable, incorrect, unreliable, or slow without evidence, a plausible mechanism or scenario, and meaningful impact.
+
+Every finding requires:
+
+```text
+evidence + mechanism + plausible scenario + impact + confidence
+```
+
+Create a finding only when the observed issue creates meaningful security, correctness, reliability, performance, operational, or maintainability risk or cost worth acting on. Do not report stylistic preferences, differences from a favored pattern, or issues added merely to fill a category.
+
+Use this threshold:
+
+```text
+observation
+→ meaningful risk or cost?
+   no → omit
+   yes → sufficient evidence?
+            no → hypothesis / unconfirmed concern
+            yes → finding
+```
+
+Priority and confidence are independent. Use `Confirmed`, `Strongly supported`, or `Hypothesis` when useful, and state what evidence is missing for an uncertain concern.
+
+## Audit areas
+
+Screen every category, but investigate deeply only categories relevant to the selected scope and available evidence.
+
+| Category | Audit-specific focus |
 | --- | --- |
-| Security | Trust boundaries, validation and encoding, authentication, authorization, secrets, sensitive data, injection, cryptography, deserialization, file paths, SSRF, configuration, and dependencies. |
-| Performance | Algorithmic complexity, repeated I/O, N+1 queries, memory use, concurrency, caching, data size, and unnecessary computation. Confirm important findings with measurements, benchmarks, or a profiler. |
-| Reliability | Error handling, timeouts, retries, idempotency, transactions, resource release, race conditions, partial failures, and observability. |
-| Correctness | Business rules, validation, invariants, data consistency, transaction boundaries, and compliance with the public contract. |
-| Maintainability | Responsibilities, dependencies, encapsulation, reuse, testability, readability, and compliance with `programming-principles`. |
+| Security | Trust boundaries, input handling, authentication and authorization, secrets and sensitive data, injection, cryptography, deserialization, paths, SSRF, configuration, and dependencies. |
+| Performance | Complexity, repeated I/O, N+1 behavior, memory, concurrency, caching, data size, and unnecessary work. Distinguish a visible mechanism from its measured cost. |
+| Reliability | Error paths, timeouts, retries, idempotency, transactions, resource release, races, partial failures, and observability. |
+| Correctness | Contracts, business rules, validation, invariants, consistency, and transaction boundaries. |
+| Maintainability | Real impact of responsibilities, dependencies, coupling, testability, readability, or design decisions, evaluated with `programming-principles`. |
 
-Do not create a finding only because code differs from a preferred style. Consider its actual effect on security, behavior, operating cost, or future changes.
+For each category, use:
 
-## 3. Workflow
+```text
+screen category → relevant? → concrete hypothesis → minimum evidence → confirm / reject / mark uncertain
+```
 
-| Stage | Action |
-| --- | --- |
-| Scope and context | Establish what is audited, what data the code processes, who can call it, its dependencies, and the contract it should preserve. Record important assumptions. |
-| Analysis | Review all relevant categories. Trace the path from input to outcome and identify where the contract, security, or operating cost may be affected. |
-| Evidence | For each finding, identify a file, line, or symbol; describe the observed mechanism, scenario, and impact. If uncertain, state what is missing for confirmation. |
-| Findings | Sort findings from most to least important. Assign stable `T1`, `T2`, `T3`, and subsequent identifiers. Each finding should describe one coherent problem and one proposed change. |
-| User selection | Present the list, ask which identifiers to implement, and wait before the first change. A selection already given remains valid. |
-| Implementation | Apply selected changes in stages, starting with the highest priority and respecting dependencies. Address security and correctness risks before reliability and performance unless evidence supports another order. |
-| Verification | Choose checks appropriate to the finding: contract or security tests, static analysis, dependency audit, benchmark, profiler, or resilience test. Do not replace integration checks with mocks when the real dependency is available in an isolated environment. |
-| Summary | Report completed identifiers, changed files, verification results, and findings that could not be confirmed or implemented. |
+Do not turn maintainability into a refactor review. Recommend refactoring only when it addresses a real risk or cost.
 
-Add newly discovered problems with new identifiers and stop before implementing them if they are outside the user's selection.
+## One workflow
 
-## 4. Priorities
+1. **Scope.** Work only on the user's selected code and goal. If scope is already clear from the conversation, do not ask again. If it genuinely cannot be determined, ask for the goal. Record assumptions that affect confidence.
+2. **Retrieve minimum sufficient evidence.** Use `token-efficient-retrieval` and expand context only when a concrete uncertainty affects correctness or confidence. Do not automatically read the whole repository, all usages, full dependency trees, all tests, entire configurations, or large logs.
+3. **Screen relevant audit areas.** Quickly dismiss categories with no meaningful connection to the code; do not deep-dive every category, class, or file.
+4. **Investigate concrete risks.** For each hypothesis, retrieve only the evidence needed to confirm, reject, or leave it unconfirmed. Do not build a full system model when local evidence is sufficient.
+5. **Produce findings.** Report only coherent, actionable problems with stable IDs `T1`, `T2`, `T3`, …; sort by priority. An ID is an identity, not a severity, and its meaning must not change during the conversation. New findings receive subsequent IDs.
+6. **User selection.** By default, make no code changes. Present findings and wait for the user's selection. A previously explicit approval of particular IDs remains valid. If the user requests only a report, stop here.
+7. **Implement selected findings.** Apply only selected findings, necessary dependent changes, and necessary verification. Do not add unrelated refactors, renames, formatting, cleanup, abstractions, or test rewrites. If an extra change outside the approved scope is required, explain the dependency and request expanded approval.
+8. **Verify.** Start with the narrowest sufficient checks and expand only when risk or dependency scope requires it. Use real dependencies in an isolated environment when available; do not replace valuable integration checks with mocks.
+9. **Summarize.** Report completed IDs, changed files, verification results, unresolved uncertainty, and blockers.
 
-| Priority | Use when |
-| --- | --- |
-| Blocker | The problem prevents safe execution, a reliable audit, or further work without immediate risk. State what it blocks. |
-| Critical | There is confirmed or strongly supported risk of exploitation, data loss, business-rule violation, serious failure, or unacceptable operating cost. |
-| Major | The problem can significantly harm security, reliability, performance, or further development but does not block current operation. |
-| Minor | A local improvement with small impact, such as removing unnecessary work, simplifying error handling, or resolving a minor ambiguity. |
+Stop analysis when relevant categories have been screened, concrete risks have sufficient evidence or are explicitly marked uncertain, and further retrieval is unlikely to change the findings. Stop implementation when all selected findings are complete or explicitly blocked and required verification is complete.
 
-Justify priority by impact and likelihood, not by category alone. If evidence is insufficient, state the uncertainty.
+## Findings and priorities
 
-## 5. Finding format
+Each finding must include at least: stable ID, category, priority, concrete evidence, mechanism or scenario, impact, recommended action, and confidence. Use the smallest clear representation; for several findings a table may use:
 
-| ID | Category | Priority | Location and evidence | Risk or impact | Recommended change | Confidence and dependencies | Verification |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+```text
+ID | Category | Priority | Location / evidence | Risk / impact | Recommended change | Confidence / dependencies | Verification
+```
 
-Explain why each finding matters. Do not describe only what the code does. Refer to dependencies by the identifiers of other findings.
+Priorities remain `Blocker`, `Critical`, `Major`, and `Minor`, based primarily on impact × likelihood as a heuristic, not a formula. Do not raise priority merely because the category is security.
 
-## 6. Security testing boundaries
+- `Blocker`: prevents safe execution, reliable auditing, verification, or further work; state what it blocks.
+- `Critical`: confirmed or strongly supported exploitation, data loss, serious business-rule violation, severe reliability failure, or unacceptable operating cost.
+- `Major`: significant harm to security, correctness, reliability, performance, operations, or future changes without blocking current work.
+- `Minor`: limited but actionable impact.
 
-Perform static analysis of code and configuration within the specified repository. Perform dynamic tests, exploit attempts, and service scans only in environments to which the user has indicated authorized access. Do not test production or disclose discovered secrets.
+## Performance, maintainability, and verification
+
+Do not claim measurable performance impact without measurement when measurement is feasible. Without measurement, describe the mechanism and expected scaling behavior, avoid unsupported numbers, and mark the concern uncertain or measurement-dependent. A statically visible mechanism such as N+1 may itself justify a finding, but its actual cost must remain distinct from the mechanism.
+
+Use `programming-principles` for maintainability and design judgments; do not duplicate its detailed guidance on naming, composition, extraction, domain modeling, testing, mocks, abstractions, or responsibilities.
+
+Match verification to the finding:
+
+```text
+correctness → contract / behavior tests
+security → focused tests, static analysis, or dependency checks
+performance → benchmark, profiler, query count, or measurement
+reliability → failure-path, resilience, timeout, or retry checks
+maintainability → relevant behavior tests plus structural verification
+```
+
+## Scope, new findings, and security boundaries
+
+If implementation reveals a new problem, assign the next stable ID but do not implement it automatically when it is outside the approved scope. Continue approved work unless the problem blocks safe completion; then report it as a blocker. Do not restart the entire audit after every new finding.
+
+Static analysis of code and configuration is allowed within the selected scope. Dynamic tests, exploit attempts, service scans, and other active tests require user-indicated authorization for the environment. Never test production without explicit authorization, and never disclose discovered secrets in the report.
