@@ -1,89 +1,56 @@
 ---
 name: git-commit
-description: Split uncommitted repository changes into logical commits and create them using Conventional Commits.
+description: >
+  Use whenever the user asks to commit, split, organize, or prepare
+  uncommitted Git changes. Group related changes, protect unrelated work,
+  create Conventional Commits, and verify the result. Do not publish changes.
 ---
 
 # Git commits
 
-Create safe, logical, reviewable commits from the changes in scope. Protect all existing user work and follow repository-specific rules.
-
-## Priorities
-
-Apply these priorities in order:
-
-1. Protect existing user work and history.
-2. Understand the changes and their dependencies.
-3. Create atomic commits that can be reviewed, tested, and reverted independently.
-4. Follow repository conventions.
-5. Run verification proportionate to risk.
-6. Minimize context and tool calls without reducing confidence.
-
-Stop gathering context when there is sufficient evidence to make a safe and confident decision. If confidence is insufficient, expand context rather than guessing.
-
-After the user authorizes a specific group, execute the agreed workflow with minimal procedural narration. Communicate decisions, risks, failures, plan changes, and the final result—not routine steps already defined here.
-
-## 1. Purpose and standard
-
-Use **Conventional Commits 1.0.0**. The basic message format is:
-
-```text
-<type>(<scope>): <description>
-```
-
-`scope` is optional. Keep the description short and unambiguous, and write it in the imperative mood. Use English commit types so tools and contributors can recognize them.
-
-| Type | Use when |
-| --- | --- |
-| `feat` | Adding a feature or capability. |
-| `fix` | Correcting a bug in existing behavior. |
-| `refactor` | Changing structure without changing behavior. |
-| `perf` | Improving performance without changing the contract. |
-| `test` | Changing tests without changing production code. |
-| `docs` | Changing documentation. |
-| `build` | Changing dependencies or the build process. |
-| `ci` | Changing CI or automation configuration. |
-| `chore` | Performing other technical maintenance. |
-| `revert` | Reverting an earlier commit. |
-
-Mark a breaking change with `!`, for example `feat(api)!: change response shape`, and describe it in a `BREAKING CHANGE:` footer. Do not use `feat` or `fix` as generic labels for every change.
-
-## Splitting changes
-
-- One commit should contain one logical change that can be read, tested, and reverted separately.
-- Do not combine unrelated features, refactoring, formatting, and documentation updates.
-- Changes required together for the project to run should remain together or have a clear order.
-- Include tests for a change in that change's commit unless the repository follows another convention.
-- Preserve unrelated user changes. Do not remove, overwrite, or commit them without explicit scope.
-- Do not create empty commits.
+Create small, reviewable commits from the current changes. Use
+`token-efficient-retrieval` for repository and diff inspection.
 
 ## Workflow
 
-| Stage | Action |
-| --- | --- |
-| Reconnaissance | Follow [references/context-efficiency.md](references/context-efficiency.md). Start with cheap Git metadata and inspect content progressively. |
-| Classification | Assign each change to a logical group and Conventional Commit type. Split mixed responsibilities. |
-| Plan | Present the commit order, file or hunk scope, proposed message, and dependencies for each commit. |
-| Selection | Before the first commit, present `A` for all changes or `B` for a filled-in selected scope. If the user chooses `B` without a scope, ask them to fill in files, hunks, or group IDs. Wait for the user's selection using identifiers such as `T1`, `T2`, and `T3`. |
-| Preparation | Follow [references/selective-staging.md](references/selective-staging.md). Stage only elements belonging to the selected group. |
-| Verification | Follow [references/verification.md](references/verification.md). Check the staged diff, whitespace errors, secrets, unrelated changes, and proportionate tests or lint. |
-| Commit | Create the agreed commit. After each commit, inspect its contents and repository status before continuing. |
-| Summary | Report commit IDs, messages, scope, verification results, and remaining uncommitted changes. |
+1. Inspect status, branch, staged and unstaged diff statistics, and changed paths.
+2. Read only the context needed to understand intent, dependencies, and repository rules.
+3. Group changes by responsibility and dependency. Keep required files together.
+4. Include every change clearly related to the request. If a change is unrelated or
+   ambiguous, stop and ask one concise question listing the affected paths.
+5. Stage only the selected files or hunks. Preserve existing staged work unless the
+   user explicitly includes it.
+6. Before each commit, inspect the staged diff, run `git diff --cached --check`,
+   check for secrets and temporary files, and run the narrowest relevant test or lint.
+7. Create one Conventional Commit per logical group, using an imperative English
+   message such as `fix(parser): reject malformed input`.
+8. After each commit, inspect the commit and `git status --short`.
 
-If a Git write fails because of the execution environment, preserve the authorized scope and follow [references/execution-environment.md](references/execution-environment.md). A retry or permission escalation is a continuation of the authorized operation, not a new commit decision. Reinspect staged content before committing.
+Do not ask the user to choose `A` or `B`, fill in group IDs, or approve a routine
+plan. Ask only when the intended scope cannot be determined safely. If there are no
+changes, report that and stop.
 
-Do not use `git reset --hard`, `git clean`, `commit --amend`, rebase, or force push unless explicitly requested. Creating commits does not authorize publishing them to a remote repository.
+Use `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, or
+`revert` as appropriate. Add `!` and a `BREAKING CHANGE:` footer only for a real
+breaking change.
 
-## Plan format
+If a Git write fails, distinguish a repository error, active lock, and permission
+or sandbox restriction. For a permission-only failure, use the available
+escalation mechanism and retry the same operation without changing scope. Do not
+narrate routine retries or permission details. Report them only if the retry fails
+or user action is required. Read [references/execution-environment.md](references/execution-environment.md)
+when this path is needed.
 
-| ID | Order | Type and scope | Change scope | Commit message | Dependencies | Verification |
-| --- | --- | --- | --- | --- | --- | --- |
+Do not use `git reset --hard`, `git clean`, `git commit --amend`, rebase, or force
+push unless the user explicitly requests it. Creating commits does not authorize
+publishing them.
 
-Examples: `feat(auth): add refresh token rotation`, `fix(parser): reject malformed headers`, `docs: describe local development setup`.
+Read these references only when needed:
 
-## Scope and history protection
+- [references/context-efficiency.md](references/context-efficiency.md) for detailed Git retrieval scope.
+- [references/selective-staging.md](references/selective-staging.md) for mixed files or hunk staging.
+- [references/verification.md](references/verification.md) for verification and test escalation.
+- [references/execution-environment.md](references/execution-environment.md) for blocked Git writes.
 
-Before staging, check the selected content for secrets, keys, tokens, passwords, temporary files, and other data that should not be committed. If you find any, stop and report the issue.
-
-Do not remove, overwrite, or silently include unrelated user changes. Do not change the history of published commits without an explicit request. Do not use `git reset --hard`, `git clean`, `git commit --amend`, rebase, or force push unless explicitly requested. Creating commits does not authorize publishing them to a remote repository.
-
-If the message or split needs correction, fix the staged changes and plan instead of creating temporary commits. Do not create empty commits.
+Report commit IDs, messages, verification results, and remaining changes. Keep the
+report short.
