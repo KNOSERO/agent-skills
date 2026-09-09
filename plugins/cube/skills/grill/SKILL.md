@@ -1,113 +1,46 @@
 ---
 name: grill
-description: Grill the user through dependency-aware rounds of questions until facts, assumptions, decisions, and intended direction are jointly understood before a domain task proceeds.
+description: Discover and resolve unresolved product, project, design, and architectural decisions through collaborative, dependency-aware interview rounds; do not use it for discoverable facts or immaterial execution details.
 ---
 
 # Grill
 
-## Responsibility
+## Responsibility and invariant
 
-Own the clarification interview, not the consuming domain task. Turn uncertain, incomplete, contradictory, or assumption-based input into shared understanding before the consuming skill recommends, plans, or acts.
+Own collaborative decision discovery, not the consuming domain task. Turn the caller's context into a compact, shared decision state: discover facts that can be established independently, expose unresolved choices, resolve them with the user, and return the state to the caller.
 
-Grill whenever the agent is about to choose, infer, retain, reject, rename, organize, or interpret something—even when the choice is small, conventional, reversible, or technical. A fact can be discovered by the agent; the meaning, acceptance, direction, and use of that fact belong to the user.
+Use `grill` when an unresolved choice can affect requirements, meaning, scope, behavior, compatibility, public interfaces, naming, structure, maintenance, distribution, rollout, retention, source of truth, or future options. This includes choices that are small, conventional, reversible, or technical. Do not reduce the skill to asking only when work is blocked.
 
-Do not start the consuming task as part of this skill. Return confirmed decisions, accepted assumptions, deferred items, and relevant constraints to the caller.
+Do not perform the consuming analysis, plan, recommendation, or implementation. Do not silently turn an agent recommendation or inference into a user decision.
 
-## Fact and decision boundary
+## Classify before asking
 
-Classify each uncertainty as an established fact, discoverable fact, user decision, ambiguity, contradiction, assumption, or missing information.
+Classify every uncertainty as one of the following:
 
-- Discover facts independently using the minimum relevant repository, documentation, configuration, test, environment, or reliable external evidence.
-- If the fact is established but its acceptance, interpretation, permanence, or effect on the direction is uncertain, ask the user.
-- Never ask the user to retrieve a fact the agent can establish.
-- Never convert an agent inference into a confirmed requirement or decision.
-- Material assumptions must become evidence, an explicit decision, or an explicitly accepted unresolved constraint.
+- **DISCOVERABLE FACT** — retrieve it from the repository, documentation, configuration, tests, logs, APIs, history, or available tools before asking.
+- **DESIGN / PRODUCT / PROJECT DECISION** — interview the user when the answer selects direction, meaning, contract, boundary, preference, or a future-affecting choice.
+- **PURE EXECUTION DETAIL** — decide locally when the choice has no material effect on requirements, architecture, behavior, compatibility, maintainability, naming, project structure, or future decisions.
 
-## Decision tree and frontier rounds
+Before asking, use `token-efficient-retrieval` as a REQUIRED dependency for the retrieval operation and determine what evidence narrows the remaining decision. Do not ask for a fact the agent can establish. Ask only when the answer changes the solution, the next decision, or the acceptance boundary.
 
-Model the work as a dependency-aware decision tree:
+## Dependency-aware interview
 
-```text
-decision
-├── dependent decision
-├── dependent decision
-└── contradiction / assumption
-```
+Maintain the dependency graph of unresolved decisions and recompute the **decision frontier** after every user response. The frontier contains the currently answerable unresolved decisions whose prerequisites are settled. Ask independent frontier questions together; defer dependent questions until their prerequisites are resolved. Let answers resolve, invalidate, create, or contradict decisions rather than following a fixed questionnaire.
 
-The frontier is every decision whose prerequisites are settled and that can be asked without guessing an answer to an earlier unresolved question. At each round:
+For the detailed multi-round procedure, load [references/interview-algorithm.md](references/interview-algorithm.md) when there are multiple dependent decisions or the interview spans rounds.
 
-1. Recompute the decision tree and frontier.
-2. Ask all readable, independent frontier questions in one message.
-3. Include a recommendation and rationale for every question.
-4. Wait for the user's answers before asking dependent questions.
-5. Classify each answer, update the tree, expose newly created ambiguity, and continue with the next frontier.
+## Interview contract
 
-Do not ask a full speculative questionnaire up front. Questions whose prerequisites are unresolved belong to a later round.
+For each material decision, make the consequence of the answer explicit and present meaningful options with trade-offs and a recommendation when evidence supports one. Allow the user to choose, propose an alternative, delegate the decision, or defer it. A recommendation is not a decision; delegated authority applies only to the stated scope.
 
-## Question contract
+Load [references/question-format.md](references/question-format.md) when presenting options, recommendations, or a free-form decision. Load [references/decision-state.md](references/decision-state.md) when the caller supplies prior context, the interview spans rounds, or decisions may be delegated or deferred.
 
-Every question must be a readable Markdown block. Write the question and its context as normal text, then show the choices in a compact two-column table. Put the option label in the first column and only the option text in the second column. Keep the recommendation and why it matters outside the options table.
+If a new answer materially conflicts with an established fact or decision, do not reconcile it silently. Load [references/contradictions.md](references/contradictions.md), expose the incompatible interpretations, and ask only for the resolution that changes the work.
 
-```markdown
-❓ **Q<ID> — <short title>**
+Use [references/examples.md](references/examples.md) only when an ambiguous case needs an example to distinguish fact discovery, a material decision, and execution detail.
 
-<question body>
+## Completion and handoff
 
-| Option | Choice |
-|---|---|
-| A | <option> |
-| B | <option> |
-| C | <option> |
-| D | Other: <when useful> |
+Finish when every material decision in scope is resolved, explicitly accepted, or intentionally deferred, and no hidden assumption or contradiction could change the current solution. Perform a concise completeness check when the interview has multiple rounds; it is a check, not a ceremonial extra question.
 
-➡️ **Recommended:** <one recommendation and its rationale>
-
-⚠️ **Why it matters:** <concrete consequence of the decision>
-```
-
-Use stable question IDs for the entire interview. Start at Q1, never renumber, and retain an existing ID when revisiting a partially unresolved question. Ask for a concrete choice, rule, trigger, owner, or boundary when a response is vague or conditional.
-
-Recommendations are expected, but must be supported by the available evidence. If no option is justified, say so explicitly and identify the missing fact or decision.
-
-Use one options table per question. When a round contains several questions, keep each question in its own block and table. Do not put long question text, recommendations, or consequences into table columns. Do not use a table merely for a single fact or for free-form explanations.
-
-## Answer validation
-
-Classify each response as resolved, partially resolved, contradictory, deferred, or a new ambiguity. Do not treat a recommendation as permission to apply the choice.
-
-- For a partial or conditional answer, identify the condition selecting each outcome and ask the remaining decision.
-- For a contradiction, present the incompatible interpretations as a new question; never reconcile them silently.
-- For an explicit deferral, record what is deferred, what depends on it, and when it must be resolved.
-- If the user rejects the final understanding, ask for a free-form explanation and use it to locate the disagreement in the tree.
-
-## Completion
-
-The interview is ready to finish only when the agent has enough verified information and every decision in scope is resolved, explicitly accepted, or intentionally deferred. Then always perform a final confirmation round:
-
-```markdown
-❓ **Q<ID> — Final confirmation**
-
-<concise statement of the complete shared understanding>
-
-| Option | Choice |
-|---|---|
-| A | Confirmed; continue to the consuming skill |
-| B | Not confirmed; I will explain the disagreement |
-
-➡️ **Recommended:** **A.** if the summary accurately reflects the user's decisions.
-
-⚠️ **Why it matters:** The consuming skill must act on shared understanding, not only on the agent's internal interpretation.
-```
-
-If the user chooses B, ask for a free-form explanation, update the decision tree, and continue grilling. Do not hand off an unconfirmed understanding.
-
-## Boundaries
-
-```text
-grill                     → resolves facts-versus-decisions, assumptions, contradictions, and user choices
-token-efficient-retrieval → retrieves minimum evidence for discoverable facts
-domain skill              → owns analysis, planning, recommendation, or implementation
-documentation-guidelines  → owns presentation outside this question contract
-```
-
-Consuming skills must invoke `grill` before proceeding whenever any unresolved choice, inference, assumption, contradiction, or direction-setting interpretation remains—even if it is not material by the consuming skill's former criteria.
+Return confirmed facts, confirmed decisions, delegated decisions, deferred decisions with dependencies, unresolved decisions, contradictions, and relevant constraints. The consuming skill owns what happens next.
