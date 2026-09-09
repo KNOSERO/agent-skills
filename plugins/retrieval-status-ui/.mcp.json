@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "retrieval-status": {
+      "command": "node",
+      "args": [
+        "${PLUGIN_ROOT}/server.js"
+      ]
+    }
+  }
+}
