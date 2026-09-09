@@ -21,9 +21,9 @@ understand problem → maintain minimum problem state → identify material unce
 
 Maintain only the material problem state needed for reasoning. Load [problem-model.md](references/problem-model.md) for multiple interacting constraints, decisions, dependencies, or unresolved states.
 
-Before additional evidence retrieval, load and follow `token-efficient-retrieval`. Retrieve only evidence needed for the current uncertainty; do not retrieve again when caller context is sufficient. Load [evidence-and-documentation.md](references/evidence-and-documentation.md) when documentation affects requirements, contracts, expected behavior, source-of-truth interpretation, or conflicts with implementation/runtime evidence.
+Retrieve only evidence needed for the current uncertainty; do not retrieve again when caller context is sufficient. Load [evidence-and-documentation.md](references/evidence-and-documentation.md) when documentation affects requirements, contracts, expected behavior, source-of-truth interpretation, or conflicts with implementation/runtime evidence.
 
-For unresolved material decisions, ambiguities, contradictions, or unsupported assumptions, load and follow `grill`. Let it classify facts, material decisions, and execution details. Do not choose a material user decision without `grill`; continue independent reasoning where safe while dependent work remains conditional. Recommendations are not decisions; delegation applies only to its stated scope.
+Let `grill` classify facts, material decisions, and execution details. Do not choose a material user decision without it; continue independent reasoning where safe while dependent work remains conditional. Recommendations are not decisions; delegation applies only to its stated scope.
 
 ## Capability routing
 
@@ -35,7 +35,7 @@ For unresolved material decisions, ambiguities, contradictions, or unsupported a
 | `task-decomposition` | reasoning has meaningful stages, dependencies, responsibilities, decisions, risks, or verification boundaries |
 | `documentation-guidelines` | preparing the user-facing result |
 
-When business process matters, load `business-process-analysis` and use its result as context. Use `task-decomposition` only for non-trivial reasoning and `documentation-guidelines` for presentation. Load [solution-development.md](references/solution-development.md) for multiple materially plausible approaches or meaningful trade-offs. Load [solution-challenge.md](references/solution-challenge.md) when material risks or assumptions could make the preferred solution fail.
+Use the business-process analysis result as context. Load [solution-development.md](references/solution-development.md) for multiple materially plausible approaches or meaningful trade-offs. Load [solution-challenge.md](references/solution-challenge.md) when material risks or assumptions could make the preferred solution fail.
 
 ## Completion
 
