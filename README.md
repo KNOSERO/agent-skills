@@ -56,8 +56,6 @@ Claude Code exposes plugin skills under the `cube` namespace:
 ```text
 plugins/cube/
 ├── .codex-plugin/plugin.json
-├── .mcp.json
-├── git-commit-choice-server.js
 ├── .claude-plugin/plugin.json
 └── skills/
     └── <skill-name>/SKILL.md
