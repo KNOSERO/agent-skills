@@ -8,6 +8,57 @@ let status = {
 };
 
 const outputTemplate = 'ui://retrieval-status/status.html';
+const outputHtml = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        margin: 0;
+        padding: 4px 0;
+        font: 13px/1.35 system-ui, -apple-system, sans-serif;
+      }
+      .bubble {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        max-width: 100%;
+        padding: 7px 11px;
+        border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+        border-radius: 999px;
+        background: color-mix(in srgb, currentColor 7%, transparent);
+        color: color-mix(in srgb, currentColor 78%, transparent);
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        flex: 0 0 8px;
+        border-radius: 50%;
+        background: #8b949e;
+      }
+      .bubble.active { color: #16803c; background: #eaf8ef; border-color: #b7e3c3; }
+      .bubble.active .dot { background: #20a34a; }
+      @media (prefers-color-scheme: dark) {
+        .bubble.active { color: #7ee2a0; background: #12321d; border-color: #285d39; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bubble" id="bubble" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="status">Minimal-context retrieval inactive</span>
+    </div>
+    <script>
+      const output = window.openai?.toolOutput || {};
+      const active = output.active === true;
+      document.getElementById('bubble').classList.toggle('active', active);
+      document.getElementById('status').textContent = active
+        ? 'token-efficient-retrieval active'
+        : 'token-efficient-retrieval inactive';
+    </script>
+  </body>
+</html>`;
 
 function send(message) {
   process.stdout.write(`${JSON.stringify(message)}\n`);
@@ -81,7 +132,7 @@ function handle(message) {
         contents: [{
           uri: outputTemplate,
           mimeType: 'text/html',
-          text: '<!doctype html><html><body><strong id="status">Minimal-context retrieval</strong><script>const output = window.openai?.toolOutput || {}; const active = output.active === true; document.getElementById("status").textContent = active ? "🟢 Minimal-context retrieval active" : "⚪ Minimal-context retrieval inactive";</script></body></html>'
+          text: outputHtml
         }]
       }
     };
