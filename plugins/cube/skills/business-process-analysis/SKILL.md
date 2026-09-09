@@ -1,6 +1,13 @@
 ---
 name: business-process-analysis
-description: Reconstruct and explain the business process implemented or affected by a feature, use case, module, endpoint, event, command, behavior, or problem, using system artifacts as evidence rather than analyzing code in isolation.
+description: >
+  Reconstruct and explain the business process implemented or affected by a
+  feature, use case, module, endpoint, event, command, behavior, or problem,
+  using system artifacts as evidence rather than analyzing code in isolation.
+  Use this skill as a process-understanding stage when problem-solving finds
+  that an existing business or system process may matter. A plausible process
+  connection is enough to activate it. Skip it only for a purely conceptual
+  problem with no existing process to reconstruct.
 ---
 
 # Business process analysis

@@ -6,7 +6,10 @@ description: >
   First think through and present the problem; do not present a solution in
   the framing turn. Use grill to question the user when the problem, intent,
   priorities, scope, behavior, or acceptance boundary is unresolved. Do not
-  use it for tasks whose requirements and decisions are already explicit. Use
+  use it for tasks whose requirements and decisions are already explicit. When
+  solving a problem about existing business or system behavior, always run
+  business-process-analysis after the problem model is confirmed when the
+  affected process may matter. Use
   referenced capabilities in dependent stages and re-evaluate the problem
   after each returned result.
 ---
@@ -24,7 +27,9 @@ Read-only: do not edit code or documentation, create commits, refactor, or imple
 ```text
 understand problem → build problem model → present and confirm it
 → identify the next missing input → grill only for that input
-→ run one required capability → merge its result into the problem model
+→ assess whether a business process may matter
+→ analyze that process when the answer is yes
+→ run the next required capability → merge its result into the problem model
 → grill again for decisions exposed by that result
 → run the next required capability → develop and challenge solutions
 → complete or return a conditional result
@@ -65,7 +70,13 @@ solution before this gate:
 Treat every routed skill as a stage, not as a one-time handoff. Before each
 stage, state the current question that the stage must answer and pass only the
 relevant confirmed facts, decisions, constraints, and unknowns. Do not invoke
-all capabilities at the start.
+all capabilities at the start. After the problem model is confirmed, assess
+whether an existing business process may affect the problem. Treat a plausible
+process connection as sufficient to run `business-process-analysis` before
+solution development. If it is materially unclear whether a process may
+matter, route that decision to `grill` before choosing a path. Skip process
+analysis only when the problem is purely conceptual and no existing business
+process or system behavior must be understood.
 
 After a stage returns:
 
@@ -134,7 +145,7 @@ scope.
 | --- | --- |
 | `token-efficient-retrieval` | additional evidence retrieval is needed |
 | `grill` | the current stage exposes a material decision, ambiguity, contradiction, unsupported assumption, or unclear acceptance boundary |
-| `business-process-analysis` | business process materially affects scope, behavior, state, contracts, dependencies, failure paths, or solution choice |
+| `business-process-analysis` | after problem confirmation, an existing business or system process may affect the problem; a plausible connection is enough to run it before solution development. Skip only for a purely conceptual problem with no process to reconstruct |
 | `task-decomposition` | reasoning has meaningful stages, dependencies, responsibilities, decisions, risks, or verification boundaries |
 | `documentation-guidelines` | preparing the user-facing result |
 
