@@ -1,42 +1,18 @@
 # Finding evaluation
 
-**Trigger:** Load when deciding whether an observation is a finding, whether evidence is sufficient, whether a concern remains a hypothesis, or whether symptoms should be combined.
+**Trigger:** Load only when evidence sufficiency, finding boundary, confidence classification, merging/splitting findings, or hypothesis-vs-finding status is ambiguous.
 
-A finding must contain:
+Evaluate the candidate in this order:
 
-```text
-evidence + mechanism + plausible scenario + impact + confidence
-```
+1. meaningful risk or cost;
+2. concrete mechanism;
+3. plausible reachable scenario;
+4. material impact;
+5. sufficient evidence;
+6. accurate confidence;
+7. proportionate remediation;
+8. specific, feasible verification.
 
-Evaluate candidates in this order:
+Use `Confirmed` when behavior or mechanism is directly established, `Strongly supported` when one material condition remains indirect, and `Hypothesis` when evidence is insufficient. Keep hypotheses separate from confirmed findings.
 
-1. Is the observation connected to a meaningful risk or cost?
-2. Is there a concrete mechanism?
-3. Is there a plausible reachable scenario?
-4. Is the impact material?
-5. Is the evidence sufficient?
-6. Is confidence stated accurately?
-7. Is the recommended action proportionate?
-8. Is verification specific and feasible?
-
-Use:
-
-- `Confirmed` when the behavior or mechanism is directly established;
-- `Strongly supported` when evidence is compelling but one material condition remains indirect;
-- `Hypothesis` when the concern is plausible but evidence is insufficient.
-
-Keep `Hypothesis` separate from a confirmed finding. Do not inflate uncertainty to create a finding.
-
-Combine observations into one finding when they share the same mechanism, scenario, impact, and remediation. Split them when remediation, verification, priority, or affected contract differs.
-
-A finding should contain:
-
-- ID;
-- category;
-- priority;
-- location/evidence;
-- mechanism/scenario;
-- impact;
-- recommended action;
-- confidence;
-- verification.
+Combine observations when mechanism, scenario, impact, and remediation are shared. Split them when remediation, verification, priority, or affected contract differs.

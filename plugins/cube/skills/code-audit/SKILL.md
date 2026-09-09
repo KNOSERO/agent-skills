@@ -5,46 +5,37 @@ description: Audit selected code for material security, correctness, reliability
 
 # Code audit
 
-Detect, assess, and report material risks in selected code. Implement only findings explicitly approved by the user and verify the approved changes.
+Audit selected code for material risks and evidence-based findings. It is not style review, refactor review, or automatic bug fixing.
 
-This skill is not general code review, style review, refactor review, an automatic bug fixer, or a security scanner without evidence.
+## Dependencies
 
-## Dependencies and boundaries
+Load dependencies conditionally:
 
-Before additional evidence retrieval, load and follow `token-efficient-retrieval`.
+- before additional evidence retrieval, load and follow `token-efficient-retrieval`;
+- for maintainability or design evaluation, load and follow `programming-principles`;
+- before preparing user-facing findings or results, load and follow `documentation-guidelines`.
 
-Load and follow `programming-principles` when evaluating maintainability or design.
+Do not retrieve evidence already sufficient in caller context. Retrieve only to resolve a concrete hypothesis.
 
-Load and follow `documentation-guidelines` when presenting findings, decisions, verification, and results.
-
-Do not copy the rules of these dependencies. Do not assume their filesystem paths. Do not load their conditional references eagerly.
-
-If sufficient evidence already exists in caller context, do not perform additional retrieval.
-
-## Scope and workflow
-
-Work only within the user's selected code and stated audit goal.
+## Workflow
 
 ```text
 scope
-→ load required dependencies
-→ retrieve minimum evidence
-→ screen audit areas
+→ screen relevant categories
 → form concrete hypotheses
-→ investigate relevant hypotheses
-→ apply finding threshold
+→ retrieve minimum sufficient evidence
+→ confirm / reject / mark uncertain
 → report findings
 → user selects IDs
-→ implement selected scope
+→ implement approved scope
 → verify
-→ summarize
 ```
 
-Record assumptions that affect confidence. Do not expand scope silently.
+Work only within the selected scope and stated audit goal. Do not expand scope silently.
 
 ## Audit areas
 
-Screen all relevant categories, but investigate deeply only categories supported by scope, evidence, or a concrete hypothesis.
+Screen relevant categories:
 
 - Security
 - Correctness
@@ -52,34 +43,13 @@ Screen all relevant categories, but investigate deeply only categories supported
 - Performance
 - Maintainability
 
-Use this decision pattern:
+Investigate deeply only categories supported by scope, evidence, or a concrete hypothesis. Preserve the model:
 
 ```text
-category
-→ materially relevant?
-   no → dismiss
-   yes → concrete hypothesis
-            ↓
-      minimum evidence
-            ↓
-   confirm / reject / uncertain
+category → concrete hypothesis → minimum evidence → finding threshold
 ```
 
-Do not complete checklists for their own sake.
-
-Route detailed investigation only when needed:
-
-- load `references/security.md` for a security-relevant scope or security hypothesis;
-- load `references/correctness.md` for contracts, business rules, validation, invariants, consistency, state, transactions, or edge conditions;
-- load `references/reliability.md` for failures, retries, timeouts, idempotency, partial failure, cleanup, races, concurrency, transactions, or observability;
-- load `references/performance.md` only for a concrete performance mechanism or hypothesis;
-- load `references/maintainability.md` only for a material maintainability hypothesis;
-- load `references/finding-evaluation.md` when evaluating evidence, finding boundaries, or hypotheses;
-- load `references/priorities.md` when assigning or resolving priority;
-- load `references/verification.md` when defining or executing verification;
-- load `references/active-testing.md` only when active testing is explicitly being considered.
-
-## Evidence threshold
+## Finding invariant
 
 Every finding requires:
 
@@ -87,134 +57,46 @@ Every finding requires:
 evidence + mechanism + plausible scenario + impact + confidence
 ```
 
-Apply this threshold:
-
 ```text
 observation
 → meaningful risk or cost?
    no → omit
    yes → sufficient evidence?
-            no → hypothesis / unconfirmed concern
-            yes → finding
+      no → hypothesis / unconfirmed concern
+      yes → finding
 ```
 
-Do not report stylistic preferences, unusual code, pattern differences, or hypothetical refactor opportunities as findings without material risk or cost.
+Priority is `Blocker`, `Critical`, `Major`, or `Minor`; category alone does not determine it. Priority and confidence are independent.
 
-Use these confidence states:
+Use stable IDs `T1`, `T2`, `T3`, …; never change the meaning of an existing ID. A newly discovered problem receives a new ID.
 
-- `Confirmed`
-- `Strongly supported`
-- `Hypothesis`
+## Conditional references
 
-Priority and confidence are independent.
+| Reference | Trigger |
+|---|---|
+| `security.md` | material security hypothesis |
+| `correctness.md` | correctness or contract hypothesis |
+| `reliability.md` | failure, resilience, or concurrency hypothesis |
+| `performance.md` | performance hypothesis |
+| `maintainability.md` | material maintainability hypothesis |
+| `finding-evaluation.md` | ambiguous evidence, finding boundary, confidence, merging/splitting, or hypothesis-vs-finding status |
+| `finding-format.md` | an actual finding must be presented |
+| `priorities.md` | ambiguous severity, comparison, dispute, or materially consequential priority |
+| `verification.md` | verification is being planned or executed |
+| `active-testing.md` | active testing is being considered |
 
-For each retrieval:
+## Approval
 
-```text
-observation
-→ hypothesis
-→ evidence need
-→ load and follow token-efficient-retrieval
-→ update confidence
-→ stop or widen
-```
+Audit is read-only until the user explicitly selects findings. Implement only selected findings, dependent changes, and verification. Do not implement unrelated cleanup, formatting, refactors, architecture changes, or additional findings.
 
-Stop retrieval when further evidence is unlikely to change the finding, confidence, priority, or verification.
+## Safety
 
-## Finding lifecycle
+- Active testing requires appropriate authorization.
+- Never test production without explicit authorization.
+- Never expose discovered secrets; redact values and report only the minimum necessary location and impact.
 
-```text
-candidate
-→ investigated
-→ rejected
-   OR
-→ hypothesis
-   OR
-→ finding
-→ reported
-→ selected / not selected
-→ implemented / blocked
-→ verified
-```
+## Stop
 
-Use stable IDs `T1`, `T2`, `T3`, ….
+Stop analysis when relevant categories are screened and further evidence is unlikely to change findings or confidence materially.
 
-An ID is identity, not severity. Never change the meaning of an existing ID. A new problem receives the next available ID.
-
-Each finding must include:
-
-- ID;
-- category;
-- priority;
-- evidence/location;
-- mechanism/scenario;
-- impact;
-- recommended action;
-- confidence;
-- verification.
-
-Priority reflects material impact and likelihood; category alone does not determine severity.
-
-Load `references/finding-evaluation.md` and `references/priorities.md` when their decisions are needed.
-
-## User approval gate
-
-Audit is read-only until the user selects findings.
-
-Do not implement findings automatically. Previously explicit approval of particular IDs remains valid.
-
-Implement only:
-
-- selected findings;
-- necessary dependent changes;
-- necessary verification.
-
-Do not implement unrelated cleanup, renames, formatting, opportunistic refactors, architecture changes, or additional findings.
-
-If a newly discovered problem is outside the approved scope, assign the next ID and report it. If it blocks safe completion, report it as a blocker.
-
-## Verification
-
-Verification is finding-specific. Start with the narrowest sufficient check and expand only when risk or dependency scope requires it.
-
-Route verification through `references/verification.md`.
-
-The default routing is:
-
-```text
-correctness → behavior or contract checks
-security → focused security checks
-performance → measurement
-reliability → failure-path or resilience checks
-maintainability → behavior plus structural verification
-```
-
-## Active testing safety
-
-Static analysis within the selected scope is allowed.
-
-Exploit attempts, dynamic security testing, service scans, active probing, and tests affecting a running environment require appropriate authorization. Never test production without explicit authorization. Do not expose secrets found during the audit.
-
-Load `references/active-testing.md` only when active testing is under consideration.
-
-## Stop conditions
-
-Stop analysis when:
-
-```text
-relevant categories screened
-+
-material hypotheses resolved enough
-+
-further retrieval unlikely to change findings materially
-```
-
-Stop implementation when:
-
-```text
-all selected findings implemented or explicitly blocked
-+
-required verification complete
-```
-
-Summarize findings, selected IDs, changed scope, verification, unresolved uncertainty, and blockers.
+Stop implementation when approved findings are complete or blocked and required verification is complete.

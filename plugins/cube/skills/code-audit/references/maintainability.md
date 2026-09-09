@@ -2,18 +2,6 @@
 
 **Trigger:** Load only when a concrete maintainability hypothesis with material future cost or risk exists.
 
-Load and follow `programming-principles` for design evaluation. Do not duplicate its rules on naming, abstractions, responsibilities, composition, domain modeling, or testing.
+Load and follow `programming-principles` for design evaluation. Use this reference only to decide whether the observation crosses the audit threshold: material change, defect, coupling, verification, knowledge-divergence, boundary, cognitive, or operational risk/cost.
 
-Evaluate whether the observed structure creates material:
-
-- change risk;
-- defect risk;
-- coupling or dependency risk;
-- inability to verify behavior;
-- repeated knowledge that can diverge;
-- boundary confusion;
-- disproportionate cognitive or operational cost.
-
-Do not report style preferences, local taste, naming differences, or refactor opportunities without material impact.
-
-Recommend structural change only when it addresses the identified risk or cost.
+Do not report style preferences or refactor opportunities without material impact. Recommend structural change only when it addresses the identified risk or cost.

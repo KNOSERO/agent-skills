@@ -1,23 +1,15 @@
 # Finding-specific verification
 
-**Trigger:** Load when preparing verification for a finding or verifying implemented findings.
+**Trigger:** Load when planning or executing verification for an actual finding.
 
-Start with the narrowest sufficient verification. Expand only when risk, dependency scope, or failure behavior requires it.
+Map each finding to the narrowest sufficient evidence that verifies its mechanism and fix. Expand only when risk, dependency scope, or failure behavior requires it.
 
-Route by category:
+| Category | Verification evidence |
+|---|---|
+| correctness | behavior, contract, invariant, state, or edge-condition check |
+| security | focused security, authorization, input, static, or dependency check |
+| performance | benchmark, profiler, query count, load measurement, or equivalent |
+| reliability | failure-path, timeout, retry, cancellation, cleanup, concurrency, or resilience check |
+| maintainability | relevant behavior plus structural or dependency verification |
 
-- correctness — behavior, contract, invariant, state-transition, or edge-condition checks;
-- security — focused security tests, static analysis, dependency checks, or authorization/input checks;
-- performance — benchmark, profiler, query count, load measurement, or equivalent measurement;
-- reliability — failure-path, timeout, retry, cancellation, cleanup, concurrency, or resilience checks;
-- maintainability — relevant behavior checks plus structural or dependency verification.
-
-Verification must test the mechanism addressed by the finding. Do not claim verification from unrelated passing tests.
-
-For each selected finding state:
-
-- check performed;
-- scope;
-- result;
-- remaining uncertainty;
-- blocker, if verification could not be completed.
+Report the check, scope, result, remaining uncertainty, and any blocker. Passing unrelated tests is not verification.
