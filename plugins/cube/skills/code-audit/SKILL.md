@@ -43,11 +43,7 @@ Screen relevant categories:
 - Performance
 - Maintainability
 
-Investigate deeply only categories supported by scope, evidence, or a concrete hypothesis. Preserve the model:
-
-```text
-category → concrete hypothesis → minimum evidence → finding threshold
-```
+Investigate deeply only categories supported by scope, evidence, or a concrete hypothesis.
 
 ## Finding invariant
 
