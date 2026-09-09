@@ -46,18 +46,19 @@ Do not ask a full speculative questionnaire up front. Questions whose prerequisi
 
 ## Question contract
 
-Every question must use this structure:
+Every question must be a readable Markdown block. Write the question and its context as normal text, then show the choices in a compact two-column table. Put the option label in the first column and only the option text in the second column. Keep the recommendation and why it matters outside the options table.
 
 ```markdown
 ❓ **Q<ID> — <short title>**
 
 <question body>
 
-**Options:**
-- **A.** <option>
-- **B.** <option>
-- **C.** <option>
-- **D. Other:** <when useful>
+| Option | Choice |
+|---|---|
+| A | <option> |
+| B | <option> |
+| C | <option> |
+| D | Other: <when useful> |
 
 ➡️ **Recommended:** <one recommendation and its rationale>
 
@@ -67,6 +68,8 @@ Every question must use this structure:
 Use stable question IDs for the entire interview. Start at Q1, never renumber, and retain an existing ID when revisiting a partially unresolved question. Ask for a concrete choice, rule, trigger, owner, or boundary when a response is vague or conditional.
 
 Recommendations are expected, but must be supported by the available evidence. If no option is justified, say so explicitly and identify the missing fact or decision.
+
+Use one options table per question. When a round contains several questions, keep each question in its own block and table. Do not put long question text, recommendations, or consequences into table columns. Do not use a table merely for a single fact or for free-form explanations.
 
 ## Answer validation
 
@@ -86,9 +89,10 @@ The interview is ready to finish only when the agent has enough verified informa
 
 <concise statement of the complete shared understanding>
 
-**Options:**
-- **A.** Confirmed; continue to the consuming skill
-- **B.** Not confirmed; I will explain the disagreement
+| Option | Choice |
+|---|---|
+| A | Confirmed; continue to the consuming skill |
+| B | Not confirmed; I will explain the disagreement |
 
 ➡️ **Recommended:** **A.** if the summary accurately reflects the user's decisions.
 
