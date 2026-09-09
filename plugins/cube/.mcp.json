@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "retrieval-status": {
+    "git-commit-choice": {
       "command": "node",
       "args": [
-        "${PLUGIN_ROOT}/retrieval-status-server.js"
+        "${PLUGIN_ROOT}/git-commit-choice-server.js"
       ]
     }
   }

@@ -63,7 +63,7 @@ Mark a breaking change with `!`, for example `feat(api)!: change response shape`
 | Reconnaissance | Follow [references/context-efficiency.md](references/context-efficiency.md). Start with cheap Git metadata and inspect content progressively. |
 | Classification | Assign each change to a logical group and Conventional Commit type. Split mixed responsibilities. |
 | Plan | Present the commit order, file or hunk scope, proposed message, and dependencies for each commit. |
-| Selection | Before the first commit, wait for the user's selection if they have not specified the scope and authorized creating commits. Use identifiers such as `T1`, `T2`, and `T3` for groups. |
+| Selection | Before the first commit, use the `git_commit_choice` MCP tool when it is available. Present `A` for all changes or `B` for a filled-in selected scope. If the user chooses `B` without a scope, ask them to fill in files, hunks, or group IDs. Without the tool, wait for the user's selection using identifiers such as `T1`, `T2`, and `T3`. |
 | Preparation | Follow [references/selective-staging.md](references/selective-staging.md). Stage only elements belonging to the selected group. |
 | Verification | Follow [references/verification.md](references/verification.md). Check the staged diff, whitespace errors, secrets, unrelated changes, and proportionate tests or lint. |
 | Commit | Create the agreed commit. After each commit, inspect its contents and repository status before continuing. |
