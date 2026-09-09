@@ -40,6 +40,7 @@ Claude Code exposes plugin skills under the `cube` namespace:
 | [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Audit code for meaningful risks. |
 | [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Set a consistent documentation standard. |
 | [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. |
+| [feedback-summary](plugins/cube/skills/feedback-summary/SKILL.md) | Summarize established progress, decisions, open points, and next steps without restarting analysis. |
 | [git-commit](plugins/cube/skills/git-commit/SKILL.md) | Create logical Conventional Commits. |
 | [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn established analysis into a concrete implementation plan. |
 | [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce complete, useful responses. |
