@@ -11,6 +11,15 @@
 | Sections | Remove sections that do not change understanding or action. |
 | Order | Put the information needed for the next action first. |
 
+## Wersjonowanie
+
+Stosuj format `MAJOR.MINOR.PATCH`.
+
+- Po każdej zwykłej zmianie zwiększ środkową liczbę (`MINOR`) o 1 i wyzeruj `PATCH`.
+- Po małym fixie zwiększ ostatnią liczbę (`PATCH`) o 1.
+- Jeśli użytkownik poprosi o zwiększenie pierwszej liczby (`MAJOR`), oznacza to, że poprzednia stabilna wersja została wydana i zaczyna się nowa iteracja rozwoju. Zwiększ `MAJOR` o 1 oraz wyzeruj `MINOR` i `PATCH`.
+- Przy każdej zmianie sprawdź aktualny licznik wersji i zaktualizuj go w odpowiednim pliku projektu.
+
 # Creating and Editing Skills
 
 These rules apply whenever you create, edit, review, or improve a `SKILL.md` file.
