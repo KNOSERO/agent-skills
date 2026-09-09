@@ -15,14 +15,9 @@ function send(message) {
 
 function result() {
   return {
-    content: [{
-      type: 'text',
-      text: status.message
-    }],
+    content: [{ type: 'text', text: status.message }],
     structuredContent: { ...status },
-    _meta: {
-      'openai/outputTemplate': outputTemplate
-    }
+    _meta: { 'openai/outputTemplate': outputTemplate }
   };
 }
 
@@ -45,43 +40,24 @@ function handle(message) {
       id: message.id,
       result: {
         protocolVersion: '2025-06-18',
-        capabilities: {
-          tools: {},
-          resources: {}
-        },
-        serverInfo: {
-          name: 'retrieval-status',
-          version: '0.1.0'
-        }
+        capabilities: { tools: {}, resources: {} },
+        serverInfo: { name: 'retrieval-status', version: '0.1.0' }
       }
     };
   }
 
-  if (message.method === 'notifications/initialized') {
-    return null;
-  }
+  if (message.method === 'notifications/initialized') return null;
 
   if (message.method === 'tools/list') {
+    const emptyInput = { type: 'object', properties: {}, additionalProperties: false };
     return {
       jsonrpc: '2.0',
       id: message.id,
       result: {
         tools: [
-          {
-            name: 'retrieval_started',
-            description: 'Mark minimal-context retrieval as active in the plugin UI.',
-            inputSchema: { type: 'object', properties: {}, additionalProperties: false }
-          },
-          {
-            name: 'retrieval_finished',
-            description: 'Mark minimal-context retrieval as inactive in the plugin UI.',
-            inputSchema: { type: 'object', properties: {}, additionalProperties: false }
-          },
-          {
-            name: 'retrieval_status',
-            description: 'Return the current minimal-context retrieval status.',
-            inputSchema: { type: 'object', properties: {}, additionalProperties: false }
-          }
+          { name: 'retrieval_started', description: 'Mark minimal-context retrieval as active in the plugin UI.', inputSchema: emptyInput },
+          { name: 'retrieval_finished', description: 'Mark minimal-context retrieval as inactive in the plugin UI.', inputSchema: emptyInput },
+          { name: 'retrieval_status', description: 'Return the current minimal-context retrieval status.', inputSchema: emptyInput }
         ]
       }
     };
@@ -92,12 +68,7 @@ function handle(message) {
       jsonrpc: '2.0',
       id: message.id,
       result: {
-        resources: [{
-          uri: outputTemplate,
-          name: 'Retrieval status widget',
-          mimeType: 'text/html',
-          description: 'Experimental status view for minimal-context retrieval.'
-        }]
+        resources: [{ uri: outputTemplate, name: 'Retrieval status widget', mimeType: 'text/html' }]
       }
     };
   }
@@ -125,12 +96,7 @@ function handle(message) {
         : name === 'retrieval_status'
           ? result()
           : { isError: true, content: [{ type: 'text', text: `Unknown tool: ${name}` }] };
-
-    return {
-      jsonrpc: '2.0',
-      id: message.id,
-      result: toolResult
-    };
+    return { jsonrpc: '2.0', id: message.id, result: toolResult };
   }
 
   return {

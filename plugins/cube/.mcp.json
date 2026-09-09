@@ -3,7 +3,7 @@
     "retrieval-status": {
       "command": "node",
       "args": [
-        "${PLUGIN_ROOT}/server.js"
+        "${PLUGIN_ROOT}/retrieval-status-server.js"
       ]
     }
   }

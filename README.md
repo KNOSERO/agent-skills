@@ -8,6 +8,8 @@ From the repository root, Codex can discover the repo marketplace at `.agents/pl
 
 After installation, all skills are available from the `cube` plugin.
 
+The plugin also includes an experimental retrieval status MCP server. When available, `token-efficient-retrieval` reports `retrieval_started` before the first repository or data-source read and `retrieval_finished` after the retrieval phase. The host may show this state as a UI component; otherwise it remains available as structured tool output.
+
 ## Install in Claude Code
 
 Add this repository as a marketplace:
@@ -56,6 +58,8 @@ Claude Code exposes plugin skills under the `cube` namespace:
 ```text
 plugins/cube/
 ├── .codex-plugin/plugin.json
+├── .mcp.json
+├── retrieval-status-server.js
 ├── .claude-plugin/plugin.json
 └── skills/
     └── <skill-name>/SKILL.md

@@ -28,6 +28,10 @@ Before the first retrieval:
 
 Do not open a whole repository, directory, dataset, dump, log, document set, or response before applying this gate. If another skill requests repository or data evidence, apply this gate before following that request. If the task crosses several data modes, keep one active evidence need at a time and route to the relevant reference.
 
+## Cube status UI integration
+
+When the `retrieval_started` tool is available from the Cube plugin, call it once before the first repository or data-source retrieval. Call `retrieval_finished` after the retrieval phase ends and no further repository or data-source reads are expected. These calls expose the active state to the plugin UI. If the tools are unavailable, continue the retrieval workflow without blocking the task.
+
 ## Core policy
 
 - Search before read. Pointers are an index, not context; obtain content only after locating likely files, symbols, records, or time windows.
