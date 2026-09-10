@@ -78,6 +78,7 @@ If an existing skill owns the needed responsibility, use it. Do not perform the 
 | Material user decision | `grilling` |
 | Business-process reasoning | `business-process-analysis` |
 | Exact implementation scope | `implementation-discovery` |
+| Iterative quality improvement of a non-trivial implementation | `implementation-refinement` through `fix-me` |
 | Explicit portable transfer to another chat or agent | `implementation-plan` — manual only |
 | Compact inter-stage state | `context-state` |
 
@@ -96,7 +97,7 @@ Agents must not:
 - edit a skill only to make the current task easier.
 
 `AGENTS.md` owns **when** the repository must route to a workflow or skill.
-Each `SKILL.md` owns **how** that workflow or capability works.
+Each `SKILL.md` owns **how** that workflow or capability works. A support capability returns its result to its caller; it does not become a parallel user workflow or take lifecycle ownership.
 
 Project documentation is evidence, not orchestration. Skills determine the evidence needed; architecture, business rules, API contracts, development rules, and tests provide the project-specific facts.
 
