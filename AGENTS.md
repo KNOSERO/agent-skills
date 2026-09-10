@@ -20,6 +20,19 @@ Stosuj format `MAJOR.MINOR.PATCH`.
 - Jeśli użytkownik poprosi o zwiększenie pierwszej liczby (`MAJOR`), oznacza to, że poprzednia stabilna wersja została wydana i zaczyna się nowa iteracja rozwoju. Zwiększ `MAJOR` o 1 oraz wyzeruj `MINOR` i `PATCH`.
 - Przy każdej zmianie sprawdź aktualny licznik wersji i zaktualizuj go w odpowiednim pliku projektu.
 
+# Repository workflows
+
+This repository supports multiple named workflows. Use the
+[workflow index](docs/flows/README.md) to select the smallest workflow whose
+trigger matches the task. Follow only the selected workflow's contract; do not
+apply another workflow's stages or implementation gates by default.
+
+The first registered workflow is
+[problem-solving](docs/flows/problem-solving.md). Use it for a complex problem,
+requirement, symptom, or change proposal that needs dependent analysis and
+decision stages. Do not use it when the task is simple and its solution, scope,
+and acceptance criteria are already explicit.
+
 # Creating and Editing Skills
 
 These rules apply whenever you create, edit, review, or improve a `SKILL.md` file.

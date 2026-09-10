@@ -23,6 +23,17 @@ The caller must state one scope: `problem`, `process`, `solution`, or
 next stage. Do not ask downstream technical questions before upstream behavior
 is confirmed.
 
+## Hard-gate mode
+
+When `problem-solving` invokes this skill at a `*_GRILL` state, this skill is
+mandatory. Build the decision frontier before deciding that no interview is
+needed. The default is to ask at least one focused question.
+
+Return `NO_OPEN_DECISIONS` only when the checked scope has no material choice.
+Do not use an obvious recommendation, a conventional default, or a short user
+request as a reason to skip the interview. Skip it only when the user explicitly
+asks not to be interviewed or explicitly delegates every decision in scope.
+
 ## Classify before asking
 
 - A **discoverable fact** comes from documentation, repository evidence,

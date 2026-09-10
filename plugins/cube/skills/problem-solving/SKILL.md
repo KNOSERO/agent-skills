@@ -43,6 +43,18 @@ Never keep rejected options, superseded assumptions, raw logs, or a full
 interview transcript in active context. Record a rejected material choice only
 as a short decision-ledger entry.
 
+## Mandatory grill gates
+
+Every `*_GRILL` state is a hard gate. Activate `grilling` through the available
+skill mechanism with the matching scope. Do not replace it with the
+orchestrator's own questions, a recommendation, or an assumed confirmation.
+
+`grilling` must inspect the current decision frontier and normally ask at least
+one focused question. It may return `NO_OPEN_DECISIONS` only after that check
+shows no material choice in scope. Skip the gate only when the user explicitly
+asks not to be interviewed or explicitly delegates every decision in that
+scope. An obvious recommendation is never a reason to skip the gate.
+
 ## Pipeline
 
 Run the following states in order. Re-enter only the nearest earlier state that
@@ -66,8 +78,7 @@ PROBLEM_FRAMING
 ### 1. Problem framing
 
 Establish the problem, desired outcome, impact, constraints, non-goals, known
-facts, and unknowns. Do not recommend a solution. If framing contains a
-material decision, use `grilling` in `problem` scope.
+facts, and unknowns. Do not recommend a solution.
 
 ### 2. Documentation analysis
 
@@ -76,31 +87,30 @@ It must use `token-efficient-retrieval` when it needs source evidence.
 
 ### 3. Problem grill
 
-Use `grilling` in `problem` scope for material choices that documentation and
-other available evidence cannot answer. If missing facts remain, return to
-documentation analysis. Continue only when the problem model is confirmed.
+Activate `grilling` in `problem` scope. If missing facts remain, return to
+documentation analysis. Continue only after `grilling` returns a decision
+update or `NO_OPEN_DECISIONS`, and the problem model is confirmed.
 
 ### 4. Process analysis and grill
 
 Use `business-process-analysis` when existing business or system behavior may
 matter. A plausible connection is enough. Skip it only for a purely conceptual
-task with no existing process. Then use `grilling` in `process` scope only for
-decisions exposed by the process result. Return to process analysis for missing
-facts or an incorrect boundary.
+task with no existing process. Then activate `grilling` in `process` scope.
+Return to process analysis for missing facts or an incorrect boundary.
 
 ### 5. Solution design and grill
 
 Use `solution-design` to define the required behavior and compare alternatives
-only when more than one material option remains. Then use `grilling` in
+only when more than one material option remains. Then activate `grilling` in
 `solution` scope. Do not start implementation discovery until the solution
 concept is confirmed.
 
 ### 6. Implementation discovery and grill
 
 Use `implementation-discovery` to locate exact affected areas and technical
-dependencies for the confirmed concept. Then use `grilling` in `implementation`
-scope for decisions that discovery exposed. Do not turn a recommendation into a
-decision without user authority.
+dependencies for the confirmed concept. Then activate `grilling` in
+`implementation` scope. Do not turn a recommendation into a decision without
+user authority.
 
 ### 7. Plan and final context
 
@@ -114,7 +124,7 @@ it has no remaining blockers.
 | Condition | Action |
 | --- | --- |
 | A stage needs repository, documentation, log, test, or structured-data evidence | Use `token-efficient-retrieval` before retrieval. |
-| A material choice remains | Use `grilling` with the current stage scope. |
+| A `*_GRILL` state is reached | Activate `grilling` with the current stage scope. |
 | A stage has independent, meaningful units | Use `task-decomposition`. |
 | A stage result contradicts a confirmed fact or decision | Use `context-state` to mark the conflict, then return to the closest owning stage. |
 | A user invokes an interview directly | `grill-me` routes to `grilling`; this orchestrator is not required. |

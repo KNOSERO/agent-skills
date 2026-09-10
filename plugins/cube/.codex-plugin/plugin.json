@@ -1,6 +1,6 @@
   {
   "name": "cube",
-  "version": "1.8.0",
+  "version": "1.11.0",
   "description": "Reusable Agent Skills for staged problem analysis, decisions, design, planning, code analysis, documentation, and Git workflows.",
   "author": {
     "name": "KNOSERO"
