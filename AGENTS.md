@@ -44,6 +44,11 @@ Do not replace this with ad-hoc reasoning, random file reading, or direct implem
 Activate a matching owning skill without waiting for the user to name it.
 Use intent, task type, artifact type, and repository context.
 
+**Manual-only exception:** activate `implementation-plan` only when the user
+explicitly asks for a portable implementation instruction, for example
+`/cube:implementation-plan`. The router, `problem-solving`, `fix-me`, and
+other flows must never activate it automatically.
+
 Use one primary workflow and the smallest required supporting capability set:
 
 ```text
@@ -73,7 +78,7 @@ If an existing skill owns the needed responsibility, use it. Do not perform the 
 | Material user decision | `grilling` |
 | Business-process reasoning | `business-process-analysis` |
 | Exact implementation scope | `implementation-discovery` |
-| Non-trivial execution ordering | `implementation-plan` |
+| Explicit portable transfer to another chat or agent | `implementation-plan` — manual only |
 | Compact inter-stage state | `context-state` |
 
 The caller decides **when** a capability is required. The owning skill decides **how** to perform it.

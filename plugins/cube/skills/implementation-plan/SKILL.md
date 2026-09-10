@@ -1,80 +1,125 @@
 ---
 name: implementation-plan
 description: >
-  Turn a confirmed solution and implementation discovery into a concrete,
-  step-by-step implementation plan with exact changes, dependencies, acceptance
-  criteria, and verification. Use this skill only after material product,
-  design, and implementation decisions are settled.
+  Manual-only transfer flow. Activate this skill only when the user explicitly
+  requests a portable implementation instruction, for example
+  /cube:implementation-plan. Reuse established conversation and task context
+  to create one self-contained, copyable implementation prompt for a fresh
+  ChatGPT chat, Claude Code, Codex, or another agent. Do not implement, do not
+  rerun solved problem analysis, and do not activate automatically from fix-me,
+  problem-solving, AGENTS.md, or any other flow.
 ---
 
 # Implementation plan
 
 ## Responsibility and boundary
 
-Turn already collected information into an executable implementation plan. The plan must explain exactly what will be changed, in what order, and how the result will be verified.
+Own **TRANSFER**:
 
-This skill does not replace problem analysis, make unresolved product or architecture decisions, or implement changes. It may organize a confirmed solution into tasks, but it must stop and ask when the solution itself is not settled.
+~~~text
+current conversation / task history
+→ established state
+→ minimum complete implementation context
+→ portable implementation instruction
+→ READY_FOR_TRANSFER
+~~~
 
-An execution orchestrator such as fix-me uses this plan internally only when
-the confirmed work is non-trivial. Return the plan to that caller, which must
-continue to implementation and verification. Never treat a plan as the final
-result of an execution request.
+This is a manual flow entry, not an internal implementation planner. It does
+not edit project artifacts, execute a change, replace fix-me, or restart
+problem-solving.
 
-## Inputs and readiness
+Use it only after an explicit request to create a portable prompt. Never
+auto-activate it from routing, problem-solving, fix-me, or another skill.
+When confirmed work must be executed in the current context, use fix-me instead.
 
-Use the confirmed problem, process, solution, implementation-discovery result,
-decisions, constraints, repository evidence, risks, and verification
-expectations. Before writing the plan:
+## Inputs and context reduction
 
-1. Separate confirmed facts and decisions from assumptions, proposals, and unknowns.
-2. Check that the proposed implementation still satisfies the stated goal and constraints.
-3. Retrieve only the repository facts needed to identify exact files, symbols, interfaces, schemas, tests, and dependencies.
-4. Invoke `grilling` in `implementation` scope for every unresolved material
-   choice, assumption, interpretation, or contradiction in the plan.
+Reuse established context first. Gather only the implementation-relevant state
+already available in the current session, including when present:
 
-Do not silently convert an analysis recommendation into an approved implementation
-decision. If the input is incomplete, return the exact blocker to
-`problem-solving` instead of inventing details or producing a speculative plan.
+- problem, goal, requirements, confirmed solution, scope, and non-goals;
+- user and technical decisions, constraints, business rules, and rejected
+  directions that prevent an important repeated decision;
+- Execution Handoff, checkpoints, compact state, evidence pointers, and known
+  project facts;
+- relevant files, modules, symbols, endpoints, schemas, components, tests, and
+  configuration;
+- required changes, acceptance criteria, verification, risks, and blockers.
 
-## Plan construction
+Do not produce a conversation summary. Remove small talk, repetitions, raw
+logs, long source excerpts, full documentation text, exploratory questions,
+obsolete hypotheses, and reasoning history that cannot change implementation.
 
-Create the minimum complete sequence of coherent tasks. Each task must describe one meaningful change and include:
+Treat confirmed decisions as established context. Do not reopen them unless
+current project evidence directly contradicts them.
 
-- `Target` — exact file, directory, module, component, endpoint, schema, or other affected element;
-- `Change` — the concrete modification to make, using observable language;
-- `Reason` — which confirmed requirement, decision, or dependency it satisfies;
-- `Depends on` — preceding task or decision, or `none`;
-- `Acceptance` — how to tell that this task is complete;
-- `Verification` — test, inspection, command, or evidence required at this boundary.
+## Minimal evidence policy
 
-Order tasks by dependency, not by the order in which they were discovered. Group tightly coupled edits together, and split tasks at meaningful boundaries such as a different component, dependency, decision, risk, or verification point. Do not create vague tasks such as “update the code” or artificial micro-steps such as every individual editor action.
+Do not research what the session already established. If a fact is essential to
+a safe portable instruction, missing from established state, and easily
+discoverable in the project, use token-efficient-retrieval and retrieve the
+minimum sufficient evidence.
 
-## Required output
+Classify every gap before acting:
 
-Present the result in this order:
+| Gap | Action |
+| --- | --- |
+| Discoverable implementation fact | Retrieve the minimum evidence when it is essential. |
+| Small execution detail | Leave it to the destination executor. |
+| Confirmed decision | Preserve it. |
+| Material unresolved decision | Mark it explicitly as a blocker or open decision. |
 
-1. `Implementation outcome` — one concise statement of the intended final state.
-2. `Scope` — what is included and explicitly excluded.
-3. `Prerequisites and decisions` — confirmed inputs required before work starts; unresolved decisions are marked `blocked`.
-4. `Execution plan` — numbered tasks in dependency order, each using the six fields above.
-5. `Change map` — compact mapping from affected elements to planned changes.
-6. `Verification plan` — checks for each task and final integration checks.
-7. `Risks and rollback` — only risks that can change execution or recovery.
-8. `Open questions and blockers` — exact decision or fact still needed, its impact, and the task it blocks.
+Do not invent a material decision and do not start full problem-solving merely
+because a gap exists.
 
-If no blockers remain, pass the plan to `context-state` in `final` mode. Do
-not claim that the implementation is complete.
+## Prompt construction
 
-## Plan quality gate
+Return exactly **one** Markdown code block. It must contain one portable prompt
+and no transcript, second product-specific version, or empty boilerplate.
+Omit any section that has no useful content.
 
-Before returning the plan, verify that:
+Use this fixed section order when the sections are needed:
 
-- every planned change maps to a confirmed requirement or decision;
-- every affected element is named precisely enough for another agent to find it;
-- task order and dependencies are explicit;
-- no task hides an unresolved choice;
-- acceptance criteria are observable;
-- verification covers behavior, compatibility, and important failure paths;
-- the plan does not include unrelated cleanup or scope expansion.
+~~~text
+Implement the following confirmed change.
 
-For non-trivial plans, use `task-decomposition` to keep stages coherent and dependencies explicit. Use `documentation-guidelines` for the final presentation and `token-efficient-retrieval` when locating repository evidence.
+Goal
+Context
+Confirmed decisions
+Scope
+Non-goals
+Required changes
+Relevant project areas
+Constraints and business rules
+Acceptance criteria
+Verification
+Known risks or blockers
+Execution rules
+~~~
+
+The generated prompt must always include these execution rules:
+
+- Treat the confirmed decisions below as established context.
+- Do not restart problem analysis or reopen them unless current project evidence directly contradicts them.
+- Inspect only the minimum project context required for implementation.
+- Discover facts from the project instead of asking the user when they are available there.
+- Make small implementation decisions locally.
+- Ask only about material unresolved decisions.
+- Implement the complete required scope.
+- Update tests, documentation, and configuration when the confirmed change requires them.
+- Verify the result and fix regressions caused by the implementation.
+- Do not perform unrelated cleanup.
+- Finish with a concise implementation and verification report.
+
+When the destination project has a skill framework, the prompt may instruct the
+agent to respect its local AGENTS.md and use the appropriate execution flow.
+Do not copy whole SKILL.md files into the prompt.
+
+## Completion
+
+Finish as READY_FOR_TRANSFER when the code block contains enough compact,
+self-contained context for a new agent to know what to change, where to look,
+which decisions are fixed, how to verify the result, and when it is done.
+
+Do not claim IMPLEMENTED. If a material blocker remains, preserve it clearly in
+the generated prompt rather than guessing or hiding it.

@@ -4,11 +4,12 @@ description: >
   Execute confirmed work now. Use this skill whenever the user asks to fix,
   implement, apply, update, change, correct, repair, refactor, add tests,
   update documentation, execute a plan, or finish a task. Also use it when the
-  user provides a confirmed solution, ticket, specification, plan, or execution
-  handoff and wants it carried out. Inspect only what is needed, change the
-  requested artifacts, verify the result, and return a finished result. Do not
-  use it when the user asks what should be done or when the required solution
-  is still materially open; use problem-solving for that work.
+  user provides a confirmed solution, ticket, specification, plan, execution
+  handoff, or portable implementation prompt and wants it carried out. Inspect
+  only what is needed, change the requested artifacts, verify the result, and
+  return a finished result. Do not use it when the user asks what should be
+  done or when the required solution is still materially open; use
+  problem-solving for that work. Never auto-run implementation-plan.
 ---
 
 # Fix me
@@ -17,19 +18,21 @@ description: >
 
 Own the execution lifecycle:
 
+~~~text
 instruction → implementation → verification → finished result
+~~~
 
 Do the work in the project when artifacts can be changed. Do not return only
-code suggestions or an implementation plan. Use a plan only as an internal
-tool when the work is non-trivial, then continue to implementation.
+code suggestions or an implementation plan.
 
 Treat a supplied Execution Handoff, approved solution, ticket, specification,
-or plan as confirmed context. Preserve its confirmed decisions. Do not reopen
-them without contradictory evidence.
+plan, or portable implementation prompt as confirmed context. Preserve its
+confirmed decisions. Do not reopen them without contradictory evidence.
 
-If a supplied implementation plan already names the needed scope, dependencies,
-and verification, execute it. Do not create the same plan again. Plan only when
-the missing execution structure can change safe implementation.
+If the supplied instruction already names the needed scope, dependencies, and
+verification, execute it. Do not recreate its planning. Use task-decomposition
+only when the work needs internal stages to make safe execution possible, then
+continue to implementation.
 
 ## Interpret the input
 
@@ -46,14 +49,16 @@ the missing execution structure can change safe implementation.
 1. Define the expected final state, confirmed decisions, constraints, acceptance criteria, and verification.
 2. Inspect only the current project state needed to perform the next safe action.
 3. Resolve a material open decision before a dependent change. Do not ask about a discoverable fact or a small execution detail.
-4. Select the smallest required specialist set. For non-trivial work, discover the exact scope and use a plan before editing.
+4. Select the smallest required specialist set. For non-trivial work, discover exact scope when needed and use task-decomposition only for meaningful stages, dependencies, risks, or verification boundaries.
 5. Change every required artifact: code, tests, documentation, configuration, or another stated target.
 6. Verify the changed behavior. Read [verification-loop.md](references/verification-loop.md) when selecting checks or when a check fails.
 7. Complete a final scope and acceptance check. Do not silently skip a required part.
 
 For a simple coherent change, use only:
 
+~~~text
 understand → edit → verify → finish
+~~~
 
 ## Artifact rules
 
@@ -76,7 +81,7 @@ prove the result.
 | Evidence from a repository, document, log, test, or data source is needed | Use token-efficient-retrieval before retrieval. |
 | A material user decision is unresolved | Use grilling in the correct scope. |
 | Exact technical scope is needed before a non-trivial change | Use implementation-discovery. |
-| Work has dependent stages, several components, important order, risk, or verification boundaries | Use implementation-plan. Use task-decomposition when the work needs coherent stages. |
+| Work has dependent stages, several components, important order, risk, or verification boundaries | Use task-decomposition. |
 | Existing business or system process affects the change | Use business-process-analysis. |
 | Code or test design quality affects the change | Use programming-principles. |
 | A behavior-preserving structural change is required | Use refactor in execution support mode. |
@@ -84,8 +89,9 @@ prove the result.
 | Documentation is created, updated, or restructured | Use documentation-guidelines. |
 | Another available specialist skill directly owns required work | Use that skill instead of a generic procedure. |
 
-Do not load every related skill or reference. The routed skill owns its method;
-this skill owns the whole execution lifecycle.
+implementation-plan is manual-only and is never an execution-stage dependency
+of this flow. Do not load every related skill or reference. The routed skill
+owns its method; this skill owns the whole execution lifecycle.
 
 ## Decision and scope rules
 

@@ -27,6 +27,7 @@ Claude Code exposes plugin skills under the `cube` namespace:
 
 ```text
 /cube:problem-solving
+/cube:implementation-plan
 /cube:fix-me
 /cube:code-audit
 /cube:refactor
@@ -45,18 +46,26 @@ USER INTENT
 → FINISHED RESULT
 ```
 
-The main path is:
+Choose the path that matches the user's goal:
 
-```text
-Open problem
-→ problem-solving
-→ evidence, decisions, process and solution specialists
-→ Execution Handoff
-→ fix-me
-→ implementation specialists
-→ verification
-→ finished result
-```
+~~~text
+Need to decide what to do?
+→ problem-solving (THINK)
+→ confirmed solution / Execution Handoff
+
+Need to transfer established work into another agent or chat?
+→ implementation-plan (TRANSFER, manual only)
+→ self-contained copyable implementation prompt
+
+Need to execute confirmed work now?
+→ fix-me (EXECUTE)
+→ implemented and verified change
+~~~
+
+implementation-plan is not an automatic step between problem-solving and
+fix-me. It is a deliberate bridge used only when a developer explicitly wants
+to move established work to a fresh ChatGPT chat, Claude Code, Codex, or
+another agent.
 
 | Layer | Owns |
 | --- | --- |
@@ -86,8 +95,8 @@ Open problem
 | [fix-me](plugins/cube/skills/fix-me/SKILL.md) | Execute confirmed work now. | Flow entry / orchestrator | Yes: requested implementation, fix, update, test, documentation, or confirmed instruction. | User or `problem-solving` handoff. | Changed artifacts, verification, and finished result. |
 | [business-process-analysis](plugins/cube/skills/business-process-analysis/SKILL.md) | Reconstruct the business process affected by a subject. | Specialist | Yes: process explanation or analysis. | `problem-solving` or `fix-me` when process behavior matters. | Process model to caller, or direct user-facing explanation. |
 | [solution-design](plugins/cube/skills/solution-design/SKILL.md) | Define the behavior-level solution, not technical implementation. | Specialist | Yes when problem inputs are confirmed. | Usually `problem-solving`. | Confirmed concept to `problem-solving` and its handoff. |
-| [implementation-discovery](plugins/cube/skills/implementation-discovery/SKILL.md) | Locate the exact technical scope of confirmed work. | Specialist | Yes for exact-scope discovery. | `fix-me` for non-trivial execution. | Affected scope to `fix-me` or `implementation-plan`. |
-| [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn confirmed scope into an execution plan. | Specialist | Yes for a requested plan with confirmed inputs. | `fix-me` after discovery when execution structure is needed. | Plan to `fix-me`; execution continues immediately. |
+| [implementation-discovery](plugins/cube/skills/implementation-discovery/SKILL.md) | Locate the exact technical scope of confirmed work. | Specialist | Yes for exact-scope discovery. | `fix-me` for non-trivial execution. | Affected scope to its caller. |
+| [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn established session state into one portable implementation instruction. | Manual transfer flow | **Only explicit request**, for example `/cube:implementation-plan`. | User only; never router, `problem-solving`, or `fix-me`. | A self-contained copyable prompt; `READY_FOR_TRANSFER`. |
 | [refactor](plugins/cube/skills/refactor/SKILL.md) | Assess or perform a behavior-preserving structural change. | Specialist | Yes: refactor assessment or selected refactor. | `fix-me` in execution-support mode. | Direct proposals for selection, or compact support result to `fix-me`. |
 | [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Find material code risks with evidence. | Specialist | Yes: targeted audit. | `fix-me` when risk inspection is required. | Findings for explicit selection, or verified selected changes. |
 | [documentation-analysis](plugins/cube/skills/documentation-analysis/SKILL.md) | Establish facts and conflicts from project documentation. | Specialist | Yes: documentation fact analysis. | Usually `problem-solving`; any caller with a documentation question. | Evidence and decision inputs to caller. |
@@ -97,7 +106,7 @@ Open problem
 | [task-decomposition](plugins/cube/skills/task-decomposition/SKILL.md) | Split non-trivial work into coherent, verifiable stages. | Support capability | Yes when task staging itself is requested. | `problem-solving`, `fix-me`, or another specialist. | Stage model to caller. |
 | [programming-principles](plugins/cube/skills/programming-principles/SKILL.md) | Guide code and test design decisions. | Support capability | Yes for design guidance. | `fix-me`, `refactor`, or `code-audit` when design quality matters. | Principles applied by caller. |
 | [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Control presentation quality and information structure. | Support capability | Yes for documentation guidance. | Any skill creating documentation or explanations. | Presentation rules applied by caller. |
-| [context-state](plugins/cube/skills/context-state/SKILL.md) | Maintain compact authoritative state across stages. | State / handoff | Normally no. | Staged workflows, especially `problem-solving`. | Checkpoint, Execution Handoff, or final context. |
+| [context-state](plugins/cube/skills/context-state/SKILL.md) | Maintain compact authoritative state across stages. | State / handoff | Normally no. | Staged workflows and manual transfer preparation. | Checkpoint, Execution Handoff, or final canonical state. |
 | [feedback-summary](plugins/cube/skills/feedback-summary/SKILL.md) | Summarize established progress and next steps. | State / handoff | Yes: continue without restarting analysis. | Any staged task that needs a concise continuity summary. | Compact state and recommended continuation. |
 | [short-result](plugins/cube/skills/short-result/SKILL.md) | Keep an answer compact without losing required information. | Result / output | Yes: concise output requested. | Any result-producing skill. | Compact final presentation. |
 | [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce a complete, structured, reusable result. | Result / output | Yes: detailed result requested. | Any result-producing skill. | Full final presentation. |
@@ -109,7 +118,8 @@ Open problem
 | Need | Start with |
 | --- | --- |
 | “I have a problem but do not know the solution.” | `problem-solving` |
-| “Implement this confirmed ticket, plan, or handoff.” | `fix-me` |
+| “Make a self-contained prompt so I can continue in another chat or agent.” | `implementation-plan` — explicit manual activation only |
+| “Implement this confirmed ticket, plan, handoff, or portable prompt.” | `fix-me` |
 | “Assess this refactor.” | `refactor` |
 | “I am in execution and need a behavior-preserving structural change.” | `refactor` through `fix-me` support mode |
 | “Find only the evidence needed to decide.” | `token-efficient-retrieval` through the active caller |
