@@ -9,10 +9,20 @@ Użyj fix-me dla implementacji, poprawy, aktualizacji, refaktoru, testów, dokum
 ## Główny przebieg
 
 ~~~text
-confirmed instruction → minimum needed inspection → material decision check → specialist routing → implement → verify → implementation refinement when justified → quality saturation → final verification → finished result
+confirmed instruction → minimum needed inspection → material decision check
+→ specialist routing → material decision check
+→ implement → verify → material decision check
+→ implementation refinement when justified → quality saturation → final verification → finished result
 ~~~
 
 Dla prostej, oczywistej zmiany wystarczy: understand → edit → verify → finish.
+
+`material decision check` nie jest jednorazowym krokiem na starcie. Każdy
+kolejny etap wykonania może odsłonić decyzję, której wcześniej nie było
+widać — np. discovery zawęża zakres, implementacja odsłania wybór kontraktu,
+refinement znajduje trade-off strukturalny. `fixing` wraca wtedy do
+`grilling` zamiast milcząco zakładać i kontynuować, i nie zbiera kilku
+etapów pracy przed zapytaniem użytkownika.
 
 ## Routing i handoff
 

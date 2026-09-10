@@ -14,58 +14,91 @@ description: >
 
 Own collaborative decision discovery. Do not perform the caller's domain
 analysis, solution design, implementation discovery, plan, or code change.
-Return a compact decision update to the caller.
+Return a compact decision update to the caller, never a transcript.
 
 ## Scope
 
-The caller must state one scope: `problem`, `process`, `solution`, or
-`implementation`. Ask only decisions exposed by that scope and the immediate
-next stage. Do not ask downstream technical questions before upstream behavior
-is confirmed.
-
-## Orchestrator decision checks
-
-When an orchestrator reaches a decision check, build the decision frontier
-first. Run this skill only when an unresolved material choice exists in the
-current scope.
-
-Return `NO_OPEN_DECISIONS` when the checked scope has no material choice. Do
-not ask a question only because the caller reached a workflow stage. Do not use
-an obvious recommendation, a conventional default, or a short user request as
-a reason to hide a material choice.
+The caller states one scope: `problem`, `process`, `solution`, or
+`implementation`. Ask only what that scope exposes, plus its immediate next
+stage. Confirm behavior before technical detail.
 
 ## Classify before asking
 
-- A **discoverable fact** comes from documentation, repository evidence,
-  configuration, tests, logs, APIs, history, or available tools. Use
-  `token-efficient-retrieval` before retrieving it.
-- A **material decision** changes behavior, scope, contract, priority,
+- **Discoverable fact** — comes from docs, code, config, tests, logs, or a
+  tool. Retrieve it with `token-efficient-retrieval`; never ask the user.
+- **Material decision** — changes behavior, scope, contract, priority,
   compatibility, architecture, persistence, rollout, source of truth, or
   future options. Ask the user.
-- A **pure execution detail** has no such effect. Decide it locally.
+- **Pure execution detail** — changes none of that. Decide it yourself.
 
-## Interview loop
+Read [references/examples.md](references/examples.md) when a case sits on
+the line between two of these.
 
-1. Build a decision graph with prerequisites and identify the answerable
-   frontier.
-2. Ask only the current frontier. Group independent questions; defer dependent
-   questions.
-3. State the consequence of each answer. Offer meaningful options and a
-   recommendation when evidence supports one.
-4. Process the user answer, update the graph, and recompute the frontier.
-5. Continue until every material decision in scope is confirmed, delegated,
-   intentionally deferred, or blocked.
+## Orchestrator decision checks
 
-Use [references/interview-algorithm.md](references/interview-algorithm.md)
-for multi-round or dependent decisions. Use
-[references/question-format.md](references/question-format.md) when presenting
-options. Use [references/decision-state.md](references/decision-state.md) for
-prior state, delegation, or deferral. Use
-[references/contradictions.md](references/contradictions.md) when an answer
-conflicts with established state.
+When a caller reaches a decision check, build the frontier (below) first and
+run this skill only if it is non-empty. Return `NO_OPEN_DECISIONS` otherwise.
+Reaching a workflow stage, having an obvious default, or a short-sounding
+request are not reasons to invent a question.
+
+## The interview
+
+Map open decisions as a tree: every decision branches into the decisions
+hanging off it. The **frontier** is every decision whose prerequisites are
+already settled — the ones answerable now without guessing at something you
+haven't heard yet.
+
+Work it in rounds:
+
+1. **Build the tree.** Start from the caller's context: confirmed facts,
+   confirmed decisions, open decisions, dependencies between them,
+   assumptions worth surfacing.
+2. **Ask the frontier, once.** One round covers every independent frontier
+   item; dependent items wait for a later round. Give each question a stable
+   ID (`Q1`, `Q2`, ...) that is never reused or renumbered.
+
+   ```markdown
+   ❓ **Q<ID> — <short title>**
+
+   <question, with only the context needed to decide it>
+
+   | Option | Choice |
+   |---|---|
+   | A | <choice> |
+   | B | <choice> |
+   | C | Other: <when useful> |
+
+   ➡️ **Recommended:** <option, or say evidence does not justify one>
+   ⚠️ **Why it matters:** <what changes depending on the answer>
+   ```
+
+   Every question must survive "what changes depending on the answer?" — if
+   nothing does, drop it. Offer only materially different options; when the
+   decision actually needs a rule, boundary, owner, trigger, or name, ask for
+   that directly instead of manufacturing choices.
+3. **Process the answers.** Mark each resolved, delegated, deferred,
+   contradictory, or newly raised. One answer can settle several branches at
+   once, so recompute the frontier from the updated tree — never by counting
+   questions asked. If an answer conflicts with something already
+   established, read [references/contradictions.md](references/contradictions.md)
+   before resolving it.
+4. **Repeat until the frontier is empty.** Every branch is confirmed,
+   delegated with a stated scope, or deferred with a stated trigger. Nothing
+   is left silently assumed.
+
+A delegated decision binds only the scope the user named; adjacent choices
+stay open unless separately delegated.
+
+## Carrying state across rounds
+
+Keep a compact record instead of replaying the conversation: confirmed
+facts, confirmed decisions, delegated decisions (with scope), deferred
+decisions (with trigger), open decisions, contradictions, constraints.
+Preserve the user's exact wording when it defines a contract or boundary;
+drop everything else that doesn't change a future answer.
 
 ## Handoff
 
-Return confirmed facts, confirmed decisions, delegated and deferred decisions,
-open decisions, blockers, contradictions, and relevant constraints. Pass the
-result to `context-state`; never return a full interview transcript.
+Return confirmed facts, confirmed decisions, delegated and deferred
+decisions, open decisions, blockers, contradictions, and relevant
+constraints to `context-state`.

@@ -44,14 +44,13 @@ These are heuristics, not metrics. Do not apply arbitrary limits to method size,
 > Change the smallest coherent scope required to implement the requested behavior safely and correctly.
 
 ```text
-requested behavior
-→ necessary implementation
-→ necessary tests
-→ necessary dependent changes
-→ stop
+requested behavior → necessary implementation → necessary tests → necessary dependent changes → stop
 ```
 
-Do not add unrelated refactorings, renames, formatting, cleanups, architecture changes, or abstractions. A local improvement belongs in scope when it is necessary for safe or clear implementation; “while I’m here” is not sufficient justification.
+"While I'm here" doesn't justify a renaming, reformatting, cleanup, or
+architecture change outside that scope. A local improvement belongs in
+scope only when the safe or clear implementation of the requested behavior
+actually needs it.
 
 ## Context efficiency and existing design
 
