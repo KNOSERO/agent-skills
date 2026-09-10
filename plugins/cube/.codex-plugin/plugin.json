@@ -14,7 +14,7 @@
     "problem-solving",
     "documentation"
   ],
-  "skills": ["./entrypoints/", "./workflows/", "./domains/", "./support/", "./actions/", "./presentation/"],
+  "skills": "./skills/",
   "interface": {
     "displayName": "Cube Skills",
     "shortDescription": "Reusable skills for coding and problem solving",

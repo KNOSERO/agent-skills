@@ -1,0 +1,285 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "id": "claude_marketplace",
+      "label": "Claude Marketplace",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "Repository Guidance",
+      "file_type": "code",
+      "norm_label": "claude marketplace",
+      "source_file": ".claude-plugin/marketplace.json",
+      "source_location": null
+    },
+    {
+      "id": "codex_marketplace",
+      "label": "Codex Marketplace",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "Repository Guidance",
+      "file_type": "code",
+      "norm_label": "codex marketplace",
+      "source_file": ".agents/plugins/marketplace.json",
+      "source_location": null
+    },
+    {
+      "id": "cube_plugin",
+      "label": "Cube Plugin",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "Repository Guidance",
+      "file_type": "code",
+      "norm_label": "cube plugin",
+      "source_file": "plugins/cube/.codex-plugin/plugin.json",
+      "source_location": null
+    },
+    {
+      "id": "plugin_installation",
+      "label": "Plugin Installation",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "Repository Guidance",
+      "file_type": "concept",
+      "norm_label": "plugin installation",
+      "source_file": "README.md",
+      "source_location": null
+    },
+    {
+      "id": "reusable_agent_skills",
+      "label": "Reusable Agent Skills",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "Repository Guidance",
+      "file_type": "concept",
+      "norm_label": "reusable agent skills",
+      "source_file": "README.md",
+      "source_location": null
+    },
+    {
+      "id": "readme_cube_skills",
+      "label": "Cube Skills README",
+      "_origin": "semantic",
+      "community": 0,
+      "community_name": "Repository Guidance",
+      "file_type": "document",
+      "norm_label": "cube skills readme",
+      "source_file": "README.md",
+      "source_location": null
+    },
+    {
+      "id": "docs_agents_domain_docs_domain_documentation",
+      "label": "Domain Documentation Rules",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "Plugin Marketplaces",
+      "file_type": "concept",
+      "norm_label": "domain documentation rules",
+      "source_file": "docs/agents/domain.md",
+      "source_location": null
+    },
+    {
+      "id": "docs_agents_domain_glossary",
+      "label": "Domain Glossary",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "Plugin Marketplaces",
+      "file_type": "concept",
+      "norm_label": "domain glossary",
+      "source_file": "docs/agents/domain.md",
+      "source_location": null
+    },
+    {
+      "id": "claude_agent_skills",
+      "label": "Agent Skills Instructions",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "Plugin Marketplaces",
+      "file_type": "document",
+      "norm_label": "agent skills instructions",
+      "source_file": "CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "docs_agents_issue_tracker_github_issue_tracker",
+      "label": "GitHub Issue Tracker",
+      "_origin": "semantic",
+      "community": 2,
+      "community_name": "Skill Distribution",
+      "file_type": "concept",
+      "norm_label": "github issue tracker",
+      "source_file": "docs/agents/issue-tracker.md",
+      "source_location": null
+    },
+    {
+      "id": "docs_agents_triage_labels_canonical_triage_roles",
+      "label": "Canonical Triage Roles",
+      "_origin": "semantic",
+      "community": 2,
+      "community_name": "Skill Distribution",
+      "file_type": "concept",
+      "norm_label": "canonical triage roles",
+      "source_file": "docs/agents/triage-labels.md",
+      "source_location": null
+    },
+    {
+      "id": "github_issue_operations",
+      "label": "GitHub Issue Operations",
+      "_origin": "semantic",
+      "community": 2,
+      "community_name": "Skill Distribution",
+      "file_type": "concept",
+      "norm_label": "github issue operations",
+      "source_file": "docs/agents/issue-tracker.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_agent_skills",
+      "label": "Agent Skills Guidance",
+      "_origin": "semantic",
+      "community": 3,
+      "community_name": "Agent Entry Point",
+      "file_type": "document",
+      "norm_label": "agent skills guidance",
+      "source_file": "AGENTS.md",
+      "source_location": null
+    }
+  ],
+  "links": [
+    {
+      "source": "claude_agent_skills",
+      "target": "docs_agents_domain_docs_domain_documentation",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "claude_agent_skills",
+      "target": "docs_agents_issue_tracker_github_issue_tracker",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "claude_marketplace",
+      "target": "cube_plugin",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".claude-plugin/marketplace.json",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "codex_marketplace",
+      "target": "cube_plugin",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/plugins/marketplace.json",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_domain_docs_domain_documentation",
+      "target": "docs_agents_domain_glossary",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/domain.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_issue_tracker_github_issue_tracker",
+      "target": "github_issue_operations",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/issue-tracker.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "readme_cube_skills",
+      "target": "claude_marketplace",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "readme_cube_skills",
+      "target": "codex_marketplace",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "readme_cube_skills",
+      "target": "cube_plugin",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "readme_cube_skills",
+      "target": "plugin_installation",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "readme_cube_skills",
+      "target": "reusable_agent_skills",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_triage_labels_canonical_triage_roles",
+      "target": "docs_agents_issue_tracker_github_issue_tracker",
+      "relation": "conceptually_related_to",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docs/agents/triage-labels.md",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": []
+}

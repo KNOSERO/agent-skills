@@ -1,0 +1,6 @@
+interface:
+  display_name: "Commit Suggestion"
+  short_description: "Suggest Conventional Commits from Git changes"
+  default_prompt: "Use $commit to suggest concise Conventional Commit message(s) for all uncommitted Git changes."
+policy:
+  allow_implicit_invocation: true
