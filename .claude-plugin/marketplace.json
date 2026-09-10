@@ -7,7 +7,7 @@
     {
       "name": "cube",
       "source": "./plugins/cube",
-      "description": "Reusable Agent Skills for staged problem analysis, decisions, design, planning, execution, code analysis, documentation, and Git workflows.",
+      "description": "Reusable Agent Skills for practical repository work, from clear communication to Git commit suggestions.",
       "category": "Developer Tools",
       "tags": [
         "skills",
