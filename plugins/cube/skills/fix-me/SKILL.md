@@ -1,124 +1,58 @@
 ---
 name: fix-me
 description: >
-  Execute confirmed work now. Use this skill whenever the user asks to fix,
-  implement, apply, update, change, correct, repair, refactor, add tests,
-  update documentation, execute a plan, or finish a task. Also use it when the
-  user provides a confirmed solution, ticket, specification, plan, execution
-  handoff, or portable implementation prompt and wants it carried out. Inspect
-  only what is needed, change the requested artifacts, verify the result, and
-  return a finished result. Do not use it when the user asks what should be
-  done or when the required solution is still materially open; use
-  problem-solving for that work. Never auto-run implementation-plan.
+  Execute confirmed work now and own its execution lifecycle. Use for a fix,
+  implementation, update, refactor, tests, documentation, plan, or other
+  confirmed instruction. For non-trivial work, implement, verify, invoke
+  implementation-refinement, reach quality saturation, then verify finally.
+  Do not use for a materially open solution; use problem-solving. Never
+  auto-run implementation-plan.
 ---
 
 # Fix me
 
 ## Responsibility
 
-Own the execution lifecycle:
-
 ~~~text
-instruction → implementation → verification → finished result
+instruction → implementation → verification → justified refinement → quality saturation → final verification → finished result
 ~~~
 
-Do the work in the project when artifacts can be changed. Do not return only
-code suggestions or an implementation plan.
-
-Treat a supplied Execution Handoff, approved solution, ticket, specification,
-plan, or portable implementation prompt as confirmed context. Preserve its
-confirmed decisions. Do not reopen them without contradictory evidence.
-
-If the supplied instruction already names the needed scope, dependencies, and
-verification, execute it. Do not recreate its planning. Use task-decomposition
-only when the work needs internal stages to make safe execution possible, then
-continue to implementation.
-
-## Interpret the input
-
-| Input | Action |
-| --- | --- |
-| Confirmed instruction | Execute it. Do not ask again. |
-| Discoverable fact | Find it with the smallest sufficient evidence. |
-| Material open decision | Use grilling. |
-| Execution detail | Decide it locally. |
-| Material contradiction | Adapt locally when safe. Otherwise use grilling or return to problem-solving. |
+Do work in the project, not only suggestions. implementation-refinement is a support capability that returns to this flow; it never becomes a parallel user workflow. Preserve confirmed decisions unless evidence contradicts them.
 
 ## Execution flow
 
-1. Define the expected final state, confirmed decisions, constraints, acceptance criteria, and verification.
-2. Inspect only the current project state needed to perform the next safe action.
-3. Resolve a material open decision before a dependent change. Do not ask about a discoverable fact or a small execution detail.
-4. Select the smallest required specialist set. For non-trivial work, discover exact scope when needed and use task-decomposition only for meaningful stages, dependencies, risks, or verification boundaries.
-5. Change every required artifact: code, tests, documentation, configuration, or another stated target.
-6. Verify the changed behavior. Read [verification-loop.md](references/verification-loop.md) when selecting checks or when a check fails.
-7. Complete a final scope and acceptance check. Do not silently skip a required part.
+1. Define final state, confirmed decisions, constraints, acceptance criteria, and verification.
+2. Inspect only evidence needed for the next safe action; use token-efficient-retrieval before retrieval.
+3. Resolve a material open decision with grilling; decide small execution details locally.
+4. Select the smallest required specialists. For non-trivial work, use implementation-discovery for exact scope and task-decomposition only for real stages or verification boundaries.
+5. Rethink implementation approach before editing only when it materially improves execution of the already confirmed solution. Do not restart problem-solving for a local detail.
+6. Change required artifacts and run smallest relevant verification. Read references/verification-loop.md when selecting checks or when a check fails.
+7. After initial verification of non-trivial changed scope, invoke implementation-refinement. Apply its justified in-scope improvements, verify them, and accept its saturation result or escalate its blocker.
+8. Complete final scope, acceptance, and verification checks.
 
-For a simple coherent change, use only:
-
-~~~text
-understand → edit → verify → finish
-~~~
-
-## Artifact rules
-
-For a code change, locate the affected contract, direct dependencies, callers,
-and focused tests only when they can change the implementation. Change the
-code and add or update tests when the required behavior needs proof.
-
-For a documentation change, find the relevant source of truth, use
-documentation-guidelines, edit the documentation, and verify important links,
-references, and consistency.
-
-For configuration, schema, generated output, or another artifact, apply the
-same rule: change the required target and run the smallest validation that can
-prove the result.
+For a simple coherent change: understand → edit → verify → finish.
 
 ## Capability routing
 
 | Condition | Action |
 | --- | --- |
-| Evidence from a repository, document, log, test, or data source is needed | Use token-efficient-retrieval before retrieval. |
-| A material user decision is unresolved | Use grilling in the correct scope. |
-| Exact technical scope is needed before a non-trivial change | Use implementation-discovery. |
-| Work has dependent stages, several components, important order, risk, or verification boundaries | Use task-decomposition. |
-| Existing business or system process affects the change | Use business-process-analysis. |
-| Code or test design quality affects the change | Use programming-principles. |
-| A behavior-preserving structural change is required | Use refactor in execution support mode. |
-| Existing code needs a material risk inspection | Use code-audit. |
-| Documentation is created, updated, or restructured | Use documentation-guidelines. |
-| Another available specialist skill directly owns required work | Use that skill instead of a generic procedure. |
+| Evidence is needed | token-efficient-retrieval |
+| Material user decision is unresolved | grilling |
+| Exact scope is needed before non-trivial change | implementation-discovery |
+| Meaningful stages or verification boundaries exist | task-decomposition |
+| Process behavior matters | business-process-analysis |
+| Code/test design quality matters | programming-principles |
+| Behavior-preserving structural work is required | refactor in execution support mode |
+| Material risk inspection is required | code-audit in execution support mode |
+| Non-trivial implementation passed initial verification | implementation-refinement |
+| Documentation is created or changed | documentation-guidelines |
 
-implementation-plan is manual-only and is never an execution-stage dependency
-of this flow. Do not load every related skill or reference. The routed skill
-owns its method; this skill owns the whole execution lifecycle.
+The routed skill owns its method; fix-me owns lifecycle, scope, approvals, and final result. implementation-plan is never an execution-stage dependency.
 
-## Decision and scope rules
+## Scope and completion
 
-Use grilling when two valid choices have materially different effects on
-behavior, public contracts, compatibility, architecture, data, security,
-business rules, rollout, maintenance, or documentation scope. State the
-decision and its consequence. Decide local names, formatting, private helpers,
-file order, and similar details without an interview.
+Apply behavior-preserving or safely required high-value refinement only within confirmed scope. Report unrelated existing problems. If an improvement changes behavior, public contracts, architecture, or scope, use grilling or problem-solving according to ownership.
 
-If project evidence contradicts the instruction, do not implement blindly.
-Continue only when a local adjustment preserves the confirmed result. Otherwise
-use grilling for an unresolved material choice or problem-solving when the
-solution itself must be reconsidered.
+Finish only after quality saturation: required changes and acceptance criteria are complete, relevant available verification passes, no known Blocker/Critical/Major regression remains in changed scope, and the next likely improvement is marginal compared with its cost and regression risk.
 
-Change the smallest coherent scope. Do not add unrelated cleanup. Include an
-otherwise unrelated change only when it is necessary to complete the instruction
-safely or to avoid an obvious material regression.
-
-## Completion and report
-
-Call work finished only when all required changes are present, acceptance
-criteria are met, relevant available verification passed, no known material
-regression remains, and no required part was silently skipped.
-
-Return a short execution report with:
-
-1. changed artifacts and resulting behavior;
-2. material decisions made during execution;
-3. verification performed and its result;
-4. any remaining blocker or risk.
+Report changed artifacts and behavior, material decisions and improvements, verification, saturation basis, and any blocker or unrelated risk.
