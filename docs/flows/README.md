@@ -15,6 +15,8 @@ ani bramek z różnych flow bez wyraźnej instrukcji.
 implementation-plan nie jest etapem obowiązkowym między pozostałymi flow.
 Nie może go automatycznie wywołać router, problem-solving, fix-me ani inny flow.
 
+`implementation-refinement` nie jest flow ani punktem wejścia. To capability wywoływana przez `fix-me` po pierwszej trafnej weryfikacji nietrywialnej implementacji; zwraca wynik do `fix-me`, nie przejmuje lifecycle ani dialogu z użytkownikiem.
+
 ## Dodawanie kolejnego flow
 
 Każdy nowy flow otrzymuje osobny plik w tym katalogu oraz wpis w tabeli.
