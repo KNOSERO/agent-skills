@@ -1,6 +1,10 @@
 ---
 name: implementation-plan
-description: Turn established problem analysis, requirements, and decisions into a concrete step-by-step implementation plan with exact changes, dependencies, acceptance criteria, and verification.
+description: >
+  Turn a confirmed solution and implementation discovery into a concrete,
+  step-by-step implementation plan with exact changes, dependencies, acceptance
+  criteria, and verification. Use this skill only after material product,
+  design, and implementation decisions are settled.
 ---
 
 # Implementation plan
@@ -13,14 +17,19 @@ This skill does not replace problem analysis, make unresolved product or archite
 
 ## Inputs and readiness
 
-Use the available analysis, requirements, decisions, constraints, repository evidence, affected components, risks, and verification expectations. Before writing the plan:
+Use the confirmed problem, process, solution, implementation-discovery result,
+decisions, constraints, repository evidence, risks, and verification
+expectations. Before writing the plan:
 
 1. Separate confirmed facts and decisions from assumptions, proposals, and unknowns.
 2. Check that the proposed implementation still satisfies the stated goal and constraints.
 3. Retrieve only the repository facts needed to identify exact files, symbols, interfaces, schemas, tests, and dependencies.
-4. Invoke `grill` for every unresolved choice, assumption, interpretation, or contradiction in the plan, including incidental implementation choices.
+4. Invoke `grilling` in `implementation` scope for every unresolved material
+   choice, assumption, interpretation, or contradiction in the plan.
 
-Do not silently convert an analysis recommendation into an approved implementation decision. If the input is incomplete, produce a conditional plan and list the blocker instead of inventing details.
+Do not silently convert an analysis recommendation into an approved implementation
+decision. If the input is incomplete, return the exact blocker to
+`problem-solving` instead of inventing details or producing a speculative plan.
 
 ## Plan construction
 
@@ -48,7 +57,8 @@ Present the result in this order:
 7. `Risks and rollback` — only risks that can change execution or recovery.
 8. `Open questions and blockers` — exact decision or fact still needed, its impact, and the task it blocks.
 
-If no blockers remain, state that the plan is ready for implementation. Do not claim that the implementation is complete.
+If no blockers remain, pass the plan to `context-state` in `final` mode. Do
+not claim that the implementation is complete.
 
 ## Plan quality gate
 

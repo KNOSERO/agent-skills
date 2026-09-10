@@ -1,156 +1,129 @@
 ---
 name: problem-solving
 description: >
-  Drive a problem, idea, goal, requirement, symptom, or change proposal toward
-  the strongest justified solution through a separate problem-framing phase.
-  First think through and present the problem; do not present a solution in
-  the framing turn. Use grill to question the user when the problem, intent,
-  priorities, scope, behavior, or acceptance boundary is unresolved. Do not
-  use it for tasks whose requirements and decisions are already explicit. When
-  solving a problem about existing business or system behavior, always run
-  business-process-analysis after the problem model is confirmed when the
-  affected process may matter. Use
-  referenced capabilities in dependent stages and re-evaluate the problem
-  after each returned result.
+  Orchestrate a complex problem, requirement, symptom, or change proposal from
+  problem framing to a confirmed implementation-ready context. Use this skill
+  whenever the task needs several dependent analysis and decision stages. Route
+  to specialized skills; do not solve, design, or plan in this skill. Do not
+  use it for a simple task with an already confirmed solution and scope.
 ---
 
-# Problem solving
+# Problem-solving orchestrator
 
-## Role and invariants
+## Responsibility
 
-Own end-to-end reasoning from a meaningful problem input to the strongest solution justified by evidence. Missing information reduces certainty; it does not stop useful analysis when a valid partial or conditional solution exists.
+Own the state machine. Decide which stage is needed next, give that stage only
+the current task state, and merge its returned facts and decisions. Do not
+duplicate documentation analysis, process analysis, design, interviewing,
+repository discovery, or implementation planning.
 
-Read-only: do not edit code or documentation, create commits, refactor, or implement unless explicitly assigned. Solve the actual problem, not the most interesting technical problem.
+Do not implement code. Implementation starts only after the final context says
+`ready_for_implementation: true` and the user has requested implementation.
 
-## Core flow
+## State and stage contract
 
-```text
-understand problem → build problem model → present and confirm it
-→ identify the next missing input → grill only for that input
-→ assess whether a business process may matter
-→ analyze that process when the answer is yes
-→ run the next required capability → merge its result into the problem model
-→ grill again for decisions exposed by that result
-→ run the next required capability → develop and challenge solutions
-→ complete or return a conditional result
-```
+Use `context-state` before the first stage and after every stage. It owns the
+canonical task state. Pass only its active context, evidence index, decision
+ledger entries that still matter, and the current stage question.
 
-### Problem-framing gate
-
-Before presenting any solution, reason about and present the problem itself.
-The first response for an open problem must contain only:
-
-- the observed symptoms or situation;
-- the evidence and facts that are known;
-- the impact or why it matters;
-- the desired outcome;
-- constraints and non-goals;
-- assumptions, unknowns, and the questions that can change the problem model.
-
-Do not name, compare, or recommend solutions in this response. End by asking
-the user to confirm or correct the problem model when its scope, meaning,
-cause, goal, or success criteria are not explicit. Treat the confirmed model
-as a gate: do not enter solution development until the user confirms it or
-explicitly delegates that confirmation.
-
-### Solution gate
-
-After the problem model is confirmed, do not develop or recommend the main
-solution before this gate:
-
-1. List the assumptions that can change the solution, scope, behavior, or
-   acceptance boundary.
-2. Retrieve facts that can be established without the user.
-3. Route every remaining material decision to `grill`.
-4. Let `grill` ask the user in focused interview rounds. Do not answer on the
-   user's behalf from a guess or from a default preference.
-
-## Staged capability loop
-
-Treat every routed skill as a stage, not as a one-time handoff. Before each
-stage, state the current question that the stage must answer and pass only the
-relevant confirmed facts, decisions, constraints, and unknowns. Do not invoke
-all capabilities at the start. After the problem model is confirmed, assess
-whether an existing business process may affect the problem. Treat a plausible
-process connection as sufficient to run `business-process-analysis` before
-solution development. If it is materially unclear whether a process may
-matter, route that decision to `grill` before choosing a path. Skip process
-analysis only when the problem is purely conceptual and no existing business
-process or system behavior must be understood.
-
-After a stage returns:
-
-1. Record its result in the problem model. Separate confirmed facts,
-   inferences, assumptions, decisions, risks, and new unknowns.
-2. Check whether the result changes the problem boundary, goal, process,
-   dependencies, risks, or acceptance criteria.
-3. Send every newly exposed material question to `grill` before starting a
-   dependent stage. Ask only questions whose answers can change the next
-   stage or the solution.
-4. Recompute which capability is needed next. Skip capabilities whose output
-   cannot change the current decision.
-5. Continue until the next safe stage and its exit condition are supported.
-
-Example:
+Every stage must receive:
 
 ```text
-unknown business behavior
-→ grill asks only what is needed to locate the process
-→ business-process-analysis reconstructs the process
-→ update problem model with process facts and gaps
-→ grill asks about decisions revealed by that process
-→ run the next capability using the confirmed process context
+stage question
+confirmed facts and constraints
+confirmed decisions
+open questions and blockers relevant to that stage
+evidence pointers relevant to that stage
 ```
 
-The same loop applies to `task-decomposition`, `programming-principles`,
-`documentation-guidelines`, and any future capability routed by this skill.
-Do not ask downstream questions before the upstream stage has produced the
-facts needed to make those questions meaningful.
+Every stage must return a compact update with facts, inferences, decisions,
+open questions, blockers, evidence pointers, and its exit status.
 
-## Reference routing
+Never keep rejected options, superseded assumptions, raw logs, or a full
+interview transcript in active context. Record a rejected material choice only
+as a short decision-ledger entry.
 
-Load a problem-solving reference only when its trigger is true. After using a
-reference, retain its conclusions in the compact problem model; do not treat
-the reference name as evidence that its content was applied.
+## Pipeline
 
-| Reference | Load when | Required result |
-| --- | --- | --- |
-| `problem-model.md` | constraints, decisions, dependencies, or unknowns interact | explicit current problem state and dependencies |
-| `evidence-and-documentation.md` | documents, contracts, or sources may affect the requirement or conflict with implementation evidence | evidence status, conflicts, and their consequences |
-| `solution-development.md` | at least two materially plausible solutions remain after the problem and decisions are confirmed | compared candidates and decision criteria |
-| `solution-challenge.md` | the preferred solution has material risks, assumptions, or failure paths | challenged recommendation and mitigations |
-| `completion.md` | the result is partial, conditional, deferred, blocked, or branched | correct completion state and remaining dependencies |
+Run the following states in order. Re-enter only the nearest earlier state that
+can resolve a new gap or contradiction.
 
-Do not load `solution-development.md` or `solution-challenge.md` during the
-problem-framing phase. Do not load a reference merely because it is listed;
-load it at the stage where its output can change the next decision.
+```text
+PROBLEM_FRAMING
+→ DOCUMENTATION_ANALYSIS
+→ PROBLEM_GRILL
+→ PROCESS_ANALYSIS
+→ PROCESS_GRILL
+→ SOLUTION_DESIGN
+→ SOLUTION_GRILL
+→ IMPLEMENTATION_DISCOVERY
+→ IMPLEMENTATION_GRILL
+→ IMPLEMENTATION_PLAN
+→ FINAL_CONTEXT
+→ READY_FOR_IMPLEMENTATION
+```
 
-If at least one material decision remains, asking the user is required even
-when a reasonable recommendation exists. A recommendation may accompany the
-question, but it does not replace the question.
+### 1. Problem framing
 
-Maintain only the material problem state needed for reasoning. Load [problem-model.md](references/problem-model.md) for multiple interacting constraints, decisions, dependencies, or unresolved states.
+Establish the problem, desired outcome, impact, constraints, non-goals, known
+facts, and unknowns. Do not recommend a solution. If framing contains a
+material decision, use `grilling` in `problem` scope.
 
-Retrieve only evidence needed for the current uncertainty; do not retrieve again when caller context is sufficient. Load [evidence-and-documentation.md](references/evidence-and-documentation.md) when documentation affects requirements, contracts, expected behavior, source-of-truth interpretation, or conflicts with implementation/runtime evidence.
+### 2. Documentation analysis
 
-Let `grill` classify facts, material decisions, and execution details. Do not
-choose a material user decision without it. Continue only work that is
-independent of the unresolved decision; keep dependent reasoning conditional.
-Recommendations are not decisions. Delegation applies only to its stated
-scope.
+Use `documentation-analysis` to find applicable documentation and conflicts.
+It must use `token-efficient-retrieval` when it needs source evidence.
 
-## Capability routing
+### 3. Problem grill
 
-| Capability | Trigger |
+Use `grilling` in `problem` scope for material choices that documentation and
+other available evidence cannot answer. If missing facts remain, return to
+documentation analysis. Continue only when the problem model is confirmed.
+
+### 4. Process analysis and grill
+
+Use `business-process-analysis` when existing business or system behavior may
+matter. A plausible connection is enough. Skip it only for a purely conceptual
+task with no existing process. Then use `grilling` in `process` scope only for
+decisions exposed by the process result. Return to process analysis for missing
+facts or an incorrect boundary.
+
+### 5. Solution design and grill
+
+Use `solution-design` to define the required behavior and compare alternatives
+only when more than one material option remains. Then use `grilling` in
+`solution` scope. Do not start implementation discovery until the solution
+concept is confirmed.
+
+### 6. Implementation discovery and grill
+
+Use `implementation-discovery` to locate exact affected areas and technical
+dependencies for the confirmed concept. Then use `grilling` in `implementation`
+scope for decisions that discovery exposed. Do not turn a recommendation into a
+decision without user authority.
+
+### 7. Plan and final context
+
+Use `implementation-plan` after all material implementation decisions are
+settled. Use `context-state` in `final` mode to produce the authoritative
+Final Implementation Context. Set `ready_for_implementation: true` only when
+it has no remaining blockers.
+
+## Routing rules
+
+| Condition | Action |
 | --- | --- |
-| `token-efficient-retrieval` | additional evidence retrieval is needed |
-| `grill` | the current stage exposes a material decision, ambiguity, contradiction, unsupported assumption, or unclear acceptance boundary |
-| `business-process-analysis` | after problem confirmation, an existing business or system process may affect the problem; a plausible connection is enough to run it before solution development. Skip only for a purely conceptual problem with no process to reconstruct |
-| `task-decomposition` | reasoning has meaningful stages, dependencies, responsibilities, decisions, risks, or verification boundaries |
-| `documentation-guidelines` | preparing the user-facing result |
-
-Use the business-process analysis result as context. Load [solution-development.md](references/solution-development.md) for multiple materially plausible approaches or meaningful trade-offs. Load [solution-challenge.md](references/solution-challenge.md) when material risks or assumptions could make the preferred solution fail.
+| A stage needs repository, documentation, log, test, or structured-data evidence | Use `token-efficient-retrieval` before retrieval. |
+| A material choice remains | Use `grilling` with the current stage scope. |
+| A stage has independent, meaningful units | Use `task-decomposition`. |
+| A stage result contradicts a confirmed fact or decision | Use `context-state` to mark the conflict, then return to the closest owning stage. |
+| A user invokes an interview directly | `grill-me` routes to `grilling`; this orchestrator is not required. |
 
 ## Completion
 
-Return the strongest justified solution. If material uncertainty remains, return the strongest valid partial or conditional solution and state what is unresolved and what changes with it. Do not call it solved while a material blocker could change the main solution. Load [completion.md](references/completion.md) for partial, conditional, blocked, deferred, or branched results.
+Stop at `READY_FOR_IMPLEMENTATION` when the Final Implementation Context has:
+the confirmed problem, desired outcome, facts, constraints, non-goals, process,
+solution, implementation decisions, exact affected areas, acceptance criteria,
+verification, and no blockers. Treat it as authoritative in later
+implementation work. Reopen a settled decision only when new implementation
+evidence directly contradicts it.

@@ -36,20 +36,25 @@ Claude Code exposes plugin skills under the `cube` namespace:
 | Skill | Purpose |
 | --- | --- |
 | [business-process-analysis](plugins/cube/skills/business-process-analysis/SKILL.md) | Reconstruct business processes from system evidence. |
-| [grill](plugins/cube/skills/grill/SKILL.md) | Resolve assumptions, ambiguity, decisions, and contradictions through dependency-aware question rounds. |
+| [context-state](plugins/cube/skills/context-state/SKILL.md) | Maintain the compact canonical state of a staged task. |
 | [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Audit code for meaningful risks. |
+| [documentation-analysis](plugins/cube/skills/documentation-analysis/SKILL.md) | Establish facts and conflicts from project documentation. |
 | [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Set a consistent documentation standard. |
 | [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. |
 | [feedback-summary](plugins/cube/skills/feedback-summary/SKILL.md) | Summarize established progress, decisions, open points, and next steps without restarting analysis. |
 | [git-commit](plugins/cube/skills/git-commit/SKILL.md) | Create logical Conventional Commits. |
-| [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn established analysis into a concrete implementation plan. |
+| [grill-me](plugins/cube/skills/grill-me/SKILL.md) | Explicitly start a guided decision interview. |
+| [grilling](plugins/cube/skills/grilling/SKILL.md) | Resolve material decisions in dependency-aware interview rounds. |
+| [implementation-discovery](plugins/cube/skills/implementation-discovery/SKILL.md) | Locate exact technical scope for a confirmed solution. |
+| [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn confirmed discovery into a concrete implementation plan. |
 | [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce complete, useful responses. |
-| [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Drive problems toward justified solutions. |
+| [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Orchestrate staged analysis through implementation readiness. |
 | [programming-principles](plugins/cube/skills/programming-principles/SKILL.md) | Guide source-code and test design. |
 | [refactor](plugins/cube/skills/refactor/SKILL.md) | Propose and implement behavior-preserving refactorings. |
 | [short-result](plugins/cube/skills/short-result/SKILL.md) | Produce concise, sufficient responses. |
 | [task-decomposition](plugins/cube/skills/task-decomposition/SKILL.md) | Break non-trivial work into verifiable stages. |
 | [token-efficient-retrieval](plugins/cube/skills/token-efficient-retrieval/SKILL.md) | Retrieve only the evidence needed for a decision. |
+| [solution-design](plugins/cube/skills/solution-design/SKILL.md) | Define and confirm the behavior-level solution concept. |
 
 ## Repository layout
 

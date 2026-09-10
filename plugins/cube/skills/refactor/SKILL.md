@@ -29,7 +29,7 @@ Resolve capabilities by name and load them only when triggered; if unavailable, 
 | --- | --- |
 | `token-efficient-retrieval` | Additional evidence is needed to evaluate or safely implement a proposal. |
 | `programming-principles` | Structural or design quality must be evaluated. |
-| `grill` | A material unresolved user, project, design, or architectural decision affects proposal or implementation scope. |
+| `grilling` | A material unresolved user, project, design, or architectural decision affects proposal or implementation scope. |
 | `task-decomposition` | Implementation or verification has meaningful stages or dependencies. |
 | `documentation-guidelines` | Proposals or the final result must be presented. |
 
@@ -40,7 +40,7 @@ Resolve capabilities by name and load them only when triggered; if unavailable, 
 1. **Scope and evidence** — Work only on the requested target. Retrieve only evidence needed to decide whether a concrete hypothesis is justified and safe; stop when more evidence is unlikely to change the decision.
 2. **Evaluate** — Load [proposal-evaluation.md](references/proposal-evaluation.md) when opportunities must be evaluated or compared. Produce no proposal unless materially justified.
 3. **Present** — If at least one proposal is justified, load [proposal-format.md](references/proposal-format.md). Use stable IDs `T1`, `T2`, `T3`, …; never change an ID's meaning. Load [priorities.md](references/priorities.md) only when priority is ambiguous, affects ordering, or needs explanation.
-4. **Approve** — Do not modify code before explicit user selection of IDs. Existing selection in the conversation remains valid. For a material out-of-scope dependency, explain it and request expanded approval; use `grill` for unresolved decisions.
+4. **Approve** — Do not modify code before explicit user selection of IDs. Existing selection in the conversation remains valid. For a material out-of-scope dependency, explain it and request expanded approval; use `grilling` for unresolved decisions.
 5. **Implement and verify** — After selection, load [execution.md](references/execution.md) and [verification.md](references/verification.md). Implement only selected proposals, necessary dependencies, and required verification; exclude unrelated cleanup, formatting, renames, abstractions, architecture work, or test rewrites.
 6. **Report** — State completed, blocked, or unselected IDs, changed scope, contract verification, new findings, and required decisions or approvals.
 

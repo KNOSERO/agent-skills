@@ -1,7 +1,7 @@
   {
   "name": "cube",
-  "version": "1.7.0",
-  "description": "Reusable Agent Skills for problem solving, code analysis, audits, refactoring, documentation, and Git workflows.",
+  "version": "1.8.0",
+  "description": "Reusable Agent Skills for staged problem analysis, decisions, design, planning, code analysis, documentation, and Git workflows.",
   "author": {
     "name": "KNOSERO"
   },
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Cube Skills",
     "shortDescription": "Reusable skills for coding and problem solving",
-    "longDescription": "A complete collection of reusable Agent Skills for problem solving, business process analysis, code audits, refactoring, documentation, programming principles, task decomposition, retrieval, and Git workflows.",
+    "longDescription": "A complete collection of reusable Agent Skills for staged problem analysis, documentation analysis, decision interviews, process analysis, solution design, implementation discovery, planning, code analysis, documentation, retrieval, and Git workflows.",
     "developerName": "KNOSERO",
     "category": "Developer Tools",
     "capabilities": [
@@ -27,7 +27,7 @@
       "Review"
     ],
     "defaultPrompt": [
-      "Help me solve this repository problem.",
+      "Guide this repository problem to an implementation-ready context.",
       "Audit the selected code for meaningful risks.",
       "Explain the business process implemented here."
     ]
