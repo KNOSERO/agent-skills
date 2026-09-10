@@ -11,7 +11,7 @@ It does **not** duplicate or redefine the internal behavior of a skill.
 AGENTS.md protects usage rules.
 WORKFLOWS coordinate work.
 SKILLS own capabilities.
-REFERENCES provide detailed methods.
+REFERENCES provide conditional knowledge.
 PROJECT DOCS provide project knowledge.
 ```
 
@@ -95,6 +95,42 @@ Each `SKILL.md` owns **how** that workflow or capability works.
 
 Project documentation is evidence, not orchestration. Skills determine the evidence needed; architecture, business rules, API contracts, development rules, and tests provide the project-specific facts.
 
+## Skill authoring and references
+
+Use this rule for every new or changed skill:
+
+```text
+SKILL.md = minimal complete contract for the normal path.
+references/ = conditional knowledge for a specific non-normal path.
+```
+
+Keep a rule in `SKILL.md` when it is required for most normal executions. This includes activation, responsibility, scope, exclusions, normal workflow, core decision rules, mandatory boundaries, approval rules, normal capability routing, output and handoff contracts, stop conditions, invariants, and required formats.
+
+Before creating or keeping a reference, ask:
+
+```text
+Will a normal execution usually need to read this reference?
+```
+
+- **Yes:** move the required contract into `SKILL.md`.
+- **No:** the reference may be appropriate.
+
+A reference that must be read on nearly every execution is not lazy-loaded knowledge.
+
+### Reference rules
+
+- Add a reference **ONLY WHEN** its knowledge is conditional: an edge case, optional workflow branch, special mode, provider/tool/framework rule, large lookup table, migration, recovery, conflict resolution, unusual verification, or extended examples.
+- Give every reference an explicit trigger: `When <condition>, read <reference>.`
+- State when not to load the reference when that prevents unnecessary context.
+- Keep the normal path executable from `SKILL.md` without mandatory reference reads.
+- Do not create a reference only to make `SKILL.md` shorter.
+- Do not duplicate a normal-path contract in both `SKILL.md` and a reference.
+- Optimize the total context needed for the current task, not the line count of one file.
+
+`AGENTS.md` must contain only cross-skill authoring rules. Do not add domain workflow rules such as testing, refactoring, logging, or code-search procedures here; the owning skill defines them.
+
+When reviewing an existing skill, trace its normal path first. Mark a reference for future review when the skill normally opens it every time. Do not mass-refactor skills unless the user requests it or a direct contradiction prevents correct behavior.
+
 ## Framework infrastructure
 
 For normal project implementation, do not modify:
@@ -112,7 +148,8 @@ Before changing a skill, workflow, routing rule, or this file, determine whether
 - responsibility ownership and overlap;
 - token and context impact;
 - compatibility with other workflows;
-- stop conditions and handoff contracts.
+- stop conditions and handoff contracts;
+- normal-path contract versus conditional reference boundary.
 
 For a skill change, identify its responsibility, callers, routed skills, exclusions, and handoff contracts. Make the smallest coherent change. Do not optimize one skill in isolation if it breaks another skill's responsibility.
 
@@ -130,4 +167,6 @@ Before finishing, confirm:
 - required skills were activated and unrelated skills were not loaded;
 - project evidence supports the work;
 - no framework responsibility was duplicated, bypassed, or moved;
+- every normal path remains executable from its `SKILL.md`;
+- references have explicit conditional triggers and no mandatory normal-path dependency;
 - the requested artifact was verified.
