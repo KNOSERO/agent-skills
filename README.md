@@ -92,13 +92,14 @@ another agent.
 | Skill | Purpose | Role | Direct activation | Called by / flow activation | Returns or continues to |
 | --- | --- | --- | --- | --- | --- |
 | [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Confirm what should be done for an open problem. | Flow entry / orchestrator | Yes: open problem, requirement, symptom, or change proposal. | User or router. | Confirmed solution and Execution Handoff for `fix-me`. |
-| [fix-me](plugins/cube/skills/fix-me/SKILL.md) | Execute confirmed work now. | Flow entry / orchestrator | Yes: requested implementation, fix, update, test, documentation, or confirmed instruction. | User or `problem-solving` handoff. | Changed artifacts, verification, and finished result. |
+| [fix-me](plugins/cube/skills/fix-me/SKILL.md) | Execute confirmed work now and drive justified quality refinement. | Flow entry / orchestrator | Yes: requested implementation, fix, update, test, documentation, or confirmed instruction. | User or `problem-solving` handoff. | Changed artifacts, quality saturation, final verification, and finished result. |
+| [implementation-refinement](plugins/cube/skills/implementation-refinement/SKILL.md) | Critically improve a completed non-trivial implementation within its confirmed scope. | Support capability | No separate user lifecycle; normally called by `fix-me`. | `fix-me` after initial verification. | Improvements, verification, saturation decision, and out-of-scope escalation to caller. |
 | [business-process-analysis](plugins/cube/skills/business-process-analysis/SKILL.md) | Reconstruct the business process affected by a subject. | Specialist | Yes: process explanation or analysis. | `problem-solving` or `fix-me` when process behavior matters. | Process model to caller, or direct user-facing explanation. |
 | [solution-design](plugins/cube/skills/solution-design/SKILL.md) | Define the behavior-level solution, not technical implementation. | Specialist | Yes when problem inputs are confirmed. | Usually `problem-solving`. | Confirmed concept to `problem-solving` and its handoff. |
 | [implementation-discovery](plugins/cube/skills/implementation-discovery/SKILL.md) | Locate the exact technical scope of confirmed work. | Specialist | Yes for exact-scope discovery. | `fix-me` for non-trivial execution. | Affected scope to its caller. |
 | [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn established session state into one portable implementation instruction. | Manual transfer flow | **Only explicit request**, for example `/cube:implementation-plan`. | User only; never router, `problem-solving`, or `fix-me`. | A self-contained copyable prompt; `READY_FOR_TRANSFER`. |
-| [refactor](plugins/cube/skills/refactor/SKILL.md) | Assess or perform a behavior-preserving structural change. | Specialist | Yes: refactor assessment or selected refactor. | `fix-me` in execution-support mode. | Direct proposals for selection, or compact support result to `fix-me`. |
-| [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Find material code risks with evidence. | Specialist | Yes: targeted audit. | `fix-me` when risk inspection is required. | Findings for explicit selection, or verified selected changes. |
+| [refactor](plugins/cube/skills/refactor/SKILL.md) | Assess or perform a behavior-preserving structural change. | Specialist / quality framework | Yes: refactor assessment or selected refactor. | `fix-me` and `implementation-refinement` in embedded mode. | Direct proposals for selection, or compact opportunities to caller. |
+| [code-audit](plugins/cube/skills/code-audit/SKILL.md) | Find material code risks with evidence. | Specialist / quality framework | Yes: targeted audit. | `fix-me` and `implementation-refinement` in embedded mode. | Direct findings for selection, or compact material findings to caller. |
 | [documentation-analysis](plugins/cube/skills/documentation-analysis/SKILL.md) | Establish facts and conflicts from project documentation. | Specialist | Yes: documentation fact analysis. | Usually `problem-solving`; any caller with a documentation question. | Evidence and decision inputs to caller. |
 | [grill-me](plugins/cube/skills/grill-me/SKILL.md) | Explicitly start a guided decision interview. | Flow entry | Yes: user requests an interview. | User. | Invokes `grilling`; returns confirmed decisions or blockers. |
 | [grilling](plugins/cube/skills/grilling/SKILL.md) | Resolve material, non-discoverable decisions. | Support capability | Normally no; use `grill-me` for a direct interview. | Any workflow with a material open decision. | Compact decision update to caller and `context-state`. |
@@ -112,6 +113,14 @@ another agent.
 | [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce a complete, structured, reusable result. | Result / output | Yes: detailed result requested. | Any result-producing skill. | Full final presentation. |
 | [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. | Result / output | Yes: Markdown export requested. | A completed workflow or result skill. | Exported artifact. |
 | [git-commit](plugins/cube/skills/git-commit/SKILL.md) | Create small, logical Conventional Commits without publishing. | Utility / action | Yes: commit, split, organize, or prepare local changes. | User or execution work after changes are ready. | Commit IDs, verification, and remaining local changes. |
+
+### Ownership model
+
+~~~text
+flow owns lifecycle → caller selects needed frameworks → framework owns its method → compact result returns to caller
+~~~
+
+`implementation-refinement` is not an entry flow. It strengthens a non-trivial `fix-me` after initial verification. It may use only justified frameworks such as `programming-principles`, `refactor`, `code-audit`, `token-efficient-retrieval`, and `documentation-guidelines`; their direct-mode approval boundaries remain intact.
 
 ### Quick routing
 
