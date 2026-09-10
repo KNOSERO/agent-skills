@@ -1,7 +1,7 @@
 {
   "name": "cube",
-  "version": "1.13.0",
-  "description": "Reusable Agent Skills for problem analysis, decisions, planning, execution, code analysis, documentation, and Git workflows.",
+  "version": "1.14.0",
+  "description": "Reusable Agent Skills for problem analysis, decisions, portable implementation transfer, execution, code analysis, documentation, and Git workflows.",
   "author": {
     "name": "KNOSERO"
   },
@@ -29,6 +29,7 @@
     ],
     "defaultPrompt": [
       "Guide this repository problem to an implementation-ready context.",
+      "Create a portable implementation prompt from the established task context.",
       "Audit the selected code for meaningful risks.",
       "Explain the business process implemented here.",
       "Implement a confirmed solution and verify the result."

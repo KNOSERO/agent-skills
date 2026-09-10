@@ -16,14 +16,14 @@ Nie używaj go dla prostego, potwierdzonego zadania wykonawczego. Użyj wtedy
 
 ```text
 problem-solving = THINK
-implementation-plan = HOW to execute non-trivial confirmed work
+implementation-plan = MANUAL TRANSFER
 fix-me = EXECUTE
 ```
 
 `problem-solving` może analizować dokumentację, kod, konfigurację, testy i
 inne źródła, gdy są potrzebne do wyboru rozwiązania. Nie zmienia kodu,
 dokumentacji, testów ani konfiguracji. Nie wykonuje refaktoru, nie robi commita
-i nie tworzy implementation planu.
+i nie tworzy portable implementation promptu.
 
 ## Kolejność
 
@@ -82,6 +82,10 @@ Known risks or blockers
 To nie jest implementation plan: nie opisuje kolejności edycji ani nie wybiera
 technicznych detali, które należą do wykonania. Dla małego problemu handoff
 jest krótki. Dla większego zawiera tylko informacje potrzebne wykonawcy.
+
+Nie uruchamiaj automatycznie implementation-plan. Developer może później
+uruchomić go ręcznie, aby przenieść established context do innego chatu lub
+agenta.
 
 ## Zakończenie
 
