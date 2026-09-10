@@ -1,4 +1,4 @@
-# Flow: Implementation plan
+# Flow: Implemented plan
 
 Ten flow tworzy **przenośną instrukcję implementacyjną** z ustalonego stanu
 bieżącej sesji. Nie analizuje problemu od początku i niczego nie implementuje.
@@ -6,7 +6,7 @@ bieżącej sesji. Nie analizuje problemu od początku i niczego nie implementuje
 ## Cel i ręczne uruchomienie
 
 Uruchom go tylko, gdy użytkownik wprost chce przenieść ustaloną pracę do nowego
-kontekstu, na przykład przez /cube:implementation-plan.
+kontekstu, na przykład przez /cube:implemented-plan.
 
 ~~~text
 CURRENT SESSION
@@ -25,11 +25,11 @@ innego flow. Nie jest to wewnętrzny planner wykonania.
 
 ~~~text
 problem-solving = THINK
-implementation-plan = TRANSFER
+implemented-plan = TRANSFER
 fix-me = EXECUTE
 ~~~
 
-context-state utrzymuje zwarty kanoniczny stan. implementation-plan
+context-state utrzymuje zwarty kanoniczny stan. implemented-plan
 przekształca go, wraz z potrzebnym established context z rozmowy, w końcowy
 prompt do skopiowania. Nie przejmuje własności stanu i nie tworzy transcript
 summary.

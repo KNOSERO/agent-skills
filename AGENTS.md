@@ -17,6 +17,25 @@ PROJECT DOCS provide project knowledge.
 
 No layer may silently take responsibility from another layer.
 
+## Skill categories
+
+Every skill belongs to exactly one category. A category tells you what kind
+of responsibility a skill holds; it does not change how you activate it.
+
+| Category | Owns | Examples |
+| --- | --- | --- |
+| Entrypoint | Recognizing user intent; routes to one owning workflow. Stays small. | `fix-me`, `problem-solve`, `grill-me`, `implemented-plan` |
+| Workflow | Lifecycle of one task: stages, capability selection, completion. | `fixing`, `problem-solving`, `grilling`, `implementation-refinement` |
+| Domain | How to do one type of work well. No lifecycle ownership. | `refactor`, `code-audit`, `business-process-analysis`, `documentation-analysis`, `documentation-guidelines`, `programming-principles`, `solution-design` |
+| Support | Cross-cutting capability usable by any workflow. | `token-efficient-retrieval`, `context-state`, `task-decomposition`, `implementation-discovery` |
+| Action | Narrow technical operation. | `git-commit` |
+| Presentation | Result shape and delivery only, never task logic. Manual-only. | `short-result`, `long-result`, `export-result`, `feedback-summary` |
+
+**ONE WORKFLOW OWNS THE TASK.** An entrypoint never implements the workflow's
+logic itself. A domain or support skill returns its result to the caller that
+invoked it; it never starts a parallel user-facing workflow or keeps lifecycle
+ownership after returning.
+
 ## Core invariant
 
 ```text
@@ -44,9 +63,9 @@ Do not replace this with ad-hoc reasoning, random file reading, or direct implem
 Activate a matching owning skill without waiting for the user to name it.
 Use intent, task type, artifact type, and repository context.
 
-**Manual-only exception:** activate `implementation-plan` only when the user
+**Manual-only exception:** activate `implemented-plan` only when the user
 explicitly asks for a portable implementation instruction, for example
-`/cube:implementation-plan`. The router, `problem-solving`, `fix-me`, and
+`/cube:implemented-plan`. The router, `problem-solving`, `fixing`, and
 other flows must never activate it automatically.
 
 Use one primary workflow and the smallest required supporting capability set:
@@ -60,9 +79,9 @@ Do not load every related skill, reference, or document.
 
 ### Workflow selection
 
-Use [problem-solving](docs/flows/problem-solving.md) when the requested solution is materially open: a complex problem, requirement, symptom, or change proposal needs analysis or decisions. It owns **THINK** and produces a confirmed solution and execution handoff.
+Use [problem-solve → problem-solving](docs/flows/problem-solving.md) when the requested solution is materially open: a complex problem, requirement, symptom, or change proposal needs analysis or decisions. `problem-solve` recognizes the intent; `problem-solving` owns **THINK** and produces a confirmed solution and execution handoff.
 
-Use [fix-me](docs/flows/fix-me.md) when the user asks to execute a confirmed solution, ticket, plan, specification, or execution handoff. It owns **EXECUTE**. Do not restart full problem-solving unless evidence contradicts a confirmed decision or exposes a material open decision.
+Use [fix-me → fixing](docs/flows/fix-me.md) when the user asks to execute a confirmed solution, ticket, plan, specification, or execution handoff. `fix-me` recognizes the intent; `fixing` owns **EXECUTE**. Do not restart full problem-solving unless evidence contradicts a confirmed decision or exposes a material open decision.
 
 Use [the workflow index](docs/flows/README.md) to select another defined workflow. Do not combine workflow stages or gates by default.
 
@@ -72,17 +91,17 @@ If an existing skill owns the needed responsibility, use it. Do not perform the 
 
 | Need | Owning skill |
 | --- | --- |
-| Complex, materially open solution | `problem-solving` |
-| Confirmed implementation or change | `fix-me` |
+| Complex, materially open solution | `problem-solve` → `problem-solving` |
+| Confirmed implementation or change | `fix-me` → `fixing` |
 | Repository or documentation retrieval | `token-efficient-retrieval` |
-| Material user decision | `grilling` |
+| Material user decision | `grill-me` → `grilling` |
 | Business-process reasoning | `business-process-analysis` |
 | Exact implementation scope | `implementation-discovery` |
-| Iterative quality improvement of a non-trivial implementation | `implementation-refinement` through `fix-me` |
-| Explicit portable transfer to another chat or agent | `implementation-plan` — manual only |
+| Iterative quality improvement of a non-trivial implementation | `implementation-refinement` through `fixing` |
+| Explicit portable transfer to another chat or agent | `implemented-plan` — manual only |
 | Compact inter-stage state | `context-state` |
 
-The caller decides **when** a capability is required. The owning skill decides **how** to perform it.
+The caller decides **when** a capability is required. The owning skill decides **how** to perform it. A support or domain skill always returns control to the workflow that called it; it never keeps ownership of the task.
 
 ## Boundaries
 
@@ -141,7 +160,7 @@ When reviewing an existing skill, trace its normal path first. Mark a reference 
 
 For normal project implementation, do not modify:
 
-- `skills/` or `plugins/*/skills/`;
+- `plugins/*/entrypoints/`, `plugins/*/workflows/`, `plugins/*/domains/`, `plugins/*/support/`, `plugins/*/actions/`, `plugins/*/presentation/` (the category directories that hold every skill);
 - `AGENTS.md`;
 - `docs/flows/`;
 - skill routing rules or descriptions.

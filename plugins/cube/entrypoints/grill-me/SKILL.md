@@ -5,6 +5,7 @@ description: >
   or implementation choice. Use only when the user explicitly asks to be
   grilled or invokes this skill. This skill routes to grilling and does not
   conduct its own interview.
+disable-model-invocation: true
 ---
 
 # Grill me

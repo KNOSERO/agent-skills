@@ -4,7 +4,7 @@ description: >
   Maintain a compact canonical task state across analysis, decision, design,
   execution, and transfer stages. Use this skill after every meaningful stage
   of a multi-stage workflow and before handing work to a fresh context. It may
-  provide compact established state to implementation-plan, but it does not
+  provide compact established state to implemented-plan, but it does not
   create the final copyable prompt, perform domain analysis, or reopen settled
   decisions.
 ---
@@ -17,7 +17,7 @@ Own the compact, authoritative state passed between stages. Keep what can
 change the next decision. Remove raw evidence and obsolete reasoning from
 active context without losing short, traceable records of material decisions.
 
-implementation-plan owns conversion of established state into a portable prompt.
+implemented-plan owns conversion of established state into a portable prompt.
 This skill can provide the compact canonical state; it must not take over the
 copyable-prompt output.
 
@@ -67,9 +67,9 @@ ready_for_implementation: false
 Use checkpoint after each meaningful stage. Use handoff before a new agent or
 fresh context. Use final to persist the canonical state at the end of a
 completed workflow or before explicit archival; it is not a stage that runs
-specifically after implementation-plan.
+specifically after implemented-plan.
 
-When problem-solving passes a confirmed solution to fix-me, handoff mode must
+When problem-solving passes a confirmed solution to fixing, handoff mode must
 return an **Execution Handoff** with only:
 
 ~~~text
@@ -85,9 +85,9 @@ Known risks or blockers
 
 Do not include raw evidence, rejected options, interview history, or a
 step-by-step implementation plan. This handoff states what must be achieved;
-fix-me decides how to execute it.
+fixing decides how to execute it.
 
-For a manual implementation-plan request, provide only the compact established
+For a manual implemented-plan request, provide only the compact established
 state needed to build the portable prompt: current goal, confirmed facts and
 decisions, constraints and non-goals, known project areas, acceptance and
 verification, evidence pointers, open questions, and blockers. Do not create

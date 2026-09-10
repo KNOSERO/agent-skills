@@ -1,13 +1,14 @@
 ---
 name: problem-solving
 description: >
-  Orchestrate a complex problem, requirement, symptom, or change proposal from
-  problem framing to a confirmed solution and a self-contained execution
-  handoff. Use this skill whenever the user asks what should be done and the
-  task needs dependent analysis or material decisions. Route to specialized
-  skills. Do not implement, edit artifacts, refactor, write documentation, or
-  create a plan. Do not use it for a confirmed task that the user wants
-  implemented now; use fix-me for that work.
+  Own the THINK lifecycle for a complex problem, requirement, symptom, or
+  change proposal: problem framing to a confirmed solution and a
+  self-contained execution handoff. Normally entered through problem-solve,
+  but usable by any caller that already has an open problem needing dependent
+  analysis or material decisions. Route to specialized skills. Do not
+  implement, edit artifacts, refactor, write documentation, or create a plan.
+  Do not use it for a confirmed task that the user wants implemented now; use
+  fix-me for that work.
 ---
 
 # Problem-solving orchestrator
@@ -43,7 +44,7 @@ nearest earlier stage that can resolve a new gap or contradiction.
 5. **Solution design** — Use solution-design to define the required behavior,
    boundaries, and material alternatives. Do not choose files or classes.
 6. **Execution handoff** — Use context-state in handoff mode. Return the
-   confirmed solution and the information fix-me needs to execute it.
+   confirmed solution and the information fixing needs to execute it.
 
 ## Routing rules
 
@@ -54,7 +55,7 @@ nearest earlier stage that can resolve a new gap or contradiction.
 | Existing business or system process may matter | Use business-process-analysis. |
 | A stage has independent, meaningful work units | Use task-decomposition. |
 | A fact or decision conflicts with current state | Use context-state to record the conflict, then return to the closest owning stage. |
-| The user asks to execute a confirmed result | Hand the result to fix-me. Do not run implementation-discovery or implementation-plan here. |
+| The user asks to execute a confirmed result | Hand the result to fix-me. Do not run implementation-discovery or implemented-plan here. |
 
 The routed skill owns its method. This skill owns only stage order, compact
 state, and the final handoff.

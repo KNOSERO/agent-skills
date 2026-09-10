@@ -1,16 +1,16 @@
 ---
-name: implementation-plan
+name: implemented-plan
 description: >
   Manual-only transfer flow. Activate this skill only when the user explicitly
   requests a portable implementation instruction, for example
-  /cube:implementation-plan. Reuse established conversation and task context
+  /cube:implemented-plan. Reuse established conversation and task context
   to create one self-contained, copyable implementation prompt for a fresh
   ChatGPT chat, Claude Code, Codex, or another agent. Do not implement, do not
   rerun solved problem analysis, and do not activate automatically from fix-me,
   problem-solving, AGENTS.md, or any other flow.
 ---
 
-# Implementation plan
+# Implemented plan
 
 ## Responsibility and boundary
 

@@ -20,7 +20,7 @@ Refactor only when expected benefit exceeds added complexity, navigation cost, a
 | Mode | Caller and purpose | Approval / return |
 | --- | --- | --- |
 | Direct assessment | User requests assessment. | Present stable T1/T2/T3 proposals; wait for explicit selection before editing. |
-| Execution support | fix-me supplies explicitly confirmed structural work. | Exact confirmed scope is approved; implement, verify, return to fix-me. |
+| Execution support | fixing supplies explicitly confirmed structural work. | Exact confirmed scope is approved; implement, verify, return to fixing. |
 | Embedded framework | implementation-refinement evaluates current changed scope. | Return compact opportunity, benefit, scope, risk, and safety; no T IDs or user dialog. Caller may apply safe in-scope work. |
 
 ## Workflow
