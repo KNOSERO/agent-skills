@@ -145,7 +145,8 @@ Don't touch these for a normal implementation task — only for an explicit,
 requested framework change:
 
 - `plugins/*/{entrypoints,workflows,domains,support,actions,presentation}/`
-- `AGENTS.md`
+- `AGENTS.md` and `CLAUDE.md` (the latter is only a pointer to the former —
+  keep it that way, don't fork a second contract into it)
 - `docs/flows/`
 - routing rules or skill descriptions
 

@@ -77,7 +77,7 @@ another agent.
 
 | Layer | Owns |
 | --- | --- |
-| [AGENTS.md](AGENTS.md) | Project-wide routing, ownership, category model, and framework evolution rules. |
+| [AGENTS.md](AGENTS.md) | Project-wide routing, ownership, category model, and framework evolution rules. `CLAUDE.md` is a one-line pointer to it, kept only because Claude Code looks for that filename by default — there is exactly one contract, not two. |
 | This README | Map of skills, roles, categories, entry points, callers, and continuations. |
 | [docs/flows/](docs/flows/README.md) | Detailed orchestration, stages, gates, and handoffs. |
 | `SKILL.md` | The complete normal-path contract of one skill. |
