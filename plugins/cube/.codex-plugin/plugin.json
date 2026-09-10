@@ -1,6 +1,6 @@
 {
   "name": "cube",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "Reusable Agent Skills for problem analysis, decisions, portable implementation transfer, execution, code analysis, documentation, and Git workflows.",
   "author": {
     "name": "KNOSERO"
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Cube Skills",
     "shortDescription": "Reusable skills for coding and problem solving",
-    "longDescription": "A complete collection of reusable Agent Skills for staged problem analysis, decision interviews, solution design, implementation planning, execution, code analysis, documentation, retrieval, and Git workflows.",
+    "longDescription": "A complete collection of reusable Agent Skills for staged problem analysis, decision interviews, solution design, implementation planning, execution refinement, code analysis, documentation, retrieval, and Git workflows.",
     "developerName": "KNOSERO",
     "category": "Developer Tools",
     "capabilities": [
