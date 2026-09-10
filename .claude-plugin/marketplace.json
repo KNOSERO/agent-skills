@@ -10,10 +10,8 @@
       "description": "Reusable Agent Skills for practical repository work, from clear communication to Git commit suggestions.",
       "category": "Developer Tools",
       "tags": [
-        "skills",
-        "git",
-        "conventional-commits",
-        "developer-tools"
+        "Analyze",
+        "Git"
       ]
     }
   ]
