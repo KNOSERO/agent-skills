@@ -16,71 +16,61 @@ description: >
 
 Own **TRANSFER**:
 
-~~~text
-current conversation / task history
-→ established state
-→ minimum complete implementation context
-→ portable implementation instruction
-→ READY_FOR_TRANSFER
-~~~
+```text
+current conversation / task history → established state → minimum complete
+implementation context → portable implementation instruction → READY_FOR_TRANSFER
+```
 
-This is a manual flow entry, not an internal implementation planner. It does
-not edit project artifacts, execute a change, replace fix-me, or restart
-problem-solving.
-
-Use it only after an explicit request to create a portable prompt. Never
-auto-activate it from routing, problem-solving, fix-me, or another skill.
-When confirmed work must be executed in the current context, use fix-me instead.
+This is a manual entry, not an internal planner. It doesn't edit project
+artifacts, execute a change, replace `fix-me`, or restart problem-solving.
+Only run it after an explicit request for a portable prompt — never
+auto-activate it from routing, problem-solving, `fix-me`, or another skill.
+If confirmed work needs executing in the current context, that's `fix-me`.
 
 ## Inputs and context reduction
 
-Reuse established context first. Gather only the implementation-relevant state
-already available in the current session, including when present:
+Reuse established context first. Pull only the implementation-relevant state
+already in the session: problem, goal, requirements, confirmed solution,
+scope, non-goals; user and technical decisions, constraints, business rules,
+rejected directions worth not re-deciding; Execution Handoff, checkpoints,
+compact state, evidence pointers, known project facts; relevant files,
+modules, symbols, endpoints, schemas, components, tests, configuration;
+required changes, acceptance criteria, verification, risks, blockers.
 
-- problem, goal, requirements, confirmed solution, scope, and non-goals;
-- user and technical decisions, constraints, business rules, and rejected
-  directions that prevent an important repeated decision;
-- Execution Handoff, checkpoints, compact state, evidence pointers, and known
-  project facts;
-- relevant files, modules, symbols, endpoints, schemas, components, tests, and
-  configuration;
-- required changes, acceptance criteria, verification, risks, and blockers.
-
-Do not produce a conversation summary. Remove small talk, repetitions, raw
-logs, long source excerpts, full documentation text, exploratory questions,
-obsolete hypotheses, and reasoning history that cannot change implementation.
-
-Treat confirmed decisions as established context. Do not reopen them unless
-current project evidence directly contradicts them.
+This isn't a conversation summary — cut small talk, repetition, raw logs,
+long source excerpts, full documentation text, exploratory questions,
+obsolete hypotheses, and any reasoning that can't change implementation.
+Treat confirmed decisions as established; don't reopen one unless current
+project evidence directly contradicts it.
 
 ## Minimal evidence policy
 
-Do not research what the session already established. If a fact is essential to
-a safe portable instruction, missing from established state, and easily
-discoverable in the project, use token-efficient-retrieval and retrieve the
-minimum sufficient evidence.
+Don't research what the session already established. If a fact is essential
+to a safe portable instruction, missing from established state, and easily
+discoverable in the project, retrieve the minimum with
+`token-efficient-retrieval`.
 
 Classify every gap before acting:
 
 | Gap | Action |
 | --- | --- |
-| Discoverable implementation fact | Retrieve the minimum evidence when it is essential. |
-| Small execution detail | Leave it to the destination executor. |
-| Confirmed decision | Preserve it. |
-| Material unresolved decision | Mark it explicitly as a blocker or open decision. |
+| Discoverable implementation fact | Retrieve the minimum evidence, only if essential |
+| Small execution detail | Leave it to the destination executor |
+| Confirmed decision | Preserve it |
+| Material unresolved decision | Mark it explicitly as a blocker or open decision |
 
-Do not invent a material decision and do not start full problem-solving merely
+Don't invent a material decision, and don't start full problem-solving just
 because a gap exists.
 
 ## Prompt construction
 
-Return exactly **one** Markdown code block. It must contain one portable prompt
-and no transcript, second product-specific version, or empty boilerplate.
-Omit any section that has no useful content.
+Return exactly **one** Markdown code block: one portable prompt, no
+transcript, no second product-specific version, no empty boilerplate. Omit
+any section with nothing useful in it.
 
-Use this fixed section order when the sections are needed:
+Use this section order when a section is needed:
 
-~~~text
+```text
 Implement the following confirmed change.
 
 Goal
@@ -95,31 +85,31 @@ Acceptance criteria
 Verification
 Known risks or blockers
 Execution rules
-~~~
+```
 
-The generated prompt must always include these execution rules:
+Always include these execution rules:
 
 - Treat the confirmed decisions below as established context.
-- Do not restart problem analysis or reopen them unless current project evidence directly contradicts them.
+- Don't restart problem analysis or reopen them unless current project evidence directly contradicts them.
 - Inspect only the minimum project context required for implementation.
-- Discover facts from the project instead of asking the user when they are available there.
+- Discover facts from the project instead of asking the user when they're available there.
 - Make small implementation decisions locally.
 - Ask only about material unresolved decisions.
 - Implement the complete required scope.
 - Update tests, documentation, and configuration when the confirmed change requires them.
 - Verify the result and fix regressions caused by the implementation.
-- Do not perform unrelated cleanup.
+- Don't perform unrelated cleanup.
 - Finish with a concise implementation and verification report.
 
-When the destination project has a skill framework, the prompt may instruct the
-agent to respect its local AGENTS.md and use the appropriate execution flow.
-Do not copy whole SKILL.md files into the prompt.
+If the destination project has a skill framework, the prompt may tell the
+agent to respect its local `AGENTS.md` and use the appropriate execution
+flow. Don't copy whole `SKILL.md` files into the prompt.
 
 ## Completion
 
-Finish as READY_FOR_TRANSFER when the code block contains enough compact,
-self-contained context for a new agent to know what to change, where to look,
-which decisions are fixed, how to verify the result, and when it is done.
+Finish as `READY_FOR_TRANSFER` when the code block gives a new agent enough
+compact, self-contained context to know what to change, where to look, which
+decisions are fixed, how to verify the result, and when it's done.
 
-Do not claim IMPLEMENTED. If a material blocker remains, preserve it clearly in
-the generated prompt rather than guessing or hiding it.
+Never claim `IMPLEMENTED`. If a material blocker remains, state it plainly
+in the generated prompt instead of guessing or hiding it.

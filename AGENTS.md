@@ -1,197 +1,177 @@
 # AGENTS.md — Operating Contract for `KNOSERO/agent-skills`
 
-## Purpose and scope
+## Purpose
 
-This file protects the skill framework while agents work in this repository.
-It defines project-wide activation, routing, ownership, and safety rules.
-
-It does **not** duplicate or redefine the internal behavior of a skill.
+This file governs how agents use the skill system in this repo: activation,
+routing, ownership, safety. It does not redefine what any single skill does.
 
 ```text
-AGENTS.md protects usage rules.
-WORKFLOWS coordinate work.
-SKILLS own capabilities.
-REFERENCES provide conditional knowledge.
-PROJECT DOCS provide project knowledge.
+AGENTS.md    — when to route, and to what
+WORKFLOWS    — how a task's lifecycle runs
+SKILLS       — how one capability works
+REFERENCES   — conditional detail for a genuine branch
+PROJECT DOCS — facts about this codebase
 ```
 
-No layer may silently take responsibility from another layer.
+No layer takes over another layer's job.
 
-## Skill categories
+## Categories
 
-Every skill belongs to exactly one category. A category tells you what kind
-of responsibility a skill holds; it does not change how you activate it.
+Every skill has exactly one:
 
 | Category | Owns | Examples |
 | --- | --- | --- |
-| Entrypoint | Recognizing user intent; routes to one owning workflow. Stays small. | `fix-me`, `problem-solve`, `grill-me`, `implemented-plan` |
-| Workflow | Lifecycle of one task: stages, capability selection, completion. | `fixing`, `problem-solving`, `grilling`, `implementation-refinement` |
-| Domain | How to do one type of work well. No lifecycle ownership. | `refactor`, `code-audit`, `business-process-analysis`, `documentation-analysis`, `documentation-guidelines`, `programming-principles`, `solution-design` |
-| Support | Cross-cutting capability usable by any workflow. | `token-efficient-retrieval`, `context-state`, `task-decomposition`, `implementation-discovery` |
-| Action | Narrow technical operation. | `git-commit` |
-| Presentation | Result shape and delivery only, never task logic. Manual-only. | `short-result`, `long-result`, `export-result`, `feedback-summary` |
+| Entrypoint | Recognizes intent, routes to one workflow, stays thin | `fix-me`, `problem-solve`, `grill-me`, `implemented-plan` |
+| Workflow | A task's full lifecycle: stages, routing, completion | `fixing`, `problem-solving`, `grilling`, `implementation-refinement` |
+| Domain | Doing one kind of work well, no lifecycle ownership | `refactor`, `code-audit`, `business-process-analysis`, `documentation-analysis`, `documentation-guidelines`, `programming-principles`, `solution-design` |
+| Support | A cross-cutting capability any workflow can call | `token-efficient-retrieval`, `context-state`, `task-decomposition`, `implementation-discovery` |
+| Action | One narrow technical operation | `git-commit` |
+| Presentation | Result shape and delivery only, manual-only | `short-result`, `long-result`, `export-result`, `feedback-summary` |
 
-**ONE WORKFLOW OWNS THE TASK.** An entrypoint never implements the workflow's
-logic itself. A domain or support skill returns its result to the caller that
-invoked it; it never starts a parallel user-facing workflow or keeps lifecycle
-ownership after returning.
+One workflow owns the task. An entrypoint never does the workflow's job. A
+domain or support skill returns its result and lets go — it never keeps the
+task, and never starts a parallel one.
 
-## Core invariant
+## The rule
 
-```text
-USE THE SKILL SYSTEM.
-DO NOT REIMPLEMENT THE SKILL SYSTEM.
-```
-
-For every task, use this order:
+Use the skill system. Don't reimplement it.
 
 ```text
-USER REQUEST
-→ read this contract
-→ select the owning workflow
-→ activate required skills
-→ retrieve project evidence
-→ perform work
-→ verify
-→ finish
+request → read this file → pick the owning workflow → activate what it needs
+→ gather evidence → do the work → verify → finish
 ```
 
-Do not replace this with ad-hoc reasoning, random file reading, or direct implementation.
+No ad-hoc reasoning in place of routing, no direct implementation that skips
+the owning workflow.
 
-## Activation and routing
+## Routing
 
-Activate a matching owning skill without waiting for the user to name it.
-Use intent, task type, artifact type, and repository context.
+Activate the owning skill as soon as you recognize the task; don't wait to
+be asked by name. Use intent, task type, artifact type, and repository
+context.
 
-**Manual-only exception:** activate `implemented-plan` only when the user
-explicitly asks for a portable implementation instruction, for example
-`/cube:implemented-plan`. The router, `problem-solving`, `fixing`, and
-other flows must never activate it automatically.
+`implemented-plan` is the one manual-only exception: activate it only on an
+explicit request for a portable handoff, e.g. `/cube:implemented-plan`. No
+workflow may trigger it automatically.
 
-Use one primary workflow and the smallest required supporting capability set:
+Run one primary workflow plus the smallest support set it actually needs.
+Don't preload every related skill or reference "just in case."
 
-```text
-PRIMARY WORKFLOW
-→ smallest required capability set
-```
+**Workflow selection**
 
-Do not load every related skill, reference, or document.
-
-### Workflow selection
-
-Use [problem-solve → problem-solving](docs/flows/problem-solving.md) when the requested solution is materially open: a complex problem, requirement, symptom, or change proposal needs analysis or decisions. `problem-solve` recognizes the intent; `problem-solving` owns **THINK** and produces a confirmed solution and execution handoff.
-
-Use [fix-me → fixing](docs/flows/fix-me.md) when the user asks to execute a confirmed solution, ticket, plan, specification, or execution handoff. `fix-me` recognizes the intent; `fixing` owns **EXECUTE**. Do not restart full problem-solving unless evidence contradicts a confirmed decision or exposes a material open decision.
-
-Use [the workflow index](docs/flows/README.md) to select another defined workflow. Do not combine workflow stages or gates by default.
-
-### Capability ownership
-
-If an existing skill owns the needed responsibility, use it. Do not perform the same responsibility manually while leaving that skill inactive.
-
-| Need | Owning skill |
+| Situation | Flow |
 | --- | --- |
-| Complex, materially open solution | `problem-solve` → `problem-solving` |
+| The solution is materially open — needs analysis or a decision | [problem-solve → problem-solving](docs/flows/problem-solving.md) |
+| A confirmed solution, ticket, plan, or handoff needs executing | [fix-me → fixing](docs/flows/fix-me.md) |
+| Anything else defined | [flow index](docs/flows/README.md) |
+
+Don't restart problem-solving on a confirmed handoff unless new evidence
+contradicts an established decision or exposes one that's still open. Don't
+combine stages or gates from different flows by default.
+
+**Capability ownership**
+
+| Need | Owner |
+| --- | --- |
+| Materially open solution | `problem-solve` → `problem-solving` |
 | Confirmed implementation or change | `fix-me` → `fixing` |
 | Repository or documentation retrieval | `token-efficient-retrieval` |
 | Material user decision | `grill-me` → `grilling` |
 | Business-process reasoning | `business-process-analysis` |
 | Exact implementation scope | `implementation-discovery` |
-| Iterative quality improvement of a non-trivial implementation | `implementation-refinement` through `fixing` |
-| Explicit portable transfer to another chat or agent | `implemented-plan` — manual only |
+| Iterating a non-trivial implementation | `implementation-refinement`, via `fixing` |
+| Portable transfer to another chat or agent | `implemented-plan` — manual only |
 | Compact inter-stage state | `context-state` |
 
-The caller decides **when** a capability is required. The owning skill decides **how** to perform it. A support or domain skill always returns control to the workflow that called it; it never keeps ownership of the task.
+The caller decides *when* a capability is needed; the owning skill decides
+*how*. It always hands control back — never a parallel workflow, never kept
+lifecycle ownership.
 
 ## Boundaries
 
-Agents must not:
+Don't:
 
-- invent a parallel workflow;
-- bypass an owning skill;
-- copy a skill workflow into ad-hoc reasoning or this file;
-- weaken required skill activation because a task appears easy;
-- expand a skill's responsibility while using it;
-- transfer responsibility between skills unless routing explicitly requires it;
-- edit a skill only to make the current task easier.
+- run a parallel workflow next to the owning one;
+- skip the owning skill because the task looks easy;
+- fold a skill's job into ad-hoc reasoning, here or anywhere else;
+- widen a skill's responsibility while using it;
+- move responsibility between skills without a routing rule saying so;
+- edit a skill just to make today's task more convenient.
 
-`AGENTS.md` owns **when** the repository must route to a workflow or skill.
-Each `SKILL.md` owns **how** that workflow or capability works. A support capability returns its result to its caller; it does not become a parallel user workflow or take lifecycle ownership.
+`AGENTS.md` decides *when* to route. Each `SKILL.md` decides *how* the
+routed work happens. Project docs are evidence, not orchestration: they
+supply facts (architecture, business rules, contracts, tests); skills
+decide which facts they need.
 
-Project documentation is evidence, not orchestration. Skills determine the evidence needed; architecture, business rules, API contracts, development rules, and tests provide the project-specific facts.
-
-## Skill authoring and references
-
-Use this rule for every new or changed skill:
+## Writing a skill
 
 ```text
-SKILL.md = minimal complete contract for the normal path.
-references/ = conditional knowledge for a specific non-normal path.
+SKILL.md    = the complete contract for the normal path
+references/ = detail for a genuine branch off that path
 ```
 
-Keep a rule in `SKILL.md` when it is required for most normal executions. This includes activation, responsibility, scope, exclusions, normal workflow, core decision rules, mandatory boundaries, approval rules, normal capability routing, output and handoff contracts, stop conditions, invariants, and required formats.
+Put a rule in `SKILL.md` when most normal runs need it: activation,
+responsibility, scope, exclusions, the normal flow, core decision rules,
+mandatory boundaries, approvals, normal capability routing, output and
+handoff contracts, stop conditions, required formats.
 
-Before creating or keeping a reference, ask:
+Before adding a reference, ask: would a normal run read this anyway? If
+yes, it belongs in `SKILL.md` — splitting it out doesn't save context, it
+scatters the contract across files a normal run has to open regardless.
 
-```text
-Will a normal execution usually need to read this reference?
-```
+A reference earns its place only for a genuine split from the normal path:
+a different interface, platform, or provider; a rarely taken branch; a
+large lookup table; a named edge case such as conflict resolution,
+migration, or recovery. Give it an explicit trigger (`When <condition>,
+read <reference>`), say when not to load it, and never duplicate the same
+contract in both places.
 
-- **Yes:** move the required contract into `SKILL.md`.
-- **No:** the reference may be appropriate.
+## Prose style
 
-A reference that must be read on nearly every execution is not lazy-loaded knowledge.
+Say it once, plainly. A short sentence beats a bulleted taxonomy; one
+well-chosen metaphor, reused, beats redefining a concept every time it
+appears. If a sentence only restates the frontmatter or the line above it,
+cut it.
 
-### Reference rules
-
-- Add a reference **ONLY WHEN** its knowledge is conditional: an edge case, optional workflow branch, special mode, provider/tool/framework rule, large lookup table, migration, recovery, conflict resolution, unusual verification, or extended examples.
-- Give every reference an explicit trigger: `When <condition>, read <reference>.`
-- State when not to load the reference when that prevents unnecessary context.
-- Keep the normal path executable from `SKILL.md` without mandatory reference reads.
-- Do not create a reference only to make `SKILL.md` shorter.
-- Do not duplicate a normal-path contract in both `SKILL.md` and a reference.
-- Optimize the total context needed for the current task, not the line count of one file.
-
-`AGENTS.md` must contain only cross-skill authoring rules. Do not add domain workflow rules such as testing, refactoring, logging, or code-search procedures here; the owning skill defines them.
-
-When reviewing an existing skill, trace its normal path first. Mark a reference for future review when the skill normally opens it every time. Do not mass-refactor skills unless the user requests it or a direct contradiction prevents correct behavior.
+This approach, and the reference threshold above, draws on community
+skill-authoring conventions — notably
+[mattpocock/skills' CLAUDE.md](https://github.com/mattpocock/skills/blob/main/CLAUDE.md).
+Read it for the approach, not the content: our categories, routing table,
+and thresholds are project-specific and stay as defined here.
 
 ## Framework infrastructure
 
-For normal project implementation, do not modify:
+Don't touch these for a normal implementation task — only for an explicit,
+requested framework change:
 
-- `plugins/*/entrypoints/`, `plugins/*/workflows/`, `plugins/*/domains/`, `plugins/*/support/`, `plugins/*/actions/`, `plugins/*/presentation/` (the category directories that hold every skill);
-- `AGENTS.md`;
-- `docs/flows/`;
-- skill routing rules or descriptions.
+- `plugins/*/{entrypoints,workflows,domains,support,actions,presentation}/`
+- `AGENTS.md` and `CLAUDE.md` (the latter is only a pointer to the former —
+  keep it that way, don't fork a second contract into it)
+- `docs/flows/`
+- routing rules or skill descriptions
 
-Treat these files as framework infrastructure. Change them only when the user explicitly requests an agent-framework change.
+Before changing any of them, check: activation and routing impact,
+responsibility ownership and overlap, token and context impact,
+compatibility with other workflows, stop conditions and handoff contracts,
+and whether content belongs in `SKILL.md` or a reference. Make the smallest
+coherent change; don't fix one skill's ergonomics by breaking another's
+contract.
 
-Before changing a skill, workflow, routing rule, or this file, determine whether the task changes framework behavior. If it does, check:
+## Docs and versioning
 
-- activation and routing impact;
-- responsibility ownership and overlap;
-- token and context impact;
-- compatibility with other workflows;
-- stop conditions and handoff contracts;
-- normal-path contract versus conditional reference boundary.
+Keep `README.md` in English. Write everything else in Polish unless asked
+otherwise. Include only what changes understanding or action.
 
-For a skill change, identify its responsibility, callers, routed skills, exclusions, and handoff contracts. Make the smallest coherent change. Do not optimize one skill in isolation if it breaks another skill's responsibility.
+Version as `MAJOR.MINOR.PATCH`: bump `MINOR` for a normal change, `PATCH`
+for a small fix, `MAJOR` only when asked. Update the version wherever the
+project tracks it.
 
-## Documentation and versioning
+## Before finishing
 
-Keep `README.md` installation and usage information in English. Write other documentation in Polish unless the user asks for another language. Include only content that changes understanding or action.
-
-Use `MAJOR.MINOR.PATCH`. For a normal change, increase `MINOR` and reset `PATCH`. For a small fix, increase `PATCH`. Increase `MAJOR` only when the user requests it. Update the project's version location when one exists.
-
-## Final check
-
-Before finishing, confirm:
-
-- an owning workflow was selected;
-- required skills were activated and unrelated skills were not loaded;
-- project evidence supports the work;
-- no framework responsibility was duplicated, bypassed, or moved;
-- every normal path remains executable from its `SKILL.md`;
-- references have explicit conditional triggers and no mandatory normal-path dependency;
-- the requested artifact was verified.
+- An owning workflow was selected, not invented.
+- Only the skills the task needed were activated.
+- The work is backed by project evidence.
+- No responsibility was duplicated, skipped, or moved without a rule saying so.
+- Every skill's normal path still runs from its `SKILL.md` alone.
+- Every reference has an explicit trigger and isn't secretly load-bearing.
+- The requested artifact was verified.

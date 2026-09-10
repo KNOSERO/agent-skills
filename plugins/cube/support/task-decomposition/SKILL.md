@@ -11,7 +11,7 @@ Use this as a shared execution capability for non-trivial tasks. Treat the task 
 task → process → coherent stages → dependencies → execution order → verification points
 ```
 
-This skill organizes work only. It does not provide domain knowledge or own analysis, auditing, refactoring, Git, research, retrieval, testing strategy, presentation, or export workflows. A consuming domain skill remains authoritative for its workflow and output contract.
+This skill organizes work only. It does not provide domain knowledge or own analysis, auditing, refactoring, Git, research, retrieval, testing strategy, presentation, or export workflows, and it never requires narrating internal process steps to the user. A consuming domain skill remains authoritative for its workflow and output contract.
 
 ## When to decompose
 
@@ -52,13 +52,6 @@ Treat the plan as adaptive. When new evidence appears, update the affected stage
 If a stage fails, identify the local cause and retry or revise from the nearest safe checkpoint. Preserve earlier conclusions that remain valid. Use statuses such as `pending`, `in progress`, `completed`, `blocked`, or `not needed` when they clarify coordination. Do not pretend downstream work is valid while a blocking result is unresolved.
 
 Verify at meaningful boundaries where an incorrect intermediate result could invalidate later work. Detailed verification and test strategy belong to the consuming domain skill. The process is complete only when required stages and dependencies are resolved, meaningful verification is complete, and no blocker invalidates the result.
-
-## Boundaries with other skills
-
-- Domain skills define what workflow semantics are required; this skill only organizes their execution.
-- `token-efficient-retrieval` determines the minimum evidence needed for the current stage.
-- `programming-principles`, `documentation-guidelines`, result-length skills, and export skills retain their respective responsibilities.
-- This skill does not control the final presentation and does not require narrating internal process steps to the user.
 
 ## For consuming skills
 

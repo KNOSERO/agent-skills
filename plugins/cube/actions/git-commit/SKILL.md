@@ -22,17 +22,25 @@ Create small, reviewable commits from the current changes. Use
    user explicitly includes it.
 6. Before each commit, inspect the staged diff, run `git diff --cached --check`,
    check for secrets and temporary files, and run the narrowest relevant test or lint.
-7. Create one Conventional Commit per logical group, using an imperative English
-   message such as `fix(parser): reject malformed input`.
+7. Create one Conventional Commit per logical group.
 8. After each commit, inspect the commit and `git status --short`.
 
 Do not ask the user to choose `A` or `B`, fill in group IDs, or approve a routine
 plan. Ask only when the intended scope cannot be determined safely. If there are no
 changes, report that and stop.
 
-Use `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, or
-`revert` as appropriate. Add `!` and a `BREAKING CHANGE:` footer only for a real
-breaking change.
+## Commit message
+
+```text
+<type>(<scope>): <imperative, lowercase, no trailing period>
+```
+
+`fix(parser): reject malformed input`
+
+- `scope` is optional; include it when it sharpens the message (module, package, area), omit it when the change is repo-wide or scope would just repeat the type.
+- Use `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, or `revert` — pick the one matching the change's actual effect, not its file type.
+- Keep the description on one line; add a body only when the reason isn't obvious from the diff and the message alone would leave it unclear.
+- Add `!` after the type/scope and a `BREAKING CHANGE:` footer only for a real breaking change.
 
 If a Git write fails, distinguish a repository error, active lock, and permission
 or sandbox restriction. For a permission-only failure, use the available

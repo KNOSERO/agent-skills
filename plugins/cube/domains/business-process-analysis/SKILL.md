@@ -14,74 +14,75 @@ description: >
 
 ## Responsibility
 
-Answer: **what business process does this subject participate in, and how does that process actually work?**
+Answer: **what business process does this subject participate in, and how
+does it actually work?** Read code through the process it implements, not as
+an isolated technical structure — code, configuration, tests, schemas,
+APIs, and logs are evidence, never a stand-in for behavior you'd otherwise
+invent.
 
-Analyze code through the business process it implements, not as an isolated technical structure. Code, configuration, tests, schemas, APIs, logs, and related artifacts are evidence; do not invent missing behavior.
-
-This is a read-only analysis. Do not turn it into bug hunting, a security/performance/maintainability audit, dead-code detection, or refactoring. Pass a relevant process to `code-audit` or `refactor` only when another request explicitly needs that work.
+This is read-only. Don't turn it into bug hunting, an audit, dead-code
+detection, or refactoring — pass a finding to `code-audit` or `refactor`
+only when another request explicitly needs that work.
 
 ## Scope and boundary
 
-The entry point may be a process, feature, use case, module, class/service, endpoint, event, command, specific behavior, or problem context. First identify the relevant business process; a technical entry point is not automatically the analysis scope.
-
-Choose the **smallest meaningful business process boundary**:
-
-- If the subject represents a complete process, analyze that process.
-- Otherwise find the smallest enclosing process that gives it business meaning.
-- Describe the subject as a step, participant, subprocess, decision, rule implementation, state transition, integration, or entry point as appropriate.
-
-Do not broaden the boundary when a smaller one explains the requested behavior.
+The entry point can be a process, feature, use case, module, service,
+endpoint, event, command, or problem — but it isn't automatically the
+scope. Find the relevant business process first, then choose the smallest
+boundary that gives the subject business meaning: if it already is a
+complete process, analyze that; otherwise find the smallest enclosing one.
+Describe the subject as a step, participant, subprocess, decision, rule, or
+state transition as fits. Don't widen the boundary when a smaller one
+already explains the requested behavior.
 
 ## Evidence and retrieval
 
-Use `token-efficient-retrieval` to gather evidence. Expand context only to resolve a concrete uncertainty about the business process. Never load a repository, module, dependency tree, test suite, documentation set, or logs wholesale when narrower evidence can establish the next process fact.
+Gather evidence with `token-efficient-retrieval`, expanding only to resolve
+a concrete uncertainty:
 
-Prefer:
+```text
+target → entry point/usages → direct calls/dependencies → business rules →
+state transitions → immediate caller/enclosing flow → broader process only
+if necessary
+```
 
-`target → entry point/usages → direct calls/dependencies → business rules → state transitions → immediate caller/enclosing flow → broader process only if necessary`
+After each retrieval, update the process model and ask what material fact
+is still missing. Stop once you understand the process, not the repository;
+mark non-blocking gaps `unknown` or `unconfirmed`. Once retrieval is
+exhausted, send every unresolved scope, interpretation, assumption, or
+decision to `grilling` in `process` scope — never a fact retrieval could
+have established, but do ask whether an unconfirmed fact should decide the
+process direction.
 
-After each retrieval, update the process model and ask what material fact remains unknown. Stop when the evidence is sufficient to understand the material process in scope; retrieve enough to understand the process, not enough to understand the repository. Mark non-blocking gaps `unknown` or `unconfirmed`.
-
-After retrieval, use `grilling` in `process` scope for every unresolved process
-scope, interpretation, assumption, or decision. Do not ask for facts that
-retrieval can establish, but ask the user whether an established fact should
-determine the process direction when that is not confirmed.
-
-Separate `confirmed`, `inferred`, and `unknown/unconfirmed`. Every material process claim must be supported by evidence, and inference must remain labelled as such.
+Keep `confirmed`, `inferred`, and `unknown/unconfirmed` separate. Every
+material claim needs an evidence status; label inference as inference.
 
 ## Process model
 
-Establish only the elements material to the scope:
-
-- purpose and trigger/entry point;
-- boundary, actors, participants, and relevant systems;
-- business flow, decisions, rules, subprocesses, and alternatives;
-- state transitions, inputs, outputs, side effects, and failure paths;
-- external interactions and technical implementation mapping;
-- unknown or unconfirmed parts.
-
-Explain business behavior before mapping it to classes, functions, configuration, APIs, tests, or other implementation details. Do not present a fragment as a standalone process merely because it has a convenient technical boundary.
+Establish only what's material to the scope: purpose and trigger; boundary,
+actors, participants, relevant systems; flow, decisions, rules,
+subprocesses, alternatives; state transitions, inputs, outputs, side
+effects, failure paths; external interactions and their implementation
+mapping; unknowns. Explain the business behavior before mapping it to
+classes, functions, or config — a technically convenient fragment isn't a
+process just because it's easy to point at.
 
 ## Invocation modes
 
-For direct user invocation, reconstruct and explain the process as a user-facing Markdown result. Use `documentation-guidelines` for structure, language, and diagrams. Add a diagram only when sequence, interaction, decisions, or state changes are materially clearer visually. Do not report the procedural history or list every inspected artifact.
+Direct invocation: reconstruct and explain the process as a user-facing
+result. Use `documentation-guidelines` for structure and language; add a
+diagram only when it makes sequence, interaction, decisions, or state
+changes materially clearer. Skip the procedural history and the list of
+inspected artifacts.
 
-When invoked by another skill, return the minimum sufficient process model for that caller: relevant scope, trigger, flow, rules, state transitions, participants, implementation mapping, material dependencies, and unknowns. Do not automatically produce full user-facing documentation.
-
-Direct invocation explains the process. Consuming invocation supplies only the process context required by the caller.
-
-## Relationship to other skills
-
-- `grilling` resolves facts-versus-decisions, ambiguity, assumptions,
-  contradictions, and user decisions.
-- `token-efficient-retrieval` retrieves minimum sufficient evidence.
-- `documentation-guidelines` controls user-facing presentation.
-- `programming-principles` evaluates implementation and design quality.
-- `code-audit` investigates correctness, security, reliability, performance, or other risks.
-- `refactor` evaluates and applies justified structural improvements.
-
-Do not duplicate their workflows or rules.
+Called by another skill: return only what that caller needs — scope,
+trigger, flow, rules, state transitions, participants, implementation
+mapping, material dependencies, unknowns. Don't produce full documentation
+unprompted.
 
 ## Final check
 
-Before returning the result, verify that the process—not isolated code—is the subject; the boundary is the smallest meaningful one; material claims have evidence status; retrieval stopped at sufficient context; and the output mode matches direct or consuming invocation.
+Before returning: the subject is the process, not isolated code; the
+boundary is the smallest meaningful one; every material claim has an
+evidence status; retrieval stopped once sufficient; the output matches
+direct or consuming invocation.
