@@ -27,6 +27,7 @@ Claude Code exposes plugin skills under the `cube` namespace:
 
 ```text
 /cube:problem-solving
+/cube:fix-me
 /cube:code-audit
 /cube:refactor
 ```
@@ -42,13 +43,14 @@ Claude Code exposes plugin skills under the `cube` namespace:
 | [documentation-guidelines](plugins/cube/skills/documentation-guidelines/SKILL.md) | Set a consistent documentation standard. |
 | [export-result](plugins/cube/skills/export-result/SKILL.md) | Export a completed result as Markdown. |
 | [feedback-summary](plugins/cube/skills/feedback-summary/SKILL.md) | Summarize established progress, decisions, open points, and next steps without restarting analysis. |
+| [fix-me](plugins/cube/skills/fix-me/SKILL.md) | Execute confirmed changes and verify the finished result. |
 | [git-commit](plugins/cube/skills/git-commit/SKILL.md) | Create logical Conventional Commits. |
 | [grill-me](plugins/cube/skills/grill-me/SKILL.md) | Explicitly start a guided decision interview. |
 | [grilling](plugins/cube/skills/grilling/SKILL.md) | Resolve material decisions in dependency-aware interview rounds. |
 | [implementation-discovery](plugins/cube/skills/implementation-discovery/SKILL.md) | Locate exact technical scope for a confirmed solution. |
 | [implementation-plan](plugins/cube/skills/implementation-plan/SKILL.md) | Turn confirmed discovery into a concrete implementation plan. |
 | [long-result](plugins/cube/skills/long-result/SKILL.md) | Produce complete, useful responses. |
-| [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Orchestrate staged analysis through implementation readiness. |
+| [problem-solving](plugins/cube/skills/problem-solving/SKILL.md) | Produce a confirmed solution and a self-contained execution handoff. |
 | [programming-principles](plugins/cube/skills/programming-principles/SKILL.md) | Guide source-code and test design. |
 | [refactor](plugins/cube/skills/refactor/SKILL.md) | Propose and implement behavior-preserving refactorings. |
 | [short-result](plugins/cube/skills/short-result/SKILL.md) | Produce concise, sufficient responses. |

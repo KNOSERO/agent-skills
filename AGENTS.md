@@ -27,11 +27,24 @@ This repository supports multiple named workflows. Use the
 trigger matches the task. Follow only the selected workflow's contract; do not
 apply another workflow's stages or implementation gates by default.
 
-The first registered workflow is
-[problem-solving](docs/flows/problem-solving.md). Use it for a complex problem,
-requirement, symptom, or change proposal that needs dependent analysis and
-decision stages. Do not use it when the task is simple and its solution, scope,
-and acceptance criteria are already explicit.
+Use [problem-solving](docs/flows/problem-solving.md) when the user asks what
+should be done or a complex problem, requirement, symptom, or change proposal
+needs dependent analysis and decisions. It produces a confirmed solution and
+an execution handoff. It does not change project artifacts.
+
+Use [fix-me](docs/flows/fix-me.md) when the user asks to implement, fix,
+update, apply, refactor, or finish a confirmed solution, ticket, plan,
+specification, or execution handoff. Do not restart full problem-solving unless
+new evidence contradicts a confirmed decision or exposes a material open
+decision.
+
+## Skill responsibilities
+
+- Analysis skills produce evidence-backed facts and decisions.
+- Planning skills produce execution structure for confirmed work.
+- Execution skills change the requested artifacts and verify the result.
+- Orchestrators select and route to the smallest required specialist set. They
+  do not copy specialist workflows.
 
 # Creating and Editing Skills
 

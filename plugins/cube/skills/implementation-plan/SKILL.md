@@ -15,6 +15,11 @@ Turn already collected information into an executable implementation plan. The p
 
 This skill does not replace problem analysis, make unresolved product or architecture decisions, or implement changes. It may organize a confirmed solution into tasks, but it must stop and ask when the solution itself is not settled.
 
+An execution orchestrator such as fix-me uses this plan internally only when
+the confirmed work is non-trivial. Return the plan to that caller, which must
+continue to implementation and verification. Never treat a plan as the final
+result of an execution request.
+
 ## Inputs and readiness
 
 Use the confirmed problem, process, solution, implementation-discovery result,

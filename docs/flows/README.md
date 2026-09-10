@@ -8,7 +8,8 @@ ani bramek z różnych flow bez wyraźnej instrukcji.
 
 | Flow | Uruchom, gdy | Artefakt końcowy |
 | --- | --- | --- |
-| [Problem solving](problem-solving.md) | Zadanie wymaga kilku zależnych etapów analizy i decyzji. | Final Implementation Context albo precyzyjny blocker. |
+| [Problem solving](problem-solving.md) | Trzeba ustalić, co należy zrobić, a zadanie wymaga zależnej analizy lub decyzji. | Potwierdzone rozwiązanie i Execution Handoff albo precyzyjny blocker. |
+| [Fix me](fix-me.md) | Użytkownik chce teraz wykonać potwierdzone rozwiązanie, ticket, plan lub instrukcję. | Zmienione artefakty, weryfikacja i krótki raport wykonania. |
 
 ## Dodawanie kolejnego flow
 

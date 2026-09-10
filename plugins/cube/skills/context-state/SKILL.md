@@ -2,9 +2,9 @@
 name: context-state
 description: >
   Maintain a compact canonical task state across analysis, decision, design,
-  and planning stages. Use this skill after every meaningful stage of a
-  multi-stage workflow and before handing work to a fresh context. Do not use
-  it to perform domain analysis or reopen settled decisions.
+  planning, and execution handoff stages. Use this skill after every meaningful
+  stage of a multi-stage workflow and before handing work to a fresh context.
+  Do not use it to perform domain analysis or reopen settled decisions.
 ---
 
 # Context state
@@ -65,6 +65,24 @@ ready_for_implementation: false
 
 Use `checkpoint` after each stage. Use `handoff` before a new agent or fresh
 context. Use `final` after the implementation plan.
+
+When problem-solving passes a confirmed solution to fix-me, handoff mode must
+return an **Execution Handoff** with only:
+
+```text
+Goal
+Confirmed solution
+Important decisions
+Constraints
+Required changes
+Acceptance criteria
+Important verification
+Known risks or blockers
+```
+
+Do not include raw evidence, rejected options, interview history, or a
+step-by-step implementation plan. This handoff states what must be achieved;
+fix-me decides how to execute it.
 
 In `final` mode produce **Final Implementation Context** with only:
 

@@ -23,16 +23,16 @@ The caller must state one scope: `problem`, `process`, `solution`, or
 next stage. Do not ask downstream technical questions before upstream behavior
 is confirmed.
 
-## Hard-gate mode
+## Orchestrator decision checks
 
-When `problem-solving` invokes this skill at a `*_GRILL` state, this skill is
-mandatory. Build the decision frontier before deciding that no interview is
-needed. The default is to ask at least one focused question.
+When an orchestrator reaches a decision check, build the decision frontier
+first. Run this skill only when an unresolved material choice exists in the
+current scope.
 
-Return `NO_OPEN_DECISIONS` only when the checked scope has no material choice.
-Do not use an obvious recommendation, a conventional default, or a short user
-request as a reason to skip the interview. Skip it only when the user explicitly
-asks not to be interviewed or explicitly delegates every decision in scope.
+Return `NO_OPEN_DECISIONS` when the checked scope has no material choice. Do
+not ask a question only because the caller reached a workflow stage. Do not use
+an obvious recommendation, a conventional default, or a short user request as
+a reason to hide a material choice.
 
 ## Classify before asking
 
