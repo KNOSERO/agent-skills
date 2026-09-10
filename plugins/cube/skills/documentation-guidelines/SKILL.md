@@ -1,6 +1,11 @@
 ---
 name: documentation-guidelines
-description: Set the shared presentation standard for repository documentation and technical explanations: information hierarchy, conciseness, detail, tables, processes, diagrams, language, and local conventions. It does not define domain-specific content requirements.
+description: >
+  Use this skill whenever creating, updating, reviewing, or restructuring
+  documentation or technical explanations. Also use it for README files,
+  process descriptions, diagrams, tables, and concise developer-facing
+  answers. It controls presentation, language, and information structure;
+  it does not define domain-specific content requirements.
 ---
 
 # Documentation guidelines
@@ -12,6 +17,18 @@ This skill defines how information is presented in documentation and technical e
 Other skills determine what domain information must be documented. This skill determines how that information should be communicated. Do not add domain-specific rules for APIs, databases, messaging, orchestration, programming languages, architecture, or other technologies.
 
 Use it when creating or updating documentation, explaining technical behavior, describing processes, creating diagrams, or preparing concise developer-facing text.
+
+## Application workflow
+
+Apply the rules in this order:
+
+1. Identify the reader's question, required outcome, and artifact language.
+2. Choose the minimum detail level: Short, Focused, or Full.
+3. Put the answer and critical information first.
+4. Choose the clearest structure: sentence, list, table, diagram, or a combination.
+5. Check the result against evidence and local repository conventions.
+
+Stop when the reader can take the next correct action without missing required behavior, risks, dependencies, or exceptions. Do not add structure or detail that does not improve understanding or decision quality.
 
 ## Seven presentation principles
 
@@ -58,7 +75,7 @@ Apply these as heuristics, not mechanical rules.
 
 ### 5. Visualize relationships
 
-For processes, ordering, communication, dependencies, decisions, state changes, or data relationships, consider a diagram when it provides real information value. Do not create one for a simple fact, one property, or a short list.
+For processes, ordering, communication, dependencies, decisions, state changes, or data relationships, create a diagram when it makes a relationship, sequence, branch, or state change faster to understand than prose. Do not create one for a simple fact, one property, or a short list.
 
 ### 6. Complement, do not duplicate
 
@@ -88,7 +105,7 @@ When three or more comparable items share properties, consider a table before pr
 
 Tables are particularly useful for legends, components and responsibilities, inputs and outputs, parameters, configuration, statuses, errors, dependencies, permissions, mappings, alternatives, and decision results. Do not use a table for one fact or when it reduces clarity.
 
-Use Mermaid only when it improves understanding. Select `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, `erDiagram`, or `classDiagram` according to the relationship. A diagram does not replace a necessary textual explanation. Add a table legend only when notation is not self-evident.
+When Mermaid is used, select `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, `erDiagram`, or `classDiagram` according to the relationship. Other clear diagram formats are allowed when they fit the repository. A diagram does not replace a necessary textual explanation. Add a table legend only when notation is not self-evident.
 
 ## Conditional references
 
