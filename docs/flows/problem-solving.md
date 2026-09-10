@@ -1,12 +1,16 @@
-# Flow: Problem solving
+# Flow: Problem solve → problem-solving
 
-Ten flow ustala **co należy zrobić**. Nie wykonuje rozwiązania. Kończy się
-potwierdzonym rozwiązaniem i samodzielną instrukcją wykonawczą dla `fix-me`.
+`problem-solve` to mały entrypoint: rozpoznaje, że użytkownik ma otwarty problem
+do przemyślenia, zachowuje dostępny stan i przekazuje sterowanie do
+`problem-solving`. `problem-solving` ustala **co należy zrobić**. Nie wykonuje
+rozwiązania. Kończy się potwierdzonym rozwiązaniem i samodzielną instrukcją
+wykonawczą dla `fix-me` → `fixing`.
 
 ## Kiedy uruchamiać flow
 
-Użyj `problem-solving`, gdy użytkownik pyta, co zrobić, albo problem,
-wymaganie lub zmiana wymaga zależnej analizy faktów i decyzji.
+Użyj `problem-solve`, gdy użytkownik pyta, co zrobić, albo problem,
+wymaganie lub zmiana wymaga zależnej analizy faktów i decyzji. `problem-solving`
+pozostaje też dostępny do bezpośredniej aktywacji.
 
 Nie używaj go dla prostego, potwierdzonego zadania wykonawczego. Użyj wtedy
 `fix-me`. Nie uruchamiaj go ponownie dla dostarczonego Execution Handoff, chyba
@@ -15,15 +19,15 @@ Nie używaj go dla prostego, potwierdzonego zadania wykonawczego. Użyj wtedy
 ## Granica odpowiedzialności
 
 ```text
-problem-solving = THINK
-implementation-plan = MANUAL TRANSFER
-fix-me = EXECUTE
+problem-solve → problem-solving = THINK
+implemented-plan = MANUAL TRANSFER
+fix-me → fixing = EXECUTE
 ```
 
 `problem-solving` może analizować dokumentację, kod, konfigurację, testy i
 inne źródła, gdy są potrzebne do wyboru rozwiązania. Nie zmienia kodu,
 dokumentacji, testów ani konfiguracji. Nie wykonuje refaktoru, nie robi commita
-i nie tworzy portable implementation promptu.
+i nie tworzy portable implemented-plan promptu.
 
 ## Kolejność
 
@@ -79,16 +83,16 @@ Important verification
 Known risks or blockers
 ```
 
-To nie jest implementation plan: nie opisuje kolejności edycji ani nie wybiera
+To nie jest implemented-plan: nie opisuje kolejności edycji ani nie wybiera
 technicznych detali, które należą do wykonania. Dla małego problemu handoff
 jest krótki. Dla większego zawiera tylko informacje potrzebne wykonawcy.
 
-Nie uruchamiaj automatycznie implementation-plan. Developer może później
+Nie uruchamiaj automatycznie implemented-plan. Developer może później
 uruchomić go ręcznie, aby przenieść established context do innego chatu lub
 agenta.
 
 ## Zakończenie
 
 Zakończ jako `READY_FOR_EXECUTION`, gdy solution i Execution Handoff są
-potwierdzone, a nie ma blockerów. `fix-me` traktuje ten handoff jako ustalony
+potwierdzone, a nie ma blockerów. `fixing` traktuje ten handoff jako ustalony
 kontekst i nie otwiera ponownie jego decyzji bez sprzecznego evidence.

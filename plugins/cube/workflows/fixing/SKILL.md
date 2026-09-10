@@ -1,15 +1,16 @@
 ---
-name: fix-me
+name: fixing
 description: >
-  Execute confirmed work now and own its execution lifecycle. Use for a fix,
-  implementation, update, refactor, tests, documentation, plan, or other
-  confirmed instruction. For non-trivial work, implement, verify, invoke
-  implementation-refinement, reach quality saturation, then verify finally.
-  Do not use for a materially open solution; use problem-solving. Never
-  auto-run implementation-plan.
+  Own the execution lifecycle for confirmed work: a fix, implementation,
+  update, refactor, tests, documentation, or other confirmed instruction.
+  Normally entered through fix-me, but usable by any caller that already
+  holds a confirmed instruction. For non-trivial work, implement, verify,
+  invoke implementation-refinement, reach quality saturation, then verify
+  finally. Do not use for a materially open solution; use problem-solving.
+  Never auto-run implemented-plan.
 ---
 
-# Fix me
+# Fixing
 
 ## Responsibility
 
@@ -47,7 +48,7 @@ For a simple coherent change: understand → edit → verify → finish.
 | Non-trivial implementation passed initial verification | implementation-refinement |
 | Documentation is created or changed | documentation-guidelines |
 
-The routed skill owns its method; fix-me owns lifecycle, scope, approvals, and final result. implementation-plan is never an execution-stage dependency.
+The routed skill owns its method; fixing owns lifecycle, scope, approvals, and final result. implemented-plan is never an execution-stage dependency.
 
 ## Scope and completion
 

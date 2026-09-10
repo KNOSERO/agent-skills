@@ -2,7 +2,7 @@
 name: implementation-refinement
 description: >
   Critically improve an already implemented and initially verified non-trivial
-  change inside its confirmed scope. Normally called by fix-me, it iterates on
+  change inside its confirmed scope. Normally called by fixing, it iterates on
   material quality improvements and returns a compact quality-saturation result
   to its caller. Do not use it as a user entry workflow, to redesign confirmed
   behavior, or for cosmetic cleanup.
@@ -22,7 +22,7 @@ Caller provides confirmed behavior, scope, constraints, acceptance criteria, cur
 
 ## Activation
 
-Strongly prefer after initial verification of non-trivial fix-me involving business logic, several components, a new abstraction, structural change, persistence, concurrency, error handling, public API, integration, security/performance-sensitive behavior, complex tests, or material change to existing code.
+Strongly prefer after initial verification of a non-trivial fixing run involving business logic, several components, a new abstraction, structural change, persistence, concurrency, error handling, public API, integration, security/performance-sensitive behavior, complex tests, or material change to existing code.
 
 Skip plainly trivial work such as a typo, simple constant, obvious one-line documentation correction, or trivial configuration edit. Do not decide only from line count.
 

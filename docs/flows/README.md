@@ -8,14 +8,16 @@ ani bramek z różnych flow bez wyraźnej instrukcji.
 
 | Flow | Uruchom, gdy | Aktywacja | Artefakt końcowy |
 | --- | --- | --- | --- |
-| [Problem solving](problem-solving.md) | Trzeba ustalić, co należy zrobić, a zadanie wymaga zależnej analizy lub decyzji. | Router lub użytkownik. | Potwierdzone rozwiązanie i Execution Handoff albo precyzyjny blocker. |
-| [Implementation plan](implementation-plan.md) | Użytkownik **wyraźnie** chce przenieść ustaloną pracę do innego chatu lub agenta. | **Tylko ręczna.** | Jeden samodzielny prompt gotowy do kopiowania; READY_FOR_TRANSFER. |
-| [Fix me](fix-me.md) | Użytkownik chce teraz wykonać potwierdzone rozwiązanie, ticket, plan lub instrukcję. | Router lub użytkownik. | Zmienione artefakty, weryfikacja i krótki raport wykonania. |
+| [Problem solve → problem-solving](problem-solving.md) | Trzeba ustalić, co należy zrobić, a zadanie wymaga zależnej analizy lub decyzji. | Entrypoint `problem-solve` (router lub użytkownik); `problem-solving` też bezpośrednio. | Potwierdzone rozwiązanie i Execution Handoff albo precyzyjny blocker. |
+| [Implemented plan](implemented-plan.md) | Użytkownik **wyraźnie** chce przenieść ustaloną pracę do innego chatu lub agenta. | **Tylko ręczna.** | Jeden samodzielny prompt gotowy do kopiowania; READY_FOR_TRANSFER. |
+| [Fix me → fixing](fix-me.md) | Użytkownik chce teraz wykonać potwierdzone rozwiązanie, ticket, plan lub instrukcję. | Entrypoint `fix-me` (router lub użytkownik); `fixing` też bezpośrednio. | Zmienione artefakty, weryfikacja i krótki raport wykonania. |
 
-implementation-plan nie jest etapem obowiązkowym między pozostałymi flow.
-Nie może go automatycznie wywołać router, problem-solving, fix-me ani inny flow.
+`fix-me` i `problem-solve` są małymi entrypointami: rozpoznają intencję i przekazują sterowanie do właściciela lifecycle (`fixing`, `problem-solving`). Nie implementują własnej logiki procesu.
 
-`implementation-refinement` nie jest flow ani punktem wejścia. To capability wywoływana przez `fix-me` po pierwszej trafnej weryfikacji nietrywialnej implementacji; zwraca wynik do `fix-me`, nie przejmuje lifecycle ani dialogu z użytkownikiem.
+implemented-plan nie jest etapem obowiązkowym między pozostałymi flow.
+Nie może go automatycznie wywołać router, problem-solving, fixing ani inny flow.
+
+`implementation-refinement` nie jest flow ani punktem wejścia. To capability wywoływana przez `fixing` po pierwszej trafnej weryfikacji nietrywialnej implementacji; zwraca wynik do `fixing`, nie przejmuje lifecycle ani dialogu z użytkownikiem.
 
 ## Dodawanie kolejnego flow
 

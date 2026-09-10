@@ -21,7 +21,7 @@ Screen security, correctness, reliability, performance, and maintainability only
 | Mode | Caller and purpose | Approval / return |
 | --- | --- | --- |
 | Direct audit | User requests audit. | Report stable T1/T2/T3 findings; wait for selection before editing. |
-| Embedded framework | implementation-refinement or fix-me inspects changed scope. | Return compact material findings, hypotheses, and classification; no user dialog or T IDs. Caller decides in-scope action. |
+| Embedded framework | implementation-refinement or fixing inspects changed scope. | Return compact material findings, hypotheses, and classification; no user dialog or T IDs. Caller decides in-scope action. |
 
 ## Workflow
 

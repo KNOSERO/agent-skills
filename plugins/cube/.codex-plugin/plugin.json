@@ -1,6 +1,6 @@
 {
   "name": "cube",
-  "version": "1.15.0",
+  "version": "2.0.0",
   "description": "Reusable Agent Skills for problem analysis, decisions, portable implementation transfer, execution, code analysis, documentation, and Git workflows.",
   "author": {
     "name": "KNOSERO"
@@ -14,7 +14,7 @@
     "problem-solving",
     "documentation"
   ],
-  "skills": "./skills/",
+  "skills": ["./entrypoints/", "./workflows/", "./domains/", "./support/", "./actions/", "./presentation/"],
   "interface": {
     "displayName": "Cube Skills",
     "shortDescription": "Reusable skills for coding and problem solving",

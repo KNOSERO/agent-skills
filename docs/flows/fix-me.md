@@ -1,10 +1,10 @@
-# Flow: Fix me
+# Flow: Fix me → fixing
 
-Ten flow wykonuje **potwierdzone rozwiązanie teraz** i pozostaje właścicielem całego lifecycle wykonania. Wynikiem są zmienione artefakty, quality saturation i zweryfikowany rezultat, a nie kolejny plan.
+`fix-me` to mały entrypoint: rozpoznaje, że użytkownik chce **wykonać potwierdzone rozwiązanie teraz**, zachowuje dostępny stan i przekazuje sterowanie do `fixing`. `fixing` pozostaje właścicielem całego lifecycle wykonania. Wynikiem są zmienione artefakty, quality saturation i zweryfikowany rezultat, a nie kolejny plan.
 
 ## Kiedy uruchamiać flow
 
-Użyj fix-me dla implementacji, poprawy, aktualizacji, refaktoru, testów, dokumentacji albo wykonania potwierdzonego ticketu, planu, specyfikacji, Execution Handoff lub portable implementation prompt. Gdy trzeba dopiero ustalić rozwiązanie, użyj problem-solving.
+Użyj fix-me dla implementacji, poprawy, aktualizacji, refaktoru, testów, dokumentacji albo wykonania potwierdzonego ticketu, planu, specyfikacji, Execution Handoff lub portable implemented-plan prompt. Gdy trzeba dopiero ustalić rozwiązanie, użyj problem-solve.
 
 ## Główny przebieg
 
@@ -18,13 +18,13 @@ Dla prostej, oczywistej zmiany wystarczy: understand → edit → verify → fin
 
 | Caller | Capability | Kiedy | Return / handoff |
 | --- | --- | --- | --- |
-| fix-me | implementation-discovery | Dokładny scope jest potrzebny przed nietrywialną zmianą. | Scope, contracts, tests i ryzyka do fix-me. |
-| fix-me | implementation-refinement | Nietrywialna zmiana przeszła początkową weryfikację. | Ulepszenia, verification, saturation albo eskalacja do fix-me. |
+| fixing | implementation-discovery | Dokładny scope jest potrzebny przed nietrywialną zmianą. | Scope, contracts, tests i ryzyka do fixing. |
+| fixing | implementation-refinement | Nietrywialna zmiana przeszła początkową weryfikację. | Ulepszenia, verification, saturation albo eskalacja do fixing. |
 | implementation-refinement | refactor / code-audit | Struktura lub ryzyko może zmienić wartość kolejnej iteracji. | Compact opportunities albo material findings do refinement, bez dialogu z użytkownikiem. |
 | implementation-refinement | programming-principles / documentation-guidelines | Jakość kodu, testów lub dokumentacji jest istotna dla zmienionego zakresu. | Zastosowane zasady do refinement. |
 | każdy caller | grilling / problem-solving | Wymagana jest materialna decyzja albo potwierdzone rozwiązanie przestaje być bezpieczne. | Decyzja albo ponownie potwierdzone rozwiązanie do owning flow. |
 
-fix-me używa najmniejszego potrzebnego zestawu skilli i token-efficient-retrieval przed evidence. implementation-plan jest manual-only i nie jest wewnętrznym plannerem tego flow.
+fixing używa najmniejszego potrzebnego zestawu skilli i token-efficient-retrieval przed evidence. implemented-plan jest manual-only i nie jest wewnętrznym plannerem tego flow.
 
 ## Refinement i granice scope
 
