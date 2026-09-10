@@ -1,0 +1,26 @@
+{
+  ".agents/plugins/marketplace.json": {
+    "mtime": 1789073848.425691,
+    "seen": 1789075549.442561,
+    "ast_hash": "1e0ef251328ddbb0dd94ba30c4be65ce",
+    "semantic_hash": "1e0ef251328ddbb0dd94ba30c4be65ce"
+  },
+  ".claude-plugin/marketplace.json": {
+    "mtime": 1789073848.426541,
+    "seen": 1789075549.442561,
+    "ast_hash": "5210d1d388eedca491c3bfc189e21c00",
+    "semantic_hash": "5210d1d388eedca491c3bfc189e21c00"
+  },
+  "plugins/cube/.claude-plugin/plugin.json": {
+    "mtime": 1789074709.4405332,
+    "seen": 1789075549.442561,
+    "ast_hash": "b72edd8c0987d7a04d7b538935b7fb55",
+    "semantic_hash": "b72edd8c0987d7a04d7b538935b7fb55"
+  },
+  "plugins/cube/.codex-plugin/plugin.json": {
+    "mtime": 1789074708.2605026,
+    "seen": 1789075549.442561,
+    "ast_hash": "dee707d92d4ca8446f825278998069b3",
+    "semantic_hash": "dee707d92d4ca8446f825278998069b3"
+  }
+}

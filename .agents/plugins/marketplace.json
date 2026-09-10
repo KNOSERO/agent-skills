@@ -6,6 +6,7 @@
   "plugins": [
     {
       "name": "cube",
+      "description": "Reusable Agent Skills for practical repository work, from clear communication to Git commit suggestions.",
       "source": {
         "source": "local",
         "path": "./plugins/cube"

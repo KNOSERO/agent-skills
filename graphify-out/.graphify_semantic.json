@@ -1,0 +1,34 @@
+{
+  "nodes": [
+    {"id":"readme_cube_skills","label":"Cube Skills README","file_type":"document","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null},
+    {"id":"agents_agent_skills","label":"Agent Skills Guidance","file_type":"document","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\AGENTS.md","source_location":null},
+    {"id":"claude_agent_skills","label":"Agent Skills Instructions","file_type":"document","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\CLAUDE.md","source_location":null},
+    {"id":"domain_docs_domain_documentation","label":"Domain Documentation Rules","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\domain.md","source_location":null},
+    {"id":"issue_tracker_github_issue_tracker","label":"GitHub Issue Tracker","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\issue-tracker.md","source_location":null},
+    {"id":"triage_labels_canonical_triage_roles","label":"Canonical Triage Roles","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\triage-labels.md","source_location":null},
+    {"id":"cube_plugin","label":"Cube Plugin","file_type":"code","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\plugins\\cube\\.codex-plugin\\plugin.json","source_location":null},
+    {"id":"codex_marketplace","label":"Codex Marketplace","file_type":"code","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\.agents\\plugins\\marketplace.json","source_location":null},
+    {"id":"claude_marketplace","label":"Claude Marketplace","file_type":"code","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\.claude-plugin\\marketplace.json","source_location":null},
+    {"id":"reusable_agent_skills","label":"Reusable Agent Skills","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null},
+    {"id":"plugin_installation","label":"Plugin Installation","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null},
+    {"id":"github_issue_operations","label":"GitHub Issue Operations","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\issue-tracker.md","source_location":null},
+    {"id":"domain_glossary","label":"Domain Glossary","file_type":"concept","source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\domain.md","source_location":null}
+  ],
+  "edges": [
+    {"source":"readme_cube_skills","target":"reusable_agent_skills","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null,"weight":1.0},
+    {"source":"readme_cube_skills","target":"plugin_installation","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null,"weight":1.0},
+    {"source":"readme_cube_skills","target":"cube_plugin","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null,"weight":1.0},
+    {"source":"claude_agent_skills","target":"issue_tracker_github_issue_tracker","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\CLAUDE.md","source_location":null,"weight":1.0},
+    {"source":"claude_agent_skills","target":"domain_docs_domain_documentation","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\CLAUDE.md","source_location":null,"weight":1.0},
+    {"source":"domain_docs_domain_documentation","target":"domain_glossary","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\domain.md","source_location":null,"weight":1.0},
+    {"source":"issue_tracker_github_issue_tracker","target":"github_issue_operations","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\issue-tracker.md","source_location":null,"weight":1.0},
+    {"source":"triage_labels_canonical_triage_roles","target":"issue_tracker_github_issue_tracker","relation":"conceptually_related_to","confidence":"INFERRED","confidence_score":0.85,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\docs\\agents\\triage-labels.md","source_location":null,"weight":1.0},
+    {"source":"codex_marketplace","target":"cube_plugin","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\.agents\\plugins\\marketplace.json","source_location":null,"weight":1.0},
+    {"source":"claude_marketplace","target":"cube_plugin","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\.claude-plugin\\marketplace.json","source_location":null,"weight":1.0},
+    {"source":"readme_cube_skills","target":"codex_marketplace","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null,"weight":1.0},
+    {"source":"readme_cube_skills","target":"claude_marketplace","relation":"references","confidence":"EXTRACTED","confidence_score":1.0,"source_file":"C:\\Users\\rafal\\IdeaProjects\\codex\\README.md","source_location":null,"weight":1.0}
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
